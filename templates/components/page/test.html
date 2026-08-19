@@ -1,0 +1,21 @@
+{
+"data": [
+    {
+        "name": "header_bottom"
+    },
+    {
+        "name": "category_header_banner"
+    }
+],
+"meta": {}
+}
+
+
+<!-- ... -->
+{{#unless theme_settings.hide_category_page_heading }}
+    <h1 class="page-heading">{{category.name}}
+{{/unless}}
+
+{{{category.description}}}
+<!-- ... -->
+<div class="page">

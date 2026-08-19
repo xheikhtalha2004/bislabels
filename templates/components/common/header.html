@@ -1,0 +1,417 @@
+<style>
+    .bis-header-wrapper {
+        font-family: 'Open Sans', sans-serif;
+        background: #fff;
+        width: 100%;
+    }
+    .bis-top-bar {
+        background: #000;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 8px 0;
+    }
+    .bis-top-bar .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    .bis-top-left, .bis-top-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    .bis-top-bar a {
+        color: #fff;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .bis-top-bar a:hover { color: #e31b23; }
+
+    .bis-main-header {
+        padding: 15px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .bis-main-header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+        gap: 20px;
+    }
+    .bis-logo-area { flex-shrink: 0; }
+    .bis-logo-area img { max-height: 70px; width: auto; }
+
+    .bis-search-area {
+        flex: 1;
+        max-width: 550px;
+    }
+    .bis-search-area .form { margin: 0; }
+    .bis-search-area button:hover,
+    .bis-search-area .form-search-submit:hover,
+    .bis-search-area [type="submit"]:hover {
+        background-color: #e31b23 !important;
+        background: #e31b23 !important;
+        color: #ffffff !important;
+        border-color: #e31b23 !important;
+    }
+    .bis-search-area button:hover *,
+    .bis-search-area .form-search-submit:hover *,
+    .bis-search-area [type="submit"]:hover * {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+    }
+    .bis-search-area input:focus {
+        border-color: #e31b23 !important;
+        box-shadow: 0 0 4px rgba(227,27,35,0.2) !important;
+    }
+
+    .bis-action-area { display: flex; align-items: center; gap: 15px; }
+    .bis-btn-quote {
+        background: #e31b23;
+        color: #fff;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 10px 22px;
+        font-size: 12px;
+        border-radius: 4px;
+        text-decoration: none;
+        letter-spacing: 0.5px;
+        transition: background 0.2s ease;
+    }
+    .bis-btn-quote:hover { background: #b71218; }
+
+    /* ── NAV BAR ── */
+    .bis-nav-bar {
+        background: #fff;
+        border-bottom: 2px solid #e31b23;
+    }
+    .bis-nav-bar .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    /* ── TOP LEVEL MENU ── */
+    .bis-custom-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+    }
+    .bis-custom-menu > li {
+        position: relative;
+        padding: 15px 0;
+    }
+    .bis-custom-menu > li > a {
+        color: #111;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: color 0.2s;
+        white-space: nowrap;
+    }
+    .bis-custom-menu > li > a:hover { color: #e31b23; }
+
+    /* ── LEVEL 1 DROPDOWN ── */
+    .bis-custom-menu .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #fff;
+        border: 1px solid #eee;
+        border-top: 3px solid #e31b23;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+        min-width: 240px;
+        z-index: 99999;
+        list-style: none;
+        padding: 8px 0;
+        margin: 0;
+        border-radius: 0 0 4px 4px;
+    }
+    .bis-custom-menu > li:hover > .dropdown-menu {
+        display: block;
+    }
+
+    /* Level 1 items */
+    .bis-custom-menu .dropdown-menu > li {
+        position: relative;
+    }
+    .bis-custom-menu .dropdown-menu > li > a {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        color: #333 !important;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.15s, color 0.15s;
+        white-space: nowrap;
+    }
+    .bis-custom-menu .dropdown-menu > li > a:hover {
+        background: #fff5f5;
+        color: #e31b23 !important;
+    }
+
+    /* Arrow indicator for items that have sub-menus */
+    .bis-custom-menu .dropdown-menu > li.has-sub > a::after {
+        content: '›';
+        font-size: 16px;
+        line-height: 1;
+        color: #bbb;
+        margin-left: 10px;
+        flex-shrink: 0;
+    }
+    .bis-custom-menu .dropdown-menu > li.has-sub:hover > a::after {
+        color: #e31b23;
+    }
+
+    /* ── LEVEL 2 SUB-DROPDOWN ── */
+    .bis-custom-menu .sub-dropdown {
+        display: none;
+        position: absolute;
+        top: -8px;           /* align with parent item */
+        left: 100%;          /* open to the right */
+        background: #fff;
+        border: 1px solid #eee;
+        border-top: 3px solid #e31b23;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+        min-width: 220px;
+        z-index: 100000;
+        list-style: none;
+        padding: 8px 0;
+        margin: 0;
+        border-radius: 0 0 4px 4px;
+    }
+    .bis-custom-menu .dropdown-menu > li.has-sub:hover > .sub-dropdown {
+        display: block;
+    }
+    .bis-custom-menu .sub-dropdown li a {
+        display: block;
+        padding: 10px 20px;
+        color: #333 !important;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.15s, color 0.15s;
+        white-space: nowrap;
+    }
+    .bis-custom-menu .sub-dropdown li a:hover {
+        background: #fff5f5;
+        color: #e31b23 !important;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 991px) {
+        .bis-top-bar { display: none; }
+        .bis-main-header .container { flex-wrap: wrap; }
+        .bis-search-area {
+            order: 3;
+            max-width: 100%;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .bis-nav-bar { display: none; }
+    }
+</style>
+
+<div class="bis-header-wrapper" role="banner">
+
+    <!-- TOP BAR -->
+    <div class="bis-top-bar">
+        <div class="container">
+            <div class="bis-top-left">
+                <a href="tel:1-513-772-5252">📞 Talk to an Expert: 1-513-772-5252</a>
+            </div>
+            <div class="bis-top-right">
+                <a href="https://bislabels.com/request-a-quote-rfq/">📋 Request a Quote</a>
+                <a href="{{#if customer}}/account.php{{else}}/login.php{{/if}}">
+                    👤 {{#if customer}}My Account{{else}}Sign In / Register{{/if}}
+                </a>
+                <a href="{{urls.cart}}">🛒 Cart ({{cart.quantity}})</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <div class="bis-main-header">
+        <div class="container">
+
+            <a href="#" class="mobileMenu-toggle" data-mobile-menu-toggle="menu"
+               style="display:inline-block; padding:10px; margin-right:10px;">
+                <span class="mobileMenu-toggleIcon"></span>
+            </a>
+
+            <div class="bis-logo-area">
+                {{#if page_type '===' 'default'}}
+                    <h1 style="margin:0;padding:0;">{{> components/common/store-logo}}</h1>
+                {{else}}
+                    <div style="margin:0;padding:0;">{{> components/common/store-logo}}</div>
+                {{/if}}
+            </div>
+
+            <div class="bis-search-area">
+                {{> components/common/quick-search}}
+            </div>
+
+            <div class="bis-action-area">
+                <a href="https://bislabels.com/request-a-quote-rfq/" class="bis-btn-quote">Request Quote</a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- NAV BAR -->
+    <nav class="bis-nav-bar" aria-label="Main navigation">
+        <div class="container">
+            <ul class="bis-custom-menu">
+
+                <li><a href="https://bislabels.com/">Home</a></li>
+
+                <!-- THERMAL LABELS — with nested sub-dropdowns -->
+                <li>
+                    <a href="https://bislabels.com/thermal-labels/">Thermal Labels ▾</a>
+                    <ul class="dropdown-menu">
+                        
+                        <!-- Thermal Transfer → sub-dropdown -->
+                        <li class="has-sub">
+                            <a href="https://bislabels.com/thermal-transfer/">Thermal Transfer</a>
+                            <ul class="sub-dropdown">
+                                <li><a href="https://bislabels.com/rolls/">Rolls</a></li>
+                                <li><a href="https://bislabels.com/fanfold-stacks-labels/">Fanfold</a></li>
+                                <li><a href="https://bislabels.com/thermal-transfer/circles/">Circles</a></li>
+                                <li><a href="https://bislabels.com/tags-card-stock-1/">Tags-Card Stock</a></li>
+                                <li><a href="https://bislabels.com/floodcoated/">Floodcoated Colors</a></li>
+                                <li><a href="https://bislabels.com/thermal-transfer/fluorescent-floodcoated/">Fluorescent Colors</a></li>
+                                <li><a href="https://bislabels.com/polyestar-white-gloss1/">Polyester White Gloss</a></li>
+                                <li><a href="https://bislabels.com/polypropelyne1/">Polypropylene</a></li>
+                                <li><a href="https://bislabels.com/hammerlock-adhesive/">Hammerlock Adhesive</a></li>
+                                <li><a href="https://bislabels.com/smudge-proof/">Smudge Proof</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Direct Thermal → sub-dropdown -->
+                        <li class="has-sub">
+                            <a href="https://bislabels.com/direct-thermal/">Direct Thermal</a>
+                            <ul class="sub-dropdown">
+                                <li><a href="https://bislabels.com/rolls-1/">Rolls</a></li>
+                                <li><a href="https://bislabels.com/fanfold/">Fanfold</a></li>
+                                <li><a href="https://bislabels.com/tags-card-stock-2/">Tags-Card Stock</a></li>
+                                <li><a href="https://bislabels.com/floodcoated-colors/">Floodcoated Colors</a></li>
+                                <li><a href="https://bislabels.com/fluorescent-colors/">Flourescent Color</a></li>
+                                <li><a href="https://bislabels.com/dymo-compatible-labels/">DYMO Labels</a></li>
+                                <li><a href="https://bislabels.com/mobile-printer-rolls/">Mobile Printer Rolls</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Single items (no sub-dropdown) -->
+                        <li><a href="https://bislabels.com/laser-sheets/">Laser Sheets</a></li>
+                        <li><a href="https://bislabels.com/integrated-labels/">Integrated Labels</a></li>
+                        <li class="has-sub">
+            <a href="https://bislabels.com/inkjet-labels/">InkJet Labels</a>
+            <ul class="sub-dropdown">
+                <li><a href="https://bislabels.com/epson-6500/">Epson 6500</a></li>
+                <li><a href="https://bislabels.com/epson-c7500/">Epson C7500</a></li>
+                <li><a href="https://bislabels.com/epson-colorworks/">Epson ColorWorks</a></li>
+                <li><a href="https://bislabels.com/epson-c3500/">Epson C3500</a></li>
+            </ul>
+        </li>
+        
+                        <li><a href="https://bislabels.com/pre-printed-labels/">Pre Printed Labels</a></li>
+                        <li><a href="https://bislabels.com/warning-labels/">Warning Labels</a></li>
+                        <li><a href="https://bislabels.com/specialty-labels/">Specialty Labels</a></li>
+
+                    </ul>
+                </li>
+
+                <!-- RIBBONS — with nested sub-dropdowns -->
+                <li>
+                    <a href="https://bislabels.com/r/">Ribbons ▾</a>
+                    <ul class="dropdown-menu">
+
+                        <!-- Wax Ribbons → sub-dropdown -->
+                        <li class="has-sub">
+                            <a href="https://bislabels.com/wax/">Wax Ribbons</a>
+                            <ul class="sub-dropdown">
+                                <li><a href="https://bislabels.com//basic-wax/">Basic Wax</a></li>
+                                <li><a href="https://bislabels.com/standard-wax/">Standard Wax</a></li>
+                                <li><a href="https://bislabels.com/premium-wax/">Premium Wax</a></li>
+                                <li><a href="https://bislabels.com/color-wax/">Color Wax</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Wax-Resin → sub-dropdown -->
+                        <li class="has-sub">
+                            <a href="https://bislabels.com/wax-resin/1">Wax-Resin Ribbons</a>
+                            <ul class="sub-dropdown">
+                                <li><a href="https://bislabels.com/basic-wax-resin/">Basic Wax-Resin</a></li>
+                                <li><a href="https://bislabels.com/standard-wax-resin/">Standard Wax-Resin</a></li>
+                                <li><a href="https://bislabels.com/mid-grade-wax-resin/">Mid Grade Wax-Resin</a></li>
+                                <li><a href="https://bislabels.com/premium-wax-resin/">Premium Wax-Resin</a></li>
+                                <li><a href="https://bislabels.com/color-wax-resin/">Color Wax-Resin</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- Resin → sub-dropdown -->
+                        <li class="has-sub">
+                            <a href="https://bislabels.com/resin/">Resin Ribbons</a>
+                            <ul class="sub-dropdown">
+                                <li><a href="https://bislabels.com/basic-resin/">Basic Resin</a></li>
+                                <li><a href="https://bislabels.com/standard-resin/">Standard Resin</a></li>
+                                <li><a href="https://bislabels.com/premium-resin/">Premium Resin</a></li>
+                                <li><a href="https://bislabels.com/super-premium-resin/">Super Premium Resin</a></li>
+                                <li><a href="https://bislabels.com/super-solvent-resistant-resin-1/">Super Solvent Resistant Resin</a></li>
+                                <li><a href="https://bislabels.com/electronic-grade-resin/">Electronic Resin</a></li>
+                                <li><a href="https://bislabels.com/color-resin/">Color Resin</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li><a href="https://bislabels.com/rfid-3/">RFID Solutions</a></li>
+                <li><a href="https://bislabels.com/request-a-quote-rfq/">Custom Labels</a></li>
+
+                <!-- QUOTES — existing dropdown unchanged -->
+                <li>
+                    <a href="#">Quotes ▾</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://bislabels.com/request-a-free-sample-kit/">Request a Sample Kit</a></li>
+                        <li><a href="https://bislabels.com/find-my-ribbon-printer-match/">Find My Ribbon / Printer Match</a></li>
+                        <li><a href="https://bislabels.com/request-a-quote-rfq/">Request For Custom Quote</a></li>
+                        <li><a href="https://bislabels.com/simple-rfq-form/">Simple RFQ Form</a></li>
+                        <li><a href="https://bislabels.com/free-cost-savings-audit/">Free Cost-Savings Audit</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="https://bislabels.com/contact-us/">Contact Us</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+</div>
+
+<!-- Mobile nav fallback -->
+<div class="bis-mobile-navigation-injector" style="display:none;">
+    {{#unless theme_settings.hide_content_navigation}}
+        {{> components/common/navigation}}
+    {{/unless}}
+    <div id="menu" data-menu>
+        {{> components/common/navigation-menu}}
+    </div>
+</div>
+
+{{{region name="header_bottom"}}}

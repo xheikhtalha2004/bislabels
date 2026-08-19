@@ -1,0 +1,295 @@
+// SLICK
+// -----------------------------------------------------------------------------
+//
+// Purpose: These are the styles for the base Slick carousel
+//
+// -----------------------------------------------------------------------------
+
+
+//
+// Next and Previous buttons for all carousels
+//
+// Purpose: Override the plugin to give some Stencil styling to the js generated mark-up
+//
+// 1. Set the background again because the plugin sets the full background property on hover
+// 2. Prevent screen flicker when CSS transition is applied
+//
+// -----------------------------------------------------------------------------
+
+.slick-next,
+.slick-prev {
+    @include carouselOpaqueBackgrounds($slick-arrow-bgColor);
+    z-index: 1;
+  //  border: 1px solid $slick-arrow-borderColor;
+    height: remCalc(22px);
+	top:24px;
+    width: remCalc(26px);
+	@media (max-width: 544px){
+		top:21px;
+	}
+}
+
+
+	
+.slick-next.slick-disabled, .slick-prev.slick-disabled, .slick-prev:focus, .slick-next:focus{
+	background:stencilColor("carousel-arrow-bgColor");
+	&:before{
+		opacity:0;
+	}	
+}
+.slick-next {
+    right: 30px;
+	@media (max-width: 544px){
+		 right:15px;
+	}
+    @include breakpoint("large") {
+      //  right: -(spacing("double") + spacing("quarter"));
+    }
+}
+
+.slick-prev {
+    right:60px;
+	left:auto;
+	@media (max-width: 544px){
+		right:44px;
+	}
+    @include breakpoint("large") {
+     //   left: -(spacing("double") + spacing("quarter"));
+    }
+}
+
+.productCarousel .slick-slide{
+	padding:0 15px;
+	@media (max-width: 544px){
+		padding:0 5px;
+	}
+}
+.slick-slide img
+{
+    display: block;
+    width: 100%;
+	margin:0;
+}
+
+
+//
+// Carousel dots
+//
+// Purpose: Stencil overrides for the js generated carousel dots
+//
+// 2. Nesting depth due to plugin css
+// -----------------------------------------------------------------------------
+
+.slick-dots {  // 2
+    margin: 0;
+
+    li {
+        @include square(32px);
+        margin: 0;
+        padding: remCalc(5px);
+
+        // scss-lint:disable SelectorDepth, NestingDepth
+        button,
+        button::before {
+            @include square(15px);
+            border-radius: 50%;
+        }
+
+        button {
+            // scss-lint:disable NestingDepth
+            display: inline-block;
+            margin: 0;
+			background:stencilColor("carousel-dot-color");	
+            padding: 0;
+            position: relative;
+            text-align: center;
+            vertical-align: middle;
+            &:hover {
+                &::before {
+                     background: $slick-dot-color-active;
+					 opacity: 1;
+					 -webkit-opacity: 1;
+					-moz-opacity: 1;
+					-khtml-opacity: 1;
+                }
+            }
+        }
+
+        button::before {
+            display: block;
+            left: 0;
+            top: 0;
+            transition: background 100ms ease-out;
+			-webkit-transition:background 100ms ease-out;
+			-moz-transition:background 100ms ease-out;
+			-ms-transition:background 100ms ease-out;
+			-o-transition:background 100ms ease-out;
+        }
+
+        &.slick-active {
+            // scss-lint:disable NestingDepth
+            button::before {
+                background: $slick-dot-color-active;
+            }
+        }
+    }
+
+}
+
+//
+// Stencil override for product detail page thumbnail dots.
+// -----------------------------------------------------------------------------
+.productView .slick-dots  {
+    position: relative;
+	display:none;
+}
+
+
+//
+// disabled carousel elements
+// -----------------------------------------------------------------------------
+
+
+.slick-disabled {
+	cursor: $cursor-default-value;
+	&.slick-next{
+		&:after{
+    		opacity: 0.4 !important;
+		}
+	}
+	&.slick-prev{
+		&:after{
+    		opacity: 0.4 !important;
+		}
+	}
+}
+
+//
+// Slick track
+// -----------------------------------------------------------------------------
+.slick-track {
+	float:left;
+    backface-visibility: hidden; // 2
+    perspective: 1000px; // 2
+}
+
+//
+// iOS Safari fix https://github.com/kenwheeler/slick/issues/2834#issuecomment-389590661
+// -----------------------------------------------------------------------------
+div.slick-slider {
+    width: 1px;
+    min-width: 100%;
+    *width: 100%;
+}
+
+.slick-arrow{
+		vertical-align: top;
+		text-shadow: none;
+		transition: none;
+		-webkit-transition: none;
+		-moz-transition: none;
+		-o-transition: none;
+		-ms-transition: none;
+		height: 26px;
+		width: 30px;
+		margin: 0;
+		padding: 0;
+		font-size: 0;
+		background: none;
+		float: right;
+		overflow:hidden;
+		-webkit-opacity: 1;
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+		opacity: 1;
+		border:1px solid stencilColor("carousel-arrow-borderColor");
+		background: stencilColor("carousel-arrow-bgColor");
+		&:after, &:before{
+			position: absolute;
+			font-size: 22px;
+			background: stencilColor("carousel-arrow-bgColor");
+			line-height: 30px;
+			font-family: "Material Icons";
+			height: 30px;
+			width: 30px;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			-webkit-transition: 400ms ease-in-out;
+			-moz-transition: 400ms ease-in-out;
+			-ms-transition: 400ms ease-in-out;
+			-o-transition: 400ms ease-in-out;
+			transition: 400ms ease-in-out;
+			font-weight: 400;
+		}
+	}
+	.slick-prev{
+		border-radius: 25px 0 0 25px;
+		&:after {
+			content: "\e314";
+			color: stencilColor("carousel-arrow-color");
+		}
+		&:before {
+			content: "\e314";
+			left: 10px;
+			right: auto;
+			-webkit-opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+			opacity: 0;
+			font-size: 22px;
+			color: #000;
+		}
+		&:hover{
+			&:after {
+				-webkit-opacity: 0;
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				opacity: 0;
+			}
+			&:before {
+				left: -1px;
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+				opacity: 1;
+			}
+		}
+	}	
+	.slick-next{
+		border-radius: 0 25px 25px 0;
+		&:after {
+			content: "\e315";
+			color:stencilColor("carousel-arrow-color");
+		}
+		&:before {
+			display: inline-block;
+			content: "\e315";
+			right: 10px;
+			left: auto;
+			-webkit-opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+			opacity: 0;
+			font-size: 22px;
+			color: #000;
+		}
+		&:hover{
+			&:after {
+				-webkit-opacity: 0;
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				opacity: 0;
+			}
+			&:before {
+				display: inline-block;
+				right: -2px;
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+				opacity: 1;
+			}	
+		}
+	}

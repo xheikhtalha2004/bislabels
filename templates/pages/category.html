@@ -1,0 +1,82 @@
+---
+category:
+    shop_by_price: true
+    products:
+        limit: {{theme_settings.categorypage_products_per_page}}
+---
+{{inject "categoryProductsPerPage" theme_settings.categorypage_products_per_page}}
+{{#partial "head"}}
+    {{#if pagination.category.previous}}
+        <link rel="prev" href="{{pagination.category.previous}}">
+    {{/if}}
+    {{#if pagination.category.next}}
+        <link rel="next" href="{{pagination.category.next}}">
+    {{/if}}
+{{/partial}}
+
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    <div class="page container">
+    {{{region name="category_below_header"}}}
+    
+    <div class="row">
+
+<div class="page container">
+	<div class="row">
+        {{#if category.faceted_search_enabled}}
+            <aside class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </aside>
+        {{else if category.subcategories}}
+            <aside class="page-sidebar" id="faceted-search-container">
+                {{> components/category/sidebar}}
+            </aside>
+        {{else if category.shop_by_price}}
+            {{#if theme_settings.shop_by_price_visibility}}
+                 <aside class="page-sidebar" id="faceted-search-container">
+                    {{> components/category/sidebar}}
+                </aside>
+            {{/if}}
+        {{/if}}
+    
+        <main class="page-content" id="product-listing-container">
+            <div class="tt-category-content">
+                
+                <div class="category-desc">
+                    
+                    {{{category.description}}}
+                    
+                    
+                    {{#if category.subcategories}}
+                        <div class="tt-subcategoires">
+                            {{#each category.subcategories}}                            
+                            <div class="subcategory-item">
+                                {{#if image}}
+                                    <div class="subcategory-img">
+                                        <a href="{{url}}" title="{{name}}">
+                                            <img class="lazyload" data-sizes="auto" alt="{{name}}" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage image 'data-sizes'}}">
+                                        </a>
+                                    </div>
+                                {{/if}}
+                                <a class="subcategory-name" href="{{url}}" title="{{name}}">{{name}} ({{product_count}})</a>
+                            </div>
+                            {{/each}}
+                        </div>
+                    {{/if}}
+                
+                
+                </div>
+            </div>
+            {{#if category.products}}
+                {{> components/category/product-listing}}
+            {{else}}
+                <p>{{lang 'categories.no_products'}}</p>
+            {{/if}}
+            {{{region name="category_below_content"}}}
+        </main>
+    </div>
+</div>
+
+{{/partial}}
+{{> layout/base}}

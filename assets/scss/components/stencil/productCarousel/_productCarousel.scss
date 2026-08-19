@@ -1,0 +1,95 @@
+// PRODUCT CAROUSEL
+// -----------------------------------------------------------------------------
+//
+// Purpose: Styles the product carousel component, which basically adds extras to the
+// vendor slick carousel, to specifically display product
+//
+// 1. If there's no JS layout the products out based on the grid.
+//
+// -----------------------------------------------------------------------------
+
+.productCarousel { // 1
+	margin-bottom: 20px ;
+	width:auto;
+}
+
+.productCarousel-slide { // 1
+    @include grid-column(6);
+    padding: 0;
+
+    @include breakpoint("small") {
+        width: grid-calc(4, $total-columns);
+    }
+
+    @include breakpoint("medium") {
+        width: grid-calc(3, $total-columns);
+    }
+
+    @include breakpoint("large") {
+        width: grid-calc(2, $total-columns);
+    }
+
+    .card {
+        margin:10px 0;
+        margin-top: remCalc(15px);
+		@media (max-width: 544px){
+			margin-top: remCalc(15px);
+		}
+		.wdg-thumb-img{
+			margin: 0 0 10px;
+			float: left;
+			width: 100%;
+			position: absolute;
+			z-index:1;
+			padding:0 20px;
+			bottom: 0;	
+			.slick-slide{
+				padding:0 5px;	
+			}
+			.slick-arrow{
+				opacity: 0;
+				-webkit-opacity: 0;
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				-webkit-transition: 400ms ease-in-out;
+				-moz-transition: 400ms ease-in-out;
+				-ms-transition: 400ms ease-in-out;
+				-o-transition: 400ms ease-in-out;
+				transition: 400ms ease-in-out;
+				&.slick-next, &.slick-prev{
+					top:45px;
+					background:none;
+					border:none;
+					@media (min-width: 768px) and (max-width: 991px){
+						top: 52px;	
+					}
+					@media (min-width: 545px) and (max-width: 767px){
+						top: 50%;	
+					}
+					&:after, &:before{
+						background:none;
+						font-size:28px;
+					}	
+				}
+				&.slick-next{
+					right:-15px;
+					left:auto;
+				}
+				&.slick-prev{
+					left: -15px;
+					right: auto;
+				}
+			}
+		}
+		&:hover{
+			.wdg-thumb-img{
+				.slick-arrow{
+					opacity:1;	
+					-webkit-opacity: 1;
+					-moz-opacity: 1;
+					-khtml-opacity: 1;
+				}
+			}
+		}
+    }
+}

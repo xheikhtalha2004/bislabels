@@ -1,0 +1,85 @@
+
+
+/*---------- Global Start ----------*/
+
+.header .header-top {
+    padding: 8px 0;
+    background-color: #191919;
+}
+
+.header .header-top .tt-header-cms .content {
+    color: #fff;
+}
+
+.header .email-id .material-icons {
+    display: none;
+}
+
+.header .header-top .email-id a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+@media (min-width: 992px) { 
+    
+    .header-center > .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 10px auto;
+    }
+    
+    .header-center > .container > :is(.header-logo, #menu-link, .navUser) {
+        margin: 0 !important;
+    }
+
+}
+
+
+
+/*---------- Global End ----------*/
+
+
+/*---------- Home Page Start ----------*/
+
+.page-default .tt-blogpost {
+    display: none;
+}
+
+/*---------- Home Page End ----------*/
+
+/*---------- Product Page Start ----------*/
+
+.page-product .tt-breadcrumbs .container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.page-product #qn-add-to-quote {
+    margin-left: 15px;
+    background-color: #00416e;
+    border-color: #00416e;
+    color: #fff;
+}
+
+.page-product #qn-add-to-quote:hover {
+    background-color: #ffa71d;
+    border-color: #ffa71d;
+    color: #111;
+}
+
+.MuiButton-outlined {
+    background-color: #00416e !important;
+}
+
+/*---------- Product Page End ----------*/
+
+
+/*---------- Cart Page Start ----------*/
+
+.page-cart #paypalexpress-button-container .paypal-smart-buttons > div > .zoid-outlet {
+    margin: 0;
+}
+
+/*---------- Cart Page End ----------*/

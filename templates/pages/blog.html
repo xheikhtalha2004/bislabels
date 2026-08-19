@@ -1,0 +1,37 @@
+---
+blog:
+    posts:
+        limit: 5
+        pages: 3
+        summary: 200
+---
+{{#partial "page"}}
+
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+
+<main class="page container">
+{{!--<aside class="page-sidebar" id="faceted-search-container">
+	{{> components/category/sidebar}}
+</aside>--}}
+
+<aside class="page-sidebar" id="faceted-search-container">
+	{{> components/category/sidebar}}
+</aside>
+<div class="tt-blog-list">
+
+
+    {{#unless theme_settings.hide_blog_page_heading }}
+        <h1 class="page-heading"><span>{{ blog.name }}</span></h1>
+    {{/unless}}
+
+    {{#each blog.posts}}
+        {{> components/blog/post post=this settings=../settings}}
+    {{/each}}
+	
+	{{> components/common/paginator pagination.blog}}
+</div>
+    
+</main>
+
+{{/partial}}
+{{> layout/base}}

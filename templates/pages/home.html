@@ -1,0 +1,617 @@
+---
+products:
+    featured:
+        limit: {{theme_settings.homepage_featured_products_count}}
+    new:
+        limit: {{theme_settings.homepage_new_products_count}}
+    top_sellers:
+        limit: {{theme_settings.homepage_top_products_count}}
+carousel: {{theme_settings.homepage_show_carousel}}
+blog:
+    recent_posts:
+        limit: {{theme_settings.homepage_blog_posts_count}}
+---
+
+<!-- START HOMESLIDER DIV -->
+    {{#partial "hero"}}
+        {{{region name="home_below_menu"}}}
+        {{#if carousel}}
+            {{> components/carousel arrows=theme_settings.homepage_show_carousel_arrows}}
+        {{/if}}
+        {{{region name="home_below_carousel"}}}
+    {{/partial}}
+<!-- END HOMESLIDER DIV -->
+
+
+{{#partial "page"}}
+ 
+    <!--{{#each shipping_messages}}
+        {{> components/common/alert-info message}}
+    {{/each}}---->
+    
+<div class="container">
+    <!-- START CMS BANNER TOP DIV ---->
+    {{#if banners.top}}
+        <div class="topbanner">
+            <div class="banners" data-banner-location="top">
+                <div class="banner">
+                    {{{limit banners.top 1}}}
+                </div>
+            </div>
+        </div>
+    {{/if}}
+    <!-- END CMS BANNER TOP DIV ---->   
+</div>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+<!-- 1. TOP DROP ZONE FOR PAGE BUILDER (Put your "Industries" widget here) -->
+{{{region name="home_upper_section"}}}
+
+
+<!-- =========================================
+   START DYNAMIC PRODUCT CAROUSEL 
+========================================= -->
+<style>
+.best-sellers-outer { width: 100%; padding: 40px 5%; background-color: #ffffff; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+.best-sellers-inner { margin: 0 auto; width: 100%; }
+.bs-header { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #e5e5e5; padding-bottom: 15px; margin-bottom: 25px; }
+.bs-title { font-size: 22px; font-weight: 800; text-transform: uppercase; color: #111111; margin: 0; }
+.bs-title span { color: #E2211C; }
+.bs-link { color: #E2211C; text-decoration: none; font-weight: bold; font-size: 13px; text-transform: uppercase; }
+.bs-link:hover { text-decoration: underline; }
+.bs-carousel-wrapper { position: relative; display: flex; align-items: center; }
+.bs-track { display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; padding: 5px 0; -ms-overflow-style: none; scrollbar-width: none; }
+.bs-track::-webkit-scrollbar { display: none; }
+.bs-card { display: flex; align-items: center; flex: 0 0 280px; padding: 15px; border: 1px solid #e5e5e5; border-radius: 4px; background-color: #ffffff; box-sizing: border-box; text-decoration: none; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
+.bs-card:hover { border-color: #cccccc; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+.bs-img-container { width: 70px; height: 70px; flex-shrink: 0; margin-right: 15px; display: flex; align-items: center; justify-content: center; }
+.bs-img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.bs-info { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.bs-name { font-size: 12px; font-weight: bold; color: #111111; margin: 0 0 8px 0; line-height: 1.3; }
+.bs-rating { margin-bottom: 12px; }
+.bs-rating .icon--ratingEmpty svg { stroke: #E2211C; fill: none; width: 12px; height: 12px; }
+.bs-rating .icon--ratingFull svg { fill: #E2211C; width: 12px; height: 12px; }
+.bs-price { font-size: 13px; font-weight: 900; color: #111111; margin: 0; }
+.bs-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background-color: #ffffff; border: 1px solid #e5e5e5; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #111111; font-weight: bold; font-size: 18px; transition: background-color 0.2s, color 0.2s; }
+.bs-arrow:hover { background-color: #E2211C; color: #ffffff; border-color: #E2211C; }
+.bs-arrow.left { left: -20px; }
+.bs-arrow.right { right: -20px; }
+@media (max-width: 1024px) { .bs-arrow.left { left: 0px; } .bs-arrow.right { right: 0px; } }
+@media (max-width: 768px) { .best-sellers-outer { padding: 40px 20px; } .bs-header { flex-direction: column; align-items: flex-start; gap: 10px; } .bs-arrow { display: none; } .bs-card { flex: 0 0 260px; } }
+</style>
+
+<div class="best-sellers-outer">
+    <div class="best-sellers-inner">
+        
+        <div class="bs-header">
+            <h2 class="bs-title">Our <span>Best Sellers</span></h2>
+            <a href="/categories" class="bs-link">View All Best Sellers &rarr;</a>
+        </div>
+
+        <div class="bs-carousel-wrapper" id="bsCarousel">
+            <button class="bs-arrow left" id="bsLeftArrow">&lt;</button>
+            <div class="bs-track" id="bsTrack">
+                
+                <!-- PULLING REAL TOP SELLERS -->
+                {{#each products.top_sellers}}
+                    <a href="{{url}}" class="bs-card">
+                        <div class="bs-img-container">
+                            <img src="{{getImage image 'productgallery_size' (cdn theme_settings.default_image_product)}}" alt="{{image.alt}}" title="{{image.alt}}">
+                        </div>
+                        <div class="bs-info">
+                            <h3 class="bs-name">{{name}}</h3>
+                            {{#if rating}}
+                                <div class="bs-rating">
+                                    {{> components/products/ratings rating=rating}}
+                                </div>
+                            {{/if}}
+                            <p class="bs-price">
+                                {{#if price.with_tax}}{{price.with_tax.formatted}}{{/if}}
+                                {{#if price.without_tax}}{{price.without_tax.formatted}}{{/if}}
+                            </p>
+                        </div>
+                    </a>
+                {{/each}}
+                
+            </div>
+            <button class="bs-arrow right" id="bsRightArrow">&gt;</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const track = document.getElementById('bsTrack');
+    const leftArrow = document.getElementById('bsLeftArrow');
+    const rightArrow = document.getElementById('bsRightArrow');
+    const carouselWrapper = document.getElementById('bsCarousel');
+    if (!track) return;
+
+    const scrollAmount = 295; 
+    let autoScrollInterval;
+
+    function scrollRight() {
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) { track.scrollTo({ left: 0, behavior: 'smooth' }); } 
+        else { track.scrollBy({ left: scrollAmount, behavior: 'smooth' }); }
+    }
+    function scrollLeft() {
+        if (track.scrollLeft <= 0) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); } 
+        else { track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }); }
+    }
+
+    if(rightArrow) rightArrow.addEventListener('click', scrollRight);
+    if(leftArrow) leftArrow.addEventListener('click', scrollLeft);
+
+    function startAutoScroll() { autoScrollInterval = setInterval(scrollRight, 3500); }
+    function stopAutoScroll() { clearInterval(autoScrollInterval); }
+
+    carouselWrapper.addEventListener('mouseenter', stopAutoScroll);
+    carouselWrapper.addEventListener('mouseleave', startAutoScroll);
+    carouselWrapper.addEventListener('touchstart', stopAutoScroll);
+    carouselWrapper.addEventListener('touchend', startAutoScroll);
+
+    startAutoScroll();
+});
+</script>
+<!-- =========================================
+   END DYNAMIC PRODUCT CAROUSEL 
+========================================= -->
+
+
+<!-- =========================================
+   START TESTIMONIAL SECTION 
+========================================= -->
+<style>
+/* Section Outer Wrapper - Standardized 5% Side Padding */
+.testimonial-section-outer {
+    width: 100%;
+    padding: 20px 5%; 
+    box-sizing: border-box;
+}
+
+/* Section Inner Container - Standardized Centering */
+.testimonial-section-inner {
+    margin: 0 auto;
+    width: 100%; 
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    overflow: hidden; 
+    font-family: 'Arial', sans-serif;
+}
+
+/* Dark Left Box: Trusted By */
+.trusted-by-box {
+    background-color: #0d0d0d;
+    color: #ffffff;
+    flex: 1;
+    min-width: 300px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; 
+    text-align: left; 
+}
+
+.trusted-by-box h3 {
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin: 0 0 30px 0;
+    line-height: 1.3;
+    color: #ffffff;
+    text-align: left;
+}
+
+.logo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px 15px;
+    align-items: center;
+    width: 100%;
+}
+
+.logo-grid img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0; 
+}
+
+/* Light Right Box: Testimonials */
+.testimonials-wrapper {
+    flex: 2.5; 
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    flex: 1;
+    min-width: 220px;
+    padding: 40px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start; 
+    border-right: 1px solid #e5e5e5;
+    text-align: left; 
+}
+
+.testimonial-card:last-child {
+    border-right: none;
+}
+
+.stars {
+    color: #E2211C;
+    font-size: 18px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    text-align: left;
+}
+
+.quote-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333333;
+    margin: 0 0 25px 0;
+    flex-grow: 1; 
+    text-align: left;
+}
+
+.quote-author {
+    font-size: 12px;
+    color: #111111;
+    margin: 0;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.quote-author span {
+    color: #666666;
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .testimonials-wrapper { flex: 2; }
+    .testimonial-card { padding: 30px 20px; }
+}
+
+@media (max-width: 850px) {
+    .testimonial-section-inner { flex-direction: column; }
+    .trusted-by-box { width: 100%; box-sizing: border-box; }
+    .testimonials-wrapper { flex-direction: column; width: 100%; }
+    .testimonial-card { border-right: none; border-bottom: 1px solid #e5e5e5; width: 100%; box-sizing: border-box; }
+    .testimonial-card:last-child { border-bottom: none; }
+}
+
+@media (max-width: 768px) {
+    .testimonial-section-outer { 
+        padding: 40px 20px; 
+    }
+}
+</style>
+
+<div class="testimonial-section-outer">
+    <div class="testimonial-section-inner">
+        <!-- Dark Left Column -->
+        <div class="trusted-by-box">
+            <h3>Trusted By Thousands<br>Of Businesses</h3>
+            <div class="logo-grid">
+                <!-- REPLACE THESE LINKS WITH YOUR UPLOADED WHITE LOGOS -->
+                <img src="https://cdn11.bigcommerce.com/s-olm95/images/stencil/original/image-manager/logo1.png?t=1784026794" alt="MAI">
+                <img src="https://cdn11.bigcommerce.com/s-olm95/images/stencil/original/image-manager/logo2.png?t=1784026846" alt="IPC">
+                <img src="https://cdn11.bigcommerce.com/s-olm95/images/stencil/original/image-manager/logo3.png?t=1784026796" alt="DUPONT">
+                <img src="https://cdn11.bigcommerce.com/s-olm95/images/stencil/original/image-manager/logo6.png?t=1784026798" alt="Toyota Tsusho">
+                <img src="https://cdn11.bigcommerce.com/s-olm95/images/stencil/original/image-manager/logo4.png?t=1784026797" alt="Epredia">
+                <img src="https://cdn11.bigcommerce.com/s-olm95/images/stencil/original/image-manager/logo5.png?t=1784026798" alt="Magna">
+                
+            </div>
+        </div>
+
+        <!-- Light Right Columns -->
+        <div class="testimonials-wrapper">
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote-text">"BIS Labels is our go-to supplier for all of our label and ribbon needs. Quality products, fast shipping, and excellent service."</p>
+                <p class="quote-author">– Procurement Manager<br><span>Logistics Company</span></p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote-text">"Excellent customer service and quick quote turnaround. Their custom labels are exactly what we needed."</p>
+                <p class="quote-author">– Operations Director<br><span>Healthcare Manufacturer</span></p>
+            </div>
+            <div class="testimonial-card">
+                <div class="stars">★★★★★</div>
+                <p class="quote-text">"We order in bulk and always get the best prices and on-time delivery. Highly recommended!"</p>
+                <p class="quote-author">– Purchasing Manager<br><span>Retail Company</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- =========================================
+   END TESTIMONIAL SECTION 
+========================================= -->
+
+
+<!-- =========================================
+   START RESOURCES AND BENEFITS SECTION 
+========================================= -->
+<style>
+/* Section Outer Wrapper - Standardized 5% Side Padding */
+.resources-benefits-outer {
+    width: 100%;
+    padding: 20px 5% 0px 5%;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Common Inner Container for Alignment */
+.resources-benefits-inner {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.resource-box-container {
+    display: flex;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    overflow: hidden; 
+    background-color: #ffffff;
+    margin-bottom: 40px;
+}
+
+.resource-cta-panel {
+    background-color: #E2211C;
+    color: #ffffff;
+    padding: 40px 30px;
+    flex: 0 0 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left; 
+}
+
+.resource-cta-panel h3 {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.resource-cta-panel p {
+    font-size: 14px;
+    margin: 0 0 20px 0;
+    line-height: 1.4;
+}
+
+.resource-btn-black {
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 13px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    text-align: center;
+    width: fit-content;
+    text-transform: uppercase;
+}
+
+.resource-grid-panel {
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center; 
+    padding: 20px;
+}
+
+.resource-item {
+    text-align: center; 
+    flex: 1;
+    padding: 0 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+}
+
+.resource-item svg {
+    width: 60px; 
+    height: 60px; 
+    stroke: #111111;
+    margin-bottom: 15px; 
+}
+
+.resource-item h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #111111;
+    margin: 0 0 5px 0;
+}
+
+.resource-item p {
+    font-size: 12px;
+    color: #555555;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.benefits-strip-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.benefit-item svg {
+    width: 32px;
+    height: 32px;
+    stroke: #111111;
+    flex-shrink: 0;
+}
+
+.benefit-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.benefit-text strong {
+    font-size: 13px;
+    font-weight: 800;
+    color: #111111;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.benefit-text span {
+    font-size: 12px;
+    color: #555555;
+}
+
+.benefit-divider {
+    width: 1px;
+    height: 30px;
+    background-color: #e5e5e5;
+}
+
+@media (max-width: 1024px) {
+    .resource-box-container { flex-direction: column; }
+    .resource-cta-panel { flex: auto; width: 100%; align-items: flex-start; text-align: left; box-sizing: border-box; }
+    .resource-grid-panel { flex-wrap: wrap; gap: 20px; padding: 30px 20px; }
+    .resource-item { flex: 0 0 45%; }
+    .benefits-strip-container { flex-wrap: wrap; justify-content: center; gap: 20px; }
+    .benefit-item { flex: 0 0 45%; justify-content: center; }
+    .benefit-divider { display: none; }
+}
+
+@media (max-width: 768px) {
+    .resources-benefits-outer { padding: 40px 20px 60px 20px; }
+    .resource-item { flex: 0 0 100%; }
+    .benefit-item { flex: 0 0 100%; justify-content: flex-start; padding-left: 20px; }
+}
+</style>
+
+<div class="resources-benefits-outer">
+    <div class="resources-benefits-inner">
+        <!-- Top Resource Finder Box -->
+        <div class="resource-box-container">
+            <div class="resource-cta-panel">
+                <h3>Not Sure Which Label Material You Need?</h3>
+                <p>Use our Material Finder to get the perfect match.</p>
+                <a href="/material-finder" class="resource-btn-black">Find My Label</a>
+            </div>
+            
+            <div class="resource-grid-panel">
+                <div class="resource-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        <path d="M10 8h.01M8 12h4"/>
+                    </svg>
+                    <h4>Material Finder</h4>
+                    <p>Find the right label<br>for your application</p>
+                </div>
+                <div class="resource-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                        <rect x="3" y="8" width="18" height="8" rx="1"/>
+                        <path d="M7 8v3M11 8v2M15 8v3M19 8v2"/>
+                    </svg>
+                    <h4>Label Size Guide</h4>
+                    <p>Common sizes<br>&amp; recommendations</p>
+                </div>
+                <div class="resource-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                        <path d="M6 4h12M6 20h12M8 4v16M16 4v16"/>
+                        <rect x="8" y="8" width="8" height="8"/>
+                    </svg>
+                    <h4>Ribbon Guide</h4>
+                    <p>Find the right ribbon<br>for your label</p>
+                </div>
+                <div class="resource-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M8 12a4 4 0 014-4M8 16a8 8 0 018-8M8 8h.01"/>
+                    </svg>
+                    <h4>RFID Buying Guide</h4>
+                    <p>Everything you need<br>to know about RFID</p>
+                </div>
+                <div class="resource-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
+                        <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                    <h4>Design Resources</h4>
+                    <p>Templates, specs &amp;<br>artwork tips</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Benefits Strip with SVGs -->
+        <div class="benefits-strip-container">
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M2 7h11v10H2zM13 10h4l3 3v4h-7z"/><circle cx="6.5" cy="19" r="1.5"/><circle cx="16.5" cy="19" r="1.5"/></svg>
+                <div class="benefit-text">
+                    <strong>Free Shipping</strong>
+                    <span>On Orders $199+</span>
+                </div>
+            </div>
+            <div class="benefit-divider"></div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+                <div class="benefit-text">
+                    <strong>Same Day Shipping</strong>
+                    <span>On Orders Placed by 2PM EST</span>
+                </div>
+            </div>
+            <div class="benefit-divider"></div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                <div class="benefit-text">
+                    <strong>Secure Shopping</strong>
+                    <span>SSL Encrypted Checkout</span>
+                </div>
+            </div>
+            <div class="benefit-divider"></div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M3 12a9 9 0 109-9"/><path d="M3 5v7h7"/></svg>
+                <div class="benefit-text">
+                    <strong>Easy Returns</strong>
+                    <span>No Hassle Returns</span>
+                </div>
+            </div>
+            <div class="benefit-divider"></div>
+            <div class="benefit-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5M15 15.5c2.7.3 5 2 5 4.5"/></svg>
+                <div class="benefit-text">
+                    <strong>Volume Discounts</strong>
+                    <span>Save More on Bulk Orders</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- =========================================
+   END RESOURCES AND BENEFITS SECTION 
+========================================= -->
+
+
+<!-- 2. BOTTOM DROP ZONE FOR PAGE BUILDER -->
+{{{region name="home_lower_section"}}}
+
+{{/partial}}
+{{> layout/base}}

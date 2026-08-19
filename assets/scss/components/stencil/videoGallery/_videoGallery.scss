@@ -1,0 +1,85 @@
+// =============================================================================
+// VIDEO GALLERY
+// =============================================================================
+
+.videoGallery-main {
+	float:left;
+	width:50%;
+    // @include flex-video-container();
+    margin-bottom: 6px;
+	@media (max-width: 991px){
+		width: 100%;
+		margin:0 0 20px;
+	}
+}
+
+.videoGallery-list {
+    @include u-listBullets("none");
+    @include grid-row($behavior: "nest");
+	float:left;
+	width:50%;
+    font-size: 0;
+	@media (max-width: 991px){
+		width: 100%;	
+	}
+}
+
+.videoGallery-item {
+    @include grid-column(12);
+    display: inline-block;
+    float: left;
+    vertical-align: top;
+	padding:0;
+    @include breakpoint("medium") {
+        width: grid-calc(12, $total-columns);
+    }
+}
+
+.video {
+    @include media;
+    display: block;
+    margin-bottom: $videoGallery-spacing;
+    opacity: 0.4;
+	-webkit-opacity: 0.4;
+	-moz-opacity: 0.4;
+	-khtml-opacity: 0.4;
+    text-decoration: none;
+    transition: opacity 100ms ease-out;
+	-webkit-transition:opacity 100ms ease-out;
+	-moz-transition:opacity 100ms ease-out;
+	-ms-transition:opacity 100ms ease-out;
+	-o-transition:opacity 100ms ease-out;
+
+    @include breakpoint("medium") {
+        margin-bottom: $videoGallery-spacing;
+    }
+
+    &:hover,
+    &.is-active {
+        color: color("greys", "darker");
+        opacity: 1;
+		-webkit-opacity: 1;
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+    }
+}
+
+.video-figure {
+    margin-right: 0;
+}
+
+.video-title {
+	margin-bottom: 10px;
+	margin-top: 0;
+	text-transform: none;
+	font-weight: bold;
+	@media (max-width: 1200px){
+		font-size:14px;
+	}
+}
+
+.video-description {
+    font:14px/20px "Roboto",Helvetica,sans-serif;
+    margin-bottom: 0;
+	color: stencilColor("color-textSecondary");
+}

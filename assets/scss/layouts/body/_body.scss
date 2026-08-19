@@ -1,0 +1,86 @@
+// =============================================================================
+// BODY (CSS)
+//
+// 1. Header is fixed on small screens, use the content body to create the whitespace
+//    between it and the header on all situations. If you change the spacing here,
+//    please update .heroCarousel too.
+//
+// =============================================================================
+
+
+.body {
+	float:left;
+	text-align:center;
+	width:100%;
+	min-height: 230px;
+    margin-bottom: spacing("single") * 2;
+	@media (max-width: 544px){
+		margin-bottom: 20px;
+	}
+}
+
+
+.page {
+	margin:0;
+}
+
+.page-content,
+.page-content--full {
+    @include grid-column(12);
+	padding:0 15px;
+	@media (max-width: 544px){
+		padding:0 !important;
+	}
+}
+
+.page-content--centered {
+	text-align:left;
+	display:inline-block;
+    @include breakpoint("medium") {
+        @include grid-column(
+            $columns: 8,
+            $center: true
+        );
+    }
+	@media (min-width: 992px) and (max-width: 1199px){
+		 width: 970px;
+	}
+	@media (min-width: 768px) and (max-width: 991px){
+		width: 750px;
+	}
+	@media (max-width: 544px){
+		padding: 0 15px;	
+		width:100%;
+	}
+}
+
+.page-content--textCenter {
+    text-align: center;
+}
+
+.page-sidebar {
+    @include grid-column(12);
+    position: relative;
+	padding:0 15px !important;
+	@media (max-width: 991px){
+		text-align: left;
+	}
+	@media (max-width: 544px){
+		padding:0 !important;
+	}
+    @include breakpoint("medium") {
+        @include grid-column(2.33); //20%
+		text-align:left;
+        + .page-content {
+            @include grid-column(9.67);
+			padding:0 15px !important;
+			@media (min-width: 992px) and (max-width: 1199px){
+				width: 75%;	
+			}
+        }
+    }
+	@media (min-width: 992px) and (max-width: 1199px){
+		width: 25%;	
+	}
+}
+

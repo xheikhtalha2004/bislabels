@@ -1,0 +1,11 @@
+{{#partial "page"}}
+{{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+{{#if settings.show_wishlist}}
+    <div class="account page-content--centered">
+        <h2 class="page-heading"><span>{{lang 'account.wishlists.heading' }}</span></h2>
+        {{> components/account/navigation account_page='wishlists'}}
+        {{> components/account/wishlist-list}}
+    </div>
+{{/if}}
+{{/partial}}
+{{> layout/base}}

@@ -1,0 +1,38 @@
+<div class="filter-box tt-filter-box">
+    {{> components/common/paginator pagination.product_results}}
+    {{> components/products/filter sort=pagination.product_results.sort}}
+</div>
+
+<form action="{{urls.compare}}" method='POST' {{#if settings.data_tag_enabled}} data-list-name="Search Results" {{/if}} data-product-compare>
+	<div class="tabs-contents">
+        {{#if settings.data_tag_enabled}}
+            <div class="tab-content is-active" id="tab-gridview">
+	            {{> components/products/grid products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+            </div>
+        {{else}}
+            <div class="tab-content is-active" id="tab-gridview">
+                {{> components/products/grid products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+            </div>
+        {{/if}}
+        {{#if settings.data_tag_enabled}}
+        	<div class="tab-content" id="tab-listview">
+            	{{> components/products/list products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+            </div>
+         {{else}}
+         <div class="tab-content" id="tab-listview">
+           		{{> components/products/list products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+          </div>
+        {{/if}}
+        {{#if settings.data_tag_enabled}}
+        	<div class="tab-content" id="tab-shortview">
+            	{{> components/products/shortlist products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+            </div>
+         {{else}}
+        	<div class="tab-content" id="tab-shortview">
+            	{{> components/products/shortlist products=product_results.products show_compare=product_results.show_compare theme_settings=theme_settings}}
+            </div>
+        {{/if}}
+    </div>
+</form>
+
+{{> components/common/paginator pagination.product_results}}

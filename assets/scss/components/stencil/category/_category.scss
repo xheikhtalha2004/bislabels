@@ -1,0 +1,99 @@
+// =============================================================================
+// CATEGORY (CSS)
+// =============================================================================
+
+
+// Category header
+// -----------------------------------------------------------------------------
+.tt-category-content{
+	text-align:left;
+	float:left;
+	width:100%;
+	margin:0 0 30px;
+	.category-img{
+		float: left;
+		margin: 0;
+		padding:0;
+		width: grid-calc(2.5, $total-columns);
+		@media (max-width: 1200px){
+			width:100%;
+		}
+		img{
+			border: 1px solid stencilColor("container-border-global-color-base");
+			padding: 5px;
+			border-radius: 8px;
+			-moz-border-radius: 8px;
+			-webkit-border-radius: 8px;
+			-khtml-border-radius: 8px;	
+		}
+	}
+	.category-desc{
+		padding:0 0 0 15px;
+		float:left;
+		width: grid-calc(9.5, $total-columns);
+		@media (min-width: 1260px) and (max-width: 1499px){
+			padding:0 0 0 10px;
+		}
+		@media (max-width: 991px){
+			width: 100%;
+			padding: 20px 0 0 0;
+		}
+		p{
+			margin:0;	
+		}
+		.category-heading{
+			color: #333333;
+			font: $fontWeight-bold 16px/26px "Roboto",sans-serif;
+			margin: 0 0 10px;
+			text-transform: capitalize;
+		}
+	}	
+}
+.tt-subcategoires{
+	float:left;
+	margin-top:10px;
+	width:100%;
+	@media (max-width: 544px){
+		margin-top:0px;
+	}
+	.subcategory-item{
+		width: 130px;
+		margin-right: 15px;
+		float: none;
+		display: inline-block;
+		vertical-align: top;
+		@media (min-width: 1260px) and (max-width: 1499px){
+			width: 105px;
+		}
+		@media (max-width: 544px){
+			width: 112px;
+			&:nth-child(2n+1){
+				margin-right: 12px;
+			}
+			
+		}
+		.subcategory-name{
+			font: 400 13px/22px "Roboto",sans-serif;
+			text-transform: capitalize;
+			text-decoration:none;
+		}
+		.subcategory-img{
+			float: left;
+			margin: 0 0 10px;
+			border: 1px solid stencilColor("container-border-global-color-base");
+			padding: 5px;
+			border-radius: 8px;
+			-moz-border-radius: 8px;
+			-webkit-border-radius: 8px;
+			-khtml-border-radius: 8px;	
+			@media (max-width: 544px){
+				margin: 15px 0 5px;
+			}
+		}
+		&:hover{
+			.subcategory-name{
+				color:#000000;
+			}
+		}
+	}
+}

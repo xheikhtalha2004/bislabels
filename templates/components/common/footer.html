@@ -1,0 +1,206 @@
+</script>
+
+<style>
+  .footer-info-col ul li a {
+    color: #ffffff !important;
+    transition: color 0.2s ease-in-out;
+  }
+  .footer-info-col ul li a:hover {
+    color: #e31b23 !important;
+  }
+  .footer-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-info-col {
+    flex: 1;
+    min-width: 200px;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .Contact_Detail p a.contact-link {
+    color: #ffffff !important;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+  }
+  .Contact_Detail p a.contact-link:hover {
+    color: #e31b23 !important;
+  }
+</style>
+
+<footer class="footer" role="contentinfo">
+
+	<div class="tt-subscription">
+    	<div class="container">
+            <article class="full-subscription" data-section-type="newsletterSubscription">
+                {{#if settings.show_newsletter_box}}
+                    {{> components/common/subscription-form}}
+                {{/if}}  
+            </article>
+        </div>
+    </div>
+
+     {{#if banners.bottom}}
+        <div class="bottom-banner">
+       		<div class="container">
+				<div class="banners" data-banner-location="bottom">
+					<div class="banner">
+						{{{limit banners.bottom 1}}}
+					</div>   
+				</div>
+            </div>
+        </div>
+	{{/if}}
+    
+    <div class="tt-footer-link">
+        <div class="container">
+        <section class="footer-info">
+
+            <article class="footer-info-col footer-info-col--small tt-webPages" data-section-type="footer-webPages">
+              <h5 class="footer-heading" style="color:white; font-family:Open Sans; font-weight:600; margin-bottom:15px;">OUR COMPANY</h5>
+              <ul class="Footer_menu" style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/bis-labels-about-us/">About Us</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/why-choose-us/">Why Choose Us</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/our-mission-vision/">Our Mission &amp; Vision</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/bulk-wholesale-orders/">Bulk Wholesale Orders</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/industries-we-serve/">Indries We Serve</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/our-process/">Our Process</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/our-quality-commitment/">Our Quality Commitment</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/contact-us/">Contact Us</a></li>
+              </ul>
+            </article>
+
+            <article class="footer-info-col footer-info-col--small" data-section-type="footer-resources">
+              <h5 style="color:white; font-family:Open Sans; font-weight:600; margin:0 0 15px;">OUR RESOURCES</h5>
+              <ul style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                  <li style="padding-left: 0; margin-left: 0; margin-bottom: 12px;"><a href="https://bislabels.com/label-size-guide/">Label Size Guide</a></li>
+                  <li style="padding-left: 0; margin-left: 0; margin-bottom: 12px;"><a href="https://bislabels.com/ribbon-compatibility-guide/">Ribbon Compatibility Guide</a></li>
+                  <li style="padding-left: 0; margin-left: 0; margin-bottom: 12px;"><a href="https://bislabels.com/rfid-guide/">RFID Guide</a></li>
+                  <li style="padding-left: 0; margin-left: 0; margin-bottom: 12px;"><a href="https://bislabels.com//materials-guide/">Materials Guide</a></li>
+                  <li style="padding-left: 0; margin-left: 0; margin-bottom: 12px;"><a href="https://bislabels.com/barcode-basics/">Barcode Basics</a></li>
+              </ul>
+            </article>
+
+            <article class="footer-info-col footer-info-col--small tt-categories" data-section-type="footer-categories">
+              <h5 class="footer-heading1" style="color:white; font-family:Open Sans; font-weight:600; margin-bottom:15px;">OUR SUPPORT</h5>
+                 <ul class="Categories_menu" style="list-style: none; padding: 0; margin: 0; text-align: left;">
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/privacy-policy/">Privacy Policy</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/payment-methods/">Payment Methods</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/return-refund-policies/">Return &amp; Refund Policies</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/shipping-information/">Shipping & Delivery</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/terms-conditions/">Terms &amp; Conditions</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/faq/">FAQ's (Help)</a></li>
+                  <li style="padding-left: 0; margin-left: 0;"><a href="https://bislabels.com/request-a-quote/">Request A Quote</a></li>
+              </ul>
+            </article>
+
+            <!-- CONTACT US SECTION WITH WHITE LINKS AND GMAIL ACTIONS -->
+            <div class="footer-info-col">
+                {{#if settings.address}}
+                    <article class="footer-info-col footer-info-col--small tt-storeInfo" data-section-type="storeInfo">
+                        <h5 class="footer-heading" style="color:white; font-family:Open Sans; font-weight:600; margin-bottom:15px;">CONTACT US</h5>
+                        <div class="Contact_Detail" style="color:#ffffff; font-family:Open Sans; font-size: 14px; text-align: left; line-height: 1.6;">
+                            
+                            <p style="margin: 0 0 15px 0;">
+                                250 E. 5th Street, 15th Floor<br>
+                                Cincinnati, OH 45202<br>
+                                United States of America
+                            </p>
+
+                            <p style="margin: 0 0 15px 0;">
+                                <a href="mailto:support@bislabels.com" class="contact-link">support@bislabels.com</a>
+                            </p>
+
+                            <p style="margin: 0 0 15px 0;">
+                                <a href="tel:+15137725252" class="contact-link">+1 513-772-5252</a>
+                            </p>
+
+                            <p style="margin: 0 0 15px 0;">Mon-Fri 8:00am – 8:00pm (EST)</p>
+
+                            <p style="margin: 0;">
+                                <a href="https://www.google.com/maps?q=250+E.+5th+Street,+15th+Floor,+Cincinnati,+OH+45202,+USA" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer" 
+                                   style="color: #e31b23 !important; font-weight: 600; text-decoration: none;">
+                                   View on map
+                                </a>
+                            </p>
+                            
+                        </div>
+                    </article>
+                {{/if}}
+            </div>
+
+            {{#and theme_settings.shop_by_brand_show_footer shop_by_brand.length}}
+            <article class="footer-info-col footer-info-col--small tt-brands" data-section-type="footer-brands">
+              <h5 class="footer-info-heading" style="margin-bottom:20px;">{{lang 'footer.brands'}}</h5>
+                <ul class="footer-info-list" style="list-style: none; padding: 0; margin: 0;">
+                    {{#each shop_by_brand}}
+                        <li>
+                            <a href="{{url}}">{{name}}</a>
+                        </li>
+                    {{/each}}
+                    <li><a href="{{urls.brands}}">{{lang 'common.view_all'}}</a></li>
+                </ul>
+            </article>
+            {{/and}}
+
+             <article class="footer-payment tt-payment" data-section-type="footer-payment" style="width: 100%; text-align: center; margin-top: 20px;">
+                {{> components/common/payment-icons}}
+            </article>
+
+       </section>
+        {{#if theme_settings.geotrust_ssl_common_name}}
+            <div class="footer-geotrust-ssl-seal">
+                {{> components/common/geotrust-ssl-seal}}
+            </div>
+        {{/if}}
+        </div>       
+    </div>
+
+    <div class="social-copyright footer-bottom">
+    	<div class="container">
+            {{#if theme_settings.social_icon_placement_bottom '!==' 'bottom_none'}}
+                <article class="footer-info-col
+                    footer-info-col--social
+                    footer-info-col--{{#if theme_settings.social_icon_placement_bottom '===' 'bottom_left'}}left{{else}}right{{/if}}"
+                    data-section-type="footer-webPages">
+                        <h5 class="footer-info-heading">{{lang 'social.connect'}}</h5>
+                        {{> components/common/social-links}}
+                </article>
+            {{/if}}
+            
+            <div class="tt-copyright {{#if theme_settings.social_icon_placement_bottom '===' 'bottom_left'}}tt-right{{else}}tt-left{{/if}}">
+            {{#if theme_settings.show_powered_by}}
+                <div class="footer-copyright">
+                    <p class="powered-by">Powered by BisLabels <a href="https://www.bigcommerce.com?utm_source=merchant&amp;utm_medium=poweredbyBC" rel="nofollow">BigCommerce</a></p>
+                </div>
+            {{/if}}
+            {{#if theme_settings.show_copyright_footer}}
+                <div class="footer-copyright">
+                    <p class="powered-by">&copy; {{moment format="YYYY"}} {{settings.store_name}} </p>
+                </div>
+            {{/if}}
+            </div>
+        </div>
+    </div>
+</footer>
+
+	<a href="#" class="scrollToTop" title="{{lang 'common.backtotop'}}" style="display:none"> 
+		<span class="material-icons">keyboard_arrow_up</span>
+	</a>
+ 
+<script>
+  $('.quickSearchResults').on('click', function() {
+    $('.quickSearchResults').fadeOut();
+  });
+  $(document).on('click', '.quickSearchResults .modal-close', function() {
+    $('.quickSearchResults').fadeOut();
+  });
+  $('.dropdown--quickSearch .form-input').on('click', function() {
+    $('.quickSearchResults').fadeIn();
+  });
+</script>

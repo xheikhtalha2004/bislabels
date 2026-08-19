@@ -1,0 +1,102 @@
+// =============================================================================
+// PRODUCT REVIEWS (CSS)
+// =============================================================================
+
+
+// Review list
+//
+// 1. Kill extra display inline-block spacing
+// -----------------------------------------------------------------------------
+
+.productReviews-list {
+    @include u-listBullets("none");
+    @include grid-row($behavior: "nest");
+    font-size: 0; // 1
+}
+
+
+// Review item
+// -----------------------------------------------------------------------------
+
+#productReviews-content{
+	#productReviews-list{
+		width: grid-calc(12, $total-columns);	
+	}
+	.total-reviews{
+		ul{
+			li{
+				float:none;
+				display:inline-block;
+				vertical-align:top;
+				padding:10px;
+			}
+		}
+		&.one{
+			ul{
+				li{
+					float:left;
+					width:100%;
+				}	
+			}	
+		}
+		&.two{
+			ul{
+				li{
+					float:left;
+					width:50%;
+					@media (max-width: 991px){
+						width: 100%;	
+					}
+				}	
+			}	
+		}
+		&.three{
+			ul{
+				li{
+					width: 33%;	
+					@media (max-width: 991px){
+						float: left;
+						width: 100%;	
+					}
+				}	
+			}	
+		}
+	}
+}
+
+.productReview {
+    font-size: fontSize("base");
+    vertical-align: top;
+	list-style:none !important;
+}
+
+.productReviews {
+	margin:0 !important;
+	.toggle-title{
+		font-weight: bold;
+		color: #000;	
+	}
+}
+.productReview-title {
+    margin: 0;
+    text-transform: none;
+	font-weight: bold;
+	color: #444444;	
+}
+
+.productReview-author {
+    color: stencilColor("color-textSecondary");
+    margin-bottom: spacing("single");
+	font-size:13px;
+	border-bottom: 1px solid stencilColor("container-border-global-color-base");
+	padding: 0 0 10px;
+}
+
+.productReview-rating {
+    display: inline-block;
+    margin-bottom: spacing("half");
+}
+
+.productReview-ratingNumber {
+    @include u-hidden("visually");
+}

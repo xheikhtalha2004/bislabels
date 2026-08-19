@@ -1,0 +1,158 @@
+// =============================================================================
+// PAGINATION (CSS)
+// =============================================================================
+
+
+// Pagination list items
+// -----------------------------------------------------------------------------
+//
+// 1. Centred list via inline-block. Font-size: 0; to remove white-space.
+// 2. Specificity overrides for Foundation's inadequate selectors.
+//
+// -----------------------------------------------------------------------------
+
+.pagination-list {
+    @include clearfix;
+
+    font-size: 0; // 1
+    margin-bottom: 0;
+    text-align: center;
+    .pagination-item { // 2
+        display: inline-block;
+		.pagination-link{
+			color: stencilColor("color-textBase--hover");
+			width: 31px;
+			float:left;
+			height: 31px;
+			border-radius: 50%;
+			-moz-border-radius: 50%;
+			-webkit-border-radius: 50%;
+			-khtml-border-radius: 50%;
+			text-align: center;
+			border-color: #dddddd;
+			line-height: $lineHeight-small;
+		}
+		&:hover{
+			background:stencilColor("button--primary-backgroundColorHover");
+			border-color:stencilColor("button--primary-backgroundColorHover");
+			cursor: pointer;
+			color: stencilColor("button--primary-colorHover");
+			a{
+				color: stencilColor("button--primary-colorHover");
+			}
+			.icon svg{
+				fill:stencilColor("button--primary-colorHover") !important;
+			}
+		}
+    }
+}
+
+
+// Pagination list items
+// -----------------------------------------------------------------------------
+//
+// 1. Specificity overrides for Foundation's inadequate selectors.
+//
+// -----------------------------------------------------------------------------
+
+.pagination-item {
+    border: $pagination-item-border;
+    line-height: 1;
+	float:left;
+	border-color: $pagination-item-border;
+	border-radius: $pagination-link-current-borderRadius;
+    .pagination-link {
+        text-decoration: none;
+        // scss-lint:disable NestingDepth
+        &:hover {
+            color: $pagination-link-color-hover;
+        }
+    }
+
+    &.pagination-item--current { // 1
+		border-color:stencilColor("button--primary-backgroundColor");
+        background: stencilColor("button--primary-backgroundColor");
+		color: stencilColor("button--primary-colorHover");
+		a{
+			color: stencilColor("button--primary-color") !important;	
+			&:hover{
+				color: stencilColor("button--primary-colorHover") !important;	
+			}
+		}
+    }
+
+    &.pagination-item--previous, // 1
+    &.pagination-item--next { // 1
+
+        // scss-lint:disable NestingDepth, SelectorDepth
+        > a {
+            color: $pagination-item-previousNext-color;
+
+            &:hover {
+                color: $pagination-item-previousNext-color-hover;
+
+                .icon > svg {
+                    fill: $pagination-item-previousNext-color-hover;
+                }
+            }
+        }
+    }
+}
+
+.pagination-item--previous,
+.pagination-item--next {
+
+    .icon {
+        height: 100%;
+        margin: 0;
+		float:left;
+        width: 100%;
+    }
+}
+
+.pagination-item--previous {
+    float: left;
+}
+
+.pagination-item--next {
+    float: right;
+}
+
+
+// Simple/small pagination (Next/Previous arrows are the only way to navigate)
+// -----------------------------------------------------------------------------
+
+.pagination-list--small {
+    position: relative;
+
+    .pagination-item {
+        color: $pagination-list--small-color;
+        cursor: inherit;
+        line-height: $pagination-list--small-lineHeight;
+		float: left;
+		width: auto;
+		border-radius: 25px;
+		padding: 8px 15px;
+		&:hover{
+			color: stencilColor("button--primary-colorHover");
+		}
+    }
+
+    .pagination-link {
+        padding: $pagination-list--small-link-padding;
+    }
+
+    .pagination-item--previous,
+    .pagination-item--next {
+        position: absolute;
+        top: 0;
+    }
+
+    .pagination-item--previous {
+        left: 0;
+    }
+
+    .pagination-item--next {
+        right: 0;
+    }
+}

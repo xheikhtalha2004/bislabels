@@ -1,0 +1,46 @@
+<nav>
+    {{#if category.subcategories}}
+    <div class="sidebarBlock subcategory">
+        <h5 class="sidebarBlock-heading">{{category.name}}</h5>
+        <ul class="navList">
+            {{#each category.subcategories}}
+            <li class="navList-item">
+                <a class="navList-action" href="{{url}}" title="{{name}}">{{name}}</a>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/if}}
+
+    {{#if category.faceted_search_enabled}}
+        {{> components/faceted-search/index category}}
+    {{else}}
+        {{> components/category/shop-by-price shop_by_price=category.shop_by_price category_url=category.url}}
+    {{/if}}
+
+	{{#if banners.bottom}}
+		<div class="tt-left-banners" data-banner-location="bottom">
+			<div class="banner">
+				{{{limit banners.bottom 1}}}
+			</div>
+		</div>
+	{{/if}}
+
+
+	{{!--<article class="column-left-info">
+		<h4 class="left-info-heading">{{lang 'common.col_left_info'}}</h4>
+		<ul class="left-info-list">
+			{{#each pages}}
+				<li>
+					<a href="{{url}}">{{name}}</a>
+				</li>
+			{{/each}}
+			<li>
+				<a href="{{urls.sitemap}}">{{lang 'sitemap.page_title'}}</a>
+			</li>
+		</ul>
+	</article>--}}
+    
+    
+</nav>
+

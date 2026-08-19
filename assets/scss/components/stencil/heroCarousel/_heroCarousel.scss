@@ -1,0 +1,490 @@
+// HERO CAROUSEL
+// -----------------------------------------------------------------------------
+//
+// Purpose: Styles the hero carousel component, which basically adds extras to the
+// vendor slick carousel, to specifically display hero images.
+//
+// 1. Use object-fit on the image tag to keep aspect ratio and cover the space
+//    created by the outer div. The JS will detect browsers that do not support
+//    object-fit and instead copy the image src to a the background-image of the
+//    wrapper div and add the compat-object-fit class.
+//
+// 2. Visually overrides the top margin for '.body' defined in _body.scss.
+//    The '.body' top margin creates space between the header and page content.
+//    However, on the homepage, we want the carousel to be flush with the header.
+//
+// 3. Allows image to scale on large screens while preventing the top and bottom
+//    from becoming cut off.
+// -----------------------------------------------------------------------------
+
+.tt-heroCarousel{
+	float:left;
+	width: grid-calc(12, $total-columns);
+	margin: 0 0 40px;
+	padding:0 50px;
+	@media (max-width: 1200px){
+		margin: 0 0 30px;
+	}
+	@media (max-width: 991px){
+		width: grid-calc(12, $total-columns);
+		padding:0 20px;
+		margin: 0 0 5px;
+	}
+	.heroCarousel {
+		width: 1px;
+		min-width: 100%;
+		margin-bottom: (spacing("double") + spacing("single"));
+		margin-top: -(spacing("single")); // 3
+	
+		@include breakpoint("medium") {
+			margin-top: -(spacing("single") + spacing("base")); // 3
+		}
+	
+		&.slick-initialized { // 2
+			max-height: remCalc(1000);
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			float: left;
+			width: 100%;
+			position: relative;
+			margin: 0;
+			@media (max-width: 991px){
+				margin: 0 0 15px;
+			}
+		}
+	
+		&:not(.slick-initialized) :not(.heroCarousel-slide--first).heroCarousel-slide {
+			display: none;
+		}
+	
+		a {
+			text-decoration: none;
+		}
+		.slick-arrow{
+			&:after, &:before{
+				background:transparent;
+				border-color:transparent;
+			}
+		}
+		.slick-next,
+		.slick-prev {
+			background: stencilColor("button--default-backgroundColor");
+			border: 2px solid stencilColor("button--default-backgroundColor");
+			height: 40px;
+			width: 40px;
+			margin: auto;
+			top: 0;
+			bottom: 0;
+			text-align: center;
+			text-shadow: none;
+			opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+			-webkit-opacity: 0;
+			border-radius: 50%;
+			-moz-border-radius: 50%;
+			-webkit-border-radius: 50%;
+			-khtml-border-radius: 50%;
+			transition: all 400ms ease-in-out 0s;
+			-webkit-transition: all 400ms ease-in-out 0s;
+			-moz-transition: all 400ms ease-in-out 0s;
+			-o-transition: all 400ms ease-in-out 0s;
+			-ms-transition: all 400ms ease-in-out 0s;
+			@media (max-width: 991px){
+				transform:none;
+				-webkit-transform:none;
+				-ms-transform:none;
+				-o-transform:none;
+				-moz-transform:none;
+				opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+				-webkit-opacity: 1;
+			}
+			@media (max-width: 767px){
+				height: 30px;
+				width: 30px;
+				border:none;
+				background: none;
+			}
+			&:after {
+				color: stencilColor("button--default-color");
+				@media (max-width: 767px){
+					color:#ffffff;
+					font-size: 32px;
+					line-height:30px;
+				}
+			}
+			&:before {
+				bottom: 0;
+				background-image:none;
+				color: stencilColor("button--default-color");
+				font-size: 24px;
+				left: 0;
+				line-height: 36px;
+				margin: 0 auto;
+				position: absolute;
+				right: 0;
+				text-align: center;
+				top: 0;
+				padding: 0;
+				vertical-align: middle;
+				font-family: "Material Icons";
+				transition: all 400ms ease-in-out 0s;
+				-webkit-transition: all 400ms ease-in-out 0s;
+				-moz-transition: all 400ms ease-in-out 0s;
+				-o-transition: all 400ms ease-in-out 0s;
+				-ms-transition: all 400ms ease-in-out 0s;
+				@media (max-width: 767px){
+					color:#ffffff;
+					font-size: 32px;
+					line-height:30px;
+				}
+			}
+			&:hover{
+				border-radius: 50%;
+				-moz-border-radius: 50%;
+				-webkit-border-radius: 50%;
+				-khtml-border-radius: 50%;
+				opacity: 0.9;
+				-moz-opacity: 0.9;
+				-khtml-opacity: 0.9;
+				-webkit-opacity: 0.9;
+				background: stencilColor("button--default-backgroundColorHover");
+				border-color: stencilColor("button--default-backgroundColorHover");
+				@media (max-width: 767px){
+					border:none;
+					background: none;
+				}
+				&:before, &:after {
+					color: stencilColor("button--default-colorHover") !important;
+					@media (max-width: 767px){
+						color:#333333 !important;
+					}
+				}
+			}
+		}
+		.slick-next {
+			right: 75px;
+			&:before {
+				content: "\e5cc";
+			}
+			@media (min-width: 767px) and (max-width: 991px){
+				right: 25px;
+			}
+			@media (max-width: 767px){
+				right: 3px;
+			}
+		}
+	
+		.slick-prev {
+			left:75px;
+			right:auto;
+			&:before{
+				content: "\e5cb";
+			}
+			@media (min-width: 767px) and (max-width: 991px){
+				left: 25px;
+			}
+			@media (max-width: 767px){
+				left: 0;
+			}
+		}
+	
+		.slick-dots {
+			bottom: spacing("third");
+			display:none !important;
+			@include breakpoint("medium") {
+				bottom: spacing("single");
+			}
+	
+			// scss-lint:disable SelectorDepth, NestingDepth
+			li {
+				padding:0;
+				width:24px;
+				height:24px;
+				button{
+					border:none;
+					&:before{
+						top:0;
+						left:0;
+					}
+				}
+			}
+		}
+		&:hover{
+			.slick-next,
+			.slick-prev {
+				 opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+				-webkit-opacity: 1;
+			}
+			.slick-next{
+				right: 25px;
+				@media (max-width: 767px){
+					right: 3px;
+				}	
+			}
+			
+			.slick-prev {
+				left: 25px;
+				@media (max-width: 767px){
+					left: 0;
+				}	
+			}
+		}
+	}
+}
+.heroCarousel-slide {
+    position: relative;
+    a {
+        text-decoration: none;
+    }
+
+    .heroCarousel-image {
+        @include breakpoint("medium") {
+            object-fit: cover; // 1
+            max-height: remCalc(650px);
+            width: 100%;
+        }
+    }
+
+    .heroCarousel-image-wrapper {
+        @include breakpoint("medium") {
+            max-height: remCalc(650px);
+        }
+    }
+
+    &.compat-object-fit { // 1
+        background-size: cover;
+        background-position: 50%;
+        background-repeat: no-repeat;
+
+        &.stretch {
+            @include breakpoint("large") { // 4
+                background-size: 100% 100%;
+            }
+        }
+
+        .heroCarousel-image {
+            opacity: 0;
+			-webkit-opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+        }
+    }
+}
+
+.heroCarousel-content {
+    text-align: left;
+	background:stencilColor("carousel-bgColor");
+	right: 5%;
+	margin: 0;
+	padding:0;
+	position: absolute;
+	left: auto;
+	top: 49%;
+	transform: translateY(-60%);
+	-webkit-transform:translateY(-60%);
+	-ms-transform:translateY(-60%);
+	-o-transform:translateY(-60%);
+	-moz-transform:translateY(-60%);
+	width: remCalc(500px);
+	@media (min-width: 1500px) and (max-width: 1630px){
+		right: 11%;
+	}
+	@media (min-width: 1201px) and (max-width: 1499px){
+		right:9%;	
+	}
+	@media (min-width: 992px) and (max-width: 1200px){
+		right: 60px;
+		top: 53%;
+	}
+	@media (min-width: 768px) and (max-width: 991px){
+		right:80px;	
+		width:50%;
+	}
+	@media (min-width: 545px) and (max-width: 767px){
+		right: 30px;
+		top: 55%;
+		width: 52%;
+	}
+	@media (max-width: 544px){
+		width: 80%;
+		top: 59%;
+	}
+}
+
+#slick-slide01{
+	.heroCarousel-content{
+		left: 12%;
+		right:auto;
+		@media (min-width: 1201px) and (max-width: 1630px){
+			left: 0;
+		}
+	}
+}
+
+#slick-slide00{
+	.heroCarousel-action {
+		background: stencilColor("button--default-backgroundColor");
+		border-color:stencilColor("button--default-backgroundColor");
+		color:stencilColor("button--default-color");
+		span{
+			background: stencilColor("button--primary-backgroundColor");
+			color:stencilColor("button--primary-color");
+		}
+	}
+}
+.heroCarousel-title {
+    color: $carousel-title-color;
+    font-size: 45px;
+    font-weight: $fontWeight-bold;
+    line-height: 55px;
+    text-transform: capitalize;
+    margin: 0 0 25px 0;
+	@media (min-width: 1500px) and (max-width: 1630px){
+		font-size: 44px;
+		line-height: 48px;	
+		margin:0 0 15px 0;
+	}
+	@media (min-width: 1201px) and (max-width: 1499px){
+		font-size: 36px;
+		line-height: 45px;	
+		margin:0 0 15px 0;
+	}
+	@media (min-width: 992px) and (max-width: 1200px){
+		font-size: 35px;
+		line-height: 45px;
+		margin: 0;
+	}
+	@media (min-width: 768px) and (max-width: 991px){
+		font-size: 30px;
+		margin: 0 0 15px 0;
+		line-height: 36px;
+	}
+	@media (min-width: 545px) and (max-width: 767px){
+		font-size: 24px;
+		margin: 0 0 10px 0;
+		line-height: 30px;
+	}
+	@media (max-width: 544px){
+		font-size: 16px;
+		line-height: 18px;
+		margin: 0 0 5px;
+	}
+	&:before{
+		content:"";	
+	}
+}
+
+.heroCarousel-description {
+    color: $carousel-description-color;
+	margin: 0;
+	font-size: 40px;
+	font-weight: $fontWeight-thin;
+	margin-top: 0;
+	padding: 0 0 15px;
+	line-height: 60px;
+	text-transform: uppercase;
+	@media (min-width: 1500px) and (max-width: 1630px){
+		font-size: 36px;
+		padding: 0 0 10px;
+		line-height: 52px;	
+	}
+	@media (min-width: 1201px) and (max-width: 1499px){
+		font-size: 30px;
+		padding: 0 0 15px;
+		line-height: 40px;	
+	}
+	@media (min-width: 992px) and (max-width: 1200px){
+		font-size: 30px;
+		padding: 0;
+		margin: 0;
+		line-height: 36px;	
+	}
+	@media (min-width: 768px) and (max-width: 991px){
+		font-size: 20px;
+		padding: 0;
+		margin: 0;
+		line-height: 36px;
+	}
+	@media (min-width: 545px) and (max-width: 767px){
+		font-size: 18px;
+		line-height: 34px;
+		padding: 0;
+		margin: 0;
+	}
+	@media (max-width: 544px){
+		font-size: 12px;
+		font-weight: normal;
+		padding: 0 0 5px;
+		line-height: 16px;
+	}
+}
+
+.heroCarousel-action {
+    margin: 0;
+	float:left;
+	clear:left;
+	position: relative;
+	overflow:visible;
+	border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	padding:12px 20px;
+	-webkit-transition: 400ms ease-in-out;
+	-moz-transition: 400ms ease-in-out;
+	-ms-transition: 400ms ease-in-out;
+	-o-transition: 400ms ease-in-out;
+	transition: 400ms ease-in-out;
+    @include breakpoint("medium") {
+        margin-top: 10px;
+    }
+	@media (min-width: 545px) and (max-width: 991px){
+		padding:10px 18px;
+	}
+	@media (max-width: 544px){
+		padding: 4px 10px;
+		font-size: 10px;
+		font-weight: normal;
+		line-height: 16px;
+	}
+	span{
+		background: stencilColor("button--default-backgroundColor");
+		border-color:stencilColor("button--default-backgroundColor");;
+		right: -12px;
+		left: auto;
+		color:stencilColor("button--default-color");
+		top: 0;
+		bottom: 0;
+		position: absolute;
+		text-align: center;
+		height: 20px;
+		width: 20px;
+		font-size: 16px;
+		line-height: 20px;
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-khtml-border-radius: 50%;
+		border-radius: 50%;
+		-webkit-transition: 400ms ease-in-out;
+		-moz-transition: 400ms ease-in-out;
+		-ms-transition: 400ms ease-in-out;
+		-o-transition: 400ms ease-in-out;
+		transition: 400ms ease-in-out;
+		margin: auto;
+	}
+	&:hover{
+		padding-right:40px;
+		span{
+			right: 10px;
+			background: stencilColor("button--primary-backgroundColor");
+			color: stencilColor("button--primary-color") !important;
+		}
+	}
+}

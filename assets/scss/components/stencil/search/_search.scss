@@ -1,0 +1,297 @@
+// =============================================================================
+// SEARCH
+// =============================================================================
+
+.search-suggestion {
+    margin-bottom: spacing("single") + spacing("third");
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.suggestion-title {
+    margin-top: 0;
+    text-transform: inherit;
+}
+
+.advancedSearch-form {
+    margin-bottom: spacing("double");
+
+    .form-row {
+        margin-bottom: -(spacing("single"));
+    }
+}
+
+.quickSearchResults {
+	position:absolute;
+	left: 0;
+	right: 0;
+	top: 78px;
+	z-index:99;
+	@media (max-width: 991px){
+		top: 58px;
+	}
+	p.quickSearchMessage{
+		padding: 15px !important;
+		background: stencilColor("dropdown--quickSearch-backgroundColor");
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+		-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+		border-radius: 12px;
+		&:before {
+			color: #e5e5e5;
+			font-size: 32px;
+			left: 13px;
+			height: 10px;
+			width: 30px;
+			display: block;
+			float: right;
+			position: absolute;
+			top: -8px;
+			line-height: 10px;
+			right: auto;
+			content: "\e5c7";
+			font-family: "Material Icons";
+		}
+	}
+	ul{
+		margin:0;
+		padding: 15px !important;
+		background: stencilColor("dropdown--quickSearch-backgroundColor");
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+		-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+		border-radius: 12px;
+		max-height: 448px;
+		overflow-y: auto;
+		&:before {
+			color: #e5e5e5;
+			font-size: 32px;
+			left: 13px;
+			height: 10px;
+			width: 30px;
+			display: block;
+			float: right;
+			position: absolute;
+			top: -8px;
+			line-height: 10px;
+			right: auto;
+			content: "\e5c7";
+			font-family: "Material Icons";
+		}
+		@media (max-width: 544px){
+			padding: 5px 5px 0 !important;
+		}
+		li{
+			float:left;
+			padding:0 !important;
+			width: grid-calc(6, $total-columns) !important;
+			@media (min-width: 992px) and (max-width: 1499px){
+				width: grid-calc(12, $total-columns) !important;
+			}
+			@media (max-width: 991px){
+				.card-figcaption, .rating-block, .tt-cart-btn{
+					display:none;
+				}
+			}
+			@media (max-width: 767px){
+				width: grid-calc(12, $total-columns) !important;
+			}
+			
+			.card{
+				padding:10px 15px;
+				border:1px solid stencilColor("card--alternate-borderColor");
+				background:stencilColor("card--alternate-backgroundColor");
+				width: grid-calc(12, $total-columns) !important;
+				@media (max-width: 1199px){
+					padding:5px 10px;
+				}
+				.wdgsold-out{
+					display:none;	
+				}
+				.card-figure{
+					 width: grid-calc(3.5, $total-columns);
+					 padding:0 15px 0 0;
+					 float:left;
+					 background: transparent;
+					 @media (max-width: 1199px){
+						 padding:0 10px 0 0;
+					 }
+					 .card-image{
+						border: 1px solid stencilColor("container-border-global-color-base");
+						border-radius: 8px;
+					 }
+					 .starwrap, .sale-flag-sash, .sale-flag-side{
+					 	display :none;
+					 }
+				}
+				.card-body{
+					border:none;
+					background: transparent;
+					padding:0;
+					text-align:left;
+					width: grid-calc(8.5, $total-columns);
+					@media (max-width: 1199px){
+						min-height: auto;
+					}
+					@media (max-width: 544px){
+						padding:10px 0 0;
+					}
+					.rating-block{
+						padding:0 8px;	
+						@media (min-width: 1500px) and (max-width: 1630px){
+							padding:0;	
+						}
+					}
+					.card-title{
+						@media (max-width: 1199px){
+							margin:0;	
+						}
+						> a{
+							color:#666666;
+						}
+					}
+					.tt-cart-btn, .card-figcaption{
+					 	display :none;
+					 }
+					.price-section.rrp-price--withTax{
+						position:static;
+					}
+					@media (max-width: 1199px){
+						.tt-price{
+							> div{
+								line-height: 18px;
+								.price--withTax{
+									font-size:13px;
+									line-height:18px;	
+								}	
+							}
+						}
+					}
+					.tt-price, .card-title{
+					 	text-align:left;		
+						@media (min-width: 1500px) and (max-width: 1630px){
+							padding:0;	
+						}				
+					}
+				}
+				&:hover{
+					box-shadow: none;
+					-moz-box-shadow: none;
+					-webkit-box-shadow: none;
+					background:#f5f5f5;
+					.rating-block{
+						@media (min-width: 992px){
+							display:block;	
+						}
+					}
+					.card-title > a{
+						color:stencilColor("card--alternate-color--hover");
+					}
+					.tt-price > div, .card-title, .tt-price{
+						opacity: 1;
+					}
+				}
+			}
+		}
+	}
+    .modal-close {
+
+        @include breakpoint("medium") {
+            display: block;
+        }
+    }
+}
+
+.advancedSearch-separator {
+    display: none;
+}
+
+.advancedSearch-title {
+    margin: 0 0 spacing("single");
+    text-transform: inherit;
+}
+
+.search-price-range {
+    label {
+        display: inline;
+
+        // scss-lint:disable SelectorDepth, NestingDepth
+        input {
+            display: block;
+            padding-left: spacing("single");
+
+            @include breakpoint("small") {
+                display: inline;
+                width: 6rem;
+            }
+        }
+
+        // scss-lint:disable SelectorDepth, NestingDepth
+        span {
+            @include breakpoint("small") {
+                display: inline;
+                padding-left: spacing("single");
+                padding-right: spacing("single");
+            }
+        }
+    }
+}
+
+.category-suggestion-list {
+    @include grid-row($behavior: "nest");
+    list-style-type: none;
+}
+
+.category-suggestion {
+    @include grid-column(4);
+    font-size:  stencilNumber("fontSize-root");
+	@media (min-width: 992px) and (max-width: 1199px){
+		@include grid-column(6);
+	}
+	@media (min-width: 545px) and (max-width: 991px){
+		@include grid-column(6);
+	}
+	@media (max-width: 544px){
+		@include grid-column(12);
+	}
+}
+
+.search-refine {
+    margin-left: spacing("single");
+}
+
+.quickSearchMessage {
+    font-size: fontSize("largest");
+    text-align: center;
+	font-size: 18px;
+	background: #fff;
+	border-radius: 8px;
+	padding: 20px 10px;
+}
+
+.quickSearchResults{
+	.modal-close{
+		@media (max-width: 544px){
+			top:0;
+			right:0;
+		}
+	}
+	.card{
+		margin-bottom:0;	
+		.card-figure{
+			&:after{
+				display:none;	
+			}	
+		}
+	}	
+}
+.quickSearchResults .productGrid .product {
+    min-height: auto !important;
+	@media (max-width: 991px){
+		.card{
+			box-shadow: none;
+			-moz-box-shadow: none;
+			-webkit-box-shadow: none;
+		}
+	}
+}

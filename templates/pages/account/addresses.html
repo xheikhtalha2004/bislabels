@@ -1,0 +1,20 @@
+{{#partial "page"}}
+    {{> components/common/breadcrumbs breadcrumbs=breadcrumbs}}
+    <div class="tt-address page-content--centered">
+        <h2 class="page-heading"><span>{{lang 'account.addresses.heading' }}</span></h2>
+        {{> components/account/navigation account_page='addresses'}}
+    
+        <div class="account">
+            <div class="account-body">
+                {{#if customer.error}}
+                    {{>components/common/alert-error customer.error}}
+                {{/if}}
+                {{#if customer.success}}
+                    {{>components/common/alert-success customer.success}}
+                {{/if}}
+                {{> components/account/address-list }}
+            </div>
+        </div>
+    </div>
+{{/partial}}
+{{> layout/base}}

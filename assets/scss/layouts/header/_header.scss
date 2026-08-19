@@ -1,0 +1,544 @@
+// =============================================================================
+// HEADER (CSS)
+//
+// 1. Setting font size of header-logo to 0, since wrapper element may vary, and
+//    inline-block whitespace messes with header height. Font-size is reset to
+//    appropriate size on header-logo-text.
+// 2. Needs left/right margin so it doesn't cover left/right nav bar toggles
+// 3. Offset the letter-spacing on the last character by adding a right negative
+//    margin. This centers the text logo properly.
+// 4. When the word "cart" is added to the mobile header's cart link, add more
+//    margin to compensate.
+// 5. When logo size is set to "original", we don't have advance knowledge of the
+//    image size, so we can't use absolute positioning + padding to reserve space
+//    for lazy loading.
+//
+// -----------------------------------------------------------------------------
+.header {
+    float: left; 
+    width: 100%;
+	min-height: 238px;
+	position:relative;  
+	z-index:501;
+	// z-index: zIndex("higher");
+	@media (max-width: 991px){
+		min-height: auto;
+	} 
+}
+.header-top{
+	text-align:center;
+	background:stencilColor("header-top-backgroundColor");
+	float: left;
+	width: 100%;
+	padding: 12px 0; 
+	@media (max-width: 544px){
+		margin-bottom: 5px;	 
+	}
+	div {
+		span.material-icons{
+			font-size: 20px;
+			@media (max-width: 544px){
+				font-size: 13px;
+				line-height: 23px;
+			}
+		}
+	}
+	.tt-header-cms{
+		float:left;
+		@media (max-width: 767px){
+			width: 100%;
+			}
+		.content{ 
+		color: stencilColor("header-top-textColor");
+			@media (max-width: 767px){
+				font-size: 13px;
+				line-height:18px;
+				
+				
+			}
+		}
+	
+	}
+	.content a{
+	   background-color:#ffa71d;
+	    padding: 15px 25px;
+	    border-radius: 0px;
+	    text-decoration: none;
+	    color:black;
+	    margin-top:-28px; 
+	    
+	     
+	    
+	    
+	    
+	}
+	
+	
+.header .header-top .email-id a{
+	    color:black;
+	    text-decoration: none; 
+	}
+	.tt-giftcard{
+		position:relative;
+		&:after {
+			border-left: 1px solid rgba(0,0,0,0.3);
+			height: 15px;
+			content: "";
+			width: 1px;
+			left: -10px;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			position: absolute;
+			right: auto;
+			@media (min-width: 545px) and (max-width: 767px){
+				border-left: none;
+				border-right: 1px solid #cdcdcd;
+				right: auto;
+				left: 3px;	
+			}
+			@media (max-width: 544px){
+				border: none;
+			}
+		}	
+	}
+	.email-id{
+		padding: 0 10px;
+		margin-right:10px;
+		position:relative;
+	} 
+	.email-id, .tt-giftcard{
+		color:stencilColor("header-top-textColor");		
+		float:right;
+		@media (min-width: 545px) and (max-width: 767px){
+			width: auto;
+			float: none;
+			display: inline-block;
+			vertical-align: top;
+		}
+		@media (max-width: 544px){
+			float: left;
+			width:100%;	
+		}
+		a{
+			color: stencilColor("header-top-textColor");		
+			@media (max-width: 767px){
+				font-size: 13px;
+				line-height:22px;
+			}
+		}
+		.content{
+			a{
+				color: stencilColor("header-top-textColor");		
+			}
+		}
+	}
+	.material-icons {
+		margin-right: 5px;
+	}
+}
+.header-center {
+    background-color: stencilColor("header-backgroundColor");		
+	text-align:center;
+    width: 100%;
+	min-height:185px;
+	position:relative;
+	@media (max-width: 991px){
+		min-height:100%;
+		float:left;
+		border-bottom:1px solid stencilColor("header--bottom-borderColor");
+		margin-bottom:0;
+	}
+	 @include breakpoint("medium") {
+		margin:0;
+		min-height:100%;
+        overflow: visible;
+        position: relative;
+		float: left;
+		width: 100%;
+    }
+
+    &.is-open {
+        height: 100%;
+
+        @include breakpoint("medium") {
+            height: auto;
+        }
+    }
+}
+
+.header-bottom{
+	background-color: stencilColor("header-bottom-backgroundColor");
+	text-align:center;
+	float: left;
+	width: 100%;
+	padding:10px 0;
+	margin-bottom:30px;
+	@media (max-width: 991px){
+		margin-bottom:20px;
+	}
+}
+
+.header-logo {
+    font-size: 0;   // 1
+   	margin:30px 0;
+    text-align: center;
+	float: left;
+	width: auto;
+	@media (min-width: 544px) and (max-width: 991px){
+		width: 170px;
+		float: none;
+		margin: 20px 0 17px 16%;
+		text-align: center;
+		display: inline-block;
+		vertical-align: top;
+	}
+	@media (max-width: 544px){
+		width: 186px;
+		margin: 8px 0 5px;
+		padding: 0 0 0 60px;
+	}
+    @include breakpoint("medium") {
+        padding: 0;
+
+        .header.fixed & {
+            display:none;
+        }
+    }
+	@media (max-width: 544px){
+		width: 176px;
+		margin: 10px 0 5px;
+		padding: 0 0 0 40px;
+	}
+
+    > a {
+        @include clearfix;
+        color: $storeName-color;
+        display: inline-block;
+        padding: 0;
+        position: relative;
+        text-decoration: none;
+        width: 100%;
+        z-index: zIndex("low");
+		@media (max-width: 991px){
+			display: inline-block;
+			width: auto;
+			padding:0;
+			float: none;
+			vertical-align: top;
+		}
+		span{
+			@media (max-width: 991px){
+				float:left;
+				max-width:100%;	
+				&:after{
+					display:none;	
+				}
+			}
+			img{
+				@media (max-width: 991px){
+					width: 100%;
+					height: auto;
+				}
+			}
+		}       
+        &:hover {
+            color: color("link", "hover");
+        }
+
+        &:active {
+            color: color("link", "active");
+        }
+    }
+}
+
+.header-logo--left {
+    text-align: left;
+
+    @include breakpoint("medium") {
+        margin-left: remCalc(40px);
+    }
+
+    .header-logo-image {
+        right: unset;
+    }
+}
+
+.header-logo--right {
+    text-align: right;
+
+    @include breakpoint("medium") {
+        margin-right: remCalc(40px);
+    }
+
+    .header-logo-image {
+        left: unset;
+    }
+}
+
+.header-logo-text {
+    display: block;
+    font-family: $fontFamily-hero;
+    font-size: stencilNumber("logo_fontSize");
+	color:stencilColor("storeName-color");
+    font-weight: stencilFontWeight("headings-font");
+    letter-spacing: remCalc(2px);
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+    padding: remCalc(3px) 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include breakpoint("small") {
+        font-size: $fontSize-logo-medium;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    @include breakpoint("medium") {
+        display: inline;
+        font-size: $fontSize-logo-large;
+        margin-left: 0;
+        margin-right: -(remCalc(2px)); // 3
+        max-width: none;
+        overflow: auto;
+        white-space: normal;
+
+        .header.fixed & {
+            font-size: fontSize("larger");
+        }
+    }
+}
+
+.header-logo-image-container {
+    position: relative;
+	float:left;
+	width:100%;
+}
+
+.header-logo-image-container:after {
+    content: '';
+    display: block;
+    padding-bottom: remCalc($header-height) - $header-logo-marginVertical * 2;
+
+    @include breakpoint("medium") {
+        padding-bottom: get-height(stencilString('logo_size'));
+    }
+}
+
+
+
+.header-logo-image-unknown-size { // 5
+    max-height: remCalc($header-height) - $header-logo-marginVertical * 2;
+
+    @include breakpoint("medium") {
+        max-height: none;
+    }
+}
+
+//
+// Mobile Menu Toggle
+//
+// 1. Animate lines from 'x' to hamburger
+// -----------------------------------------------------------------------------
+
+.mobileMenu-toggle {
+    @include square($header-toggle-width);
+    display: inline-block;
+    font-size: 0;
+    left: 0;
+    overflow: hidden;
+    padding: 0 remCalc(18);
+    position: absolute;
+    z-index: zIndex("high");
+	transition: none;
+    @media (min-width: 992px){
+        display: none;
+    }
+	@media (max-width: 991px){
+		top: -80px;
+	}
+	@media (max-width: 544px){
+		height: 40px;
+		left: 15px;
+		top: -60px;
+		width: 40px;
+	}
+
+    .mobileMenu-toggleIcon,
+    .mobileMenu-toggleIcon::before,
+    .mobileMenu-toggleIcon::after {
+        background: stencilColor("header-center-textColor");
+        content: "";
+        display: block;
+        height: 2px;
+        position: absolute;
+        transform: rotate(0deg);
+        transition: transform 100ms ease-in, top 100ms ease-in 150ms, bottom 100ms ease-in 150ms; // 1
+		-webkit-transition:transform 100ms ease-in, top 100ms ease-in 150ms, bottom 100ms ease-in 150ms; // 1
+		-moz-transition:transform 100ms ease-in, top 100ms ease-in 150ms, bottom 100ms ease-in 150ms; // 1
+		-ms-transition:transform 100ms ease-in, top 100ms ease-in 150ms, bottom 100ms ease-in 150ms; // 1
+		-o-transition:transform 100ms ease-in, top 100ms ease-in 150ms, bottom 100ms ease-in 150ms; // 1
+        width: 18px;
+		@media (max-width: 991px){
+			background: stencilColor("header-center-textColor");
+		}
+    }
+
+    .mobileMenu-toggleIcon {
+        top: remCalc(27);
+        transition: background-color 10ms ease-in 100ms;
+		-webkit-transition:background-color 10ms ease-in 100ms;
+		-moz-transition:background-color 10ms ease-in 100ms;
+		-ms-transition:background-color 10ms ease-in 100ms;
+		-o-transition:background-color 10ms ease-in 100ms;
+		@media (min-width: 544px) and (max-width: 991px){
+			top: 24px;
+			left: 20px;
+		}
+		@media (max-width: 544px){
+			top: 18px;
+			left: 2px;
+		}
+    }
+
+    .mobileMenu-toggleIcon::before {
+        top: -0.5rem;
+		@media (max-width: 544px){
+			top: 6px;
+		}
+    }
+
+    .mobileMenu-toggleIcon::after {
+        bottom: -0.5rem;
+		@media (max-width: 544px){
+			bottom: 6px;
+		}
+    }
+
+    &.is-open{ 
+		@media (max-width: 991px){
+			position: fixed;
+			top: 20px;
+			z-index: 999;
+			left: 280px;
+			box-shadow: 5px 0 5px rgba(0,0,0,.15);
+			-moz-box-shadow: 5px 0 5px rgba(0,0,0,.15);
+			-webkit-box-shadow: 5px 0 5px rgba(0,0,0,.15);
+			background: #fff;
+			transition: 465ms ease-in;
+			-webkit-transition:465ms ease-in;
+			-moz-transition:465ms ease-in;
+			-ms-transition:465ms ease-in;
+			-o-transition:465ms ease-in;
+			border-radius: 0 5px 5px 0;
+			width: 36px;
+			height: 36px;
+			padding: 0;
+			transform:translateX(0);
+			.mobileMenu-toggleIcon {
+				top: 17px;
+				left: 7px;
+			}
+		}
+		.mobileMenu-toggleIcon {
+			background-color: transparent;
+			transition-delay: 100ms;
+		
+			// scss-lint:disable NestingDepth
+			&::before,
+			&::after {
+				background-color: $header-font-color;
+				bottom: auto;
+				top: auto;
+				transition: transform 100ms ease-in 150ms, top 100ms ease-in, bottom 100ms ease-in; // Animate lines from hamburger to 'x'
+				-webkit-transition:transform 100ms ease-in 150ms, top 100ms ease-in, bottom 100ms ease-in;
+				-moz-transition:transform 100ms ease-in 150ms, top 100ms ease-in, bottom 100ms ease-in;
+				-ms-transition:transform 100ms ease-in 150ms, top 100ms ease-in, bottom 100ms ease-in;
+				-o-transition:transform 100ms ease-in 150ms, top 100ms ease-in, bottom 100ms ease-in;
+			}
+	
+			&::before {
+				top: 0;
+				transform: rotate(45deg);
+			}
+	
+			&::after {
+				bottom: 0;
+				transform: rotate(-45deg);
+			}
+		}
+    }
+}
+#menu-link > li {
+    position: relative; /* Allow positioning of dropdown */
+    display: inline-block; /* Horizontal layout */
+    margin-right: 20px; /* Spacing between menu items */
+
+}
+#menu-link  li a {
+    color:white;
+    font-size:15px;
+    font-weight: bold;
+  font: 550 18px / 30px Open Sans, sans-serif;
+     
+}
+
+.dropdown-menu {
+    display: none; /* Hide dropdown by default */
+    position: absolute; /* Position it relative to the parent */
+   top: 100%; /* Below the parent item */
+left:0;
+
+    
+    background-color: #fff;
+    color:black;
+ /* Optional border */
+    z-index: 1000; /* Ensure it appears above other elements */
+  min-width: 260px;
+          
+    border-radius: 8px;
+        //border: 1px solid black;   
+            float: left;
+            font: 600 14px / 30px "Roboto", Helvetica, sans-serif;
+            padding: 10px 20px;
+            text-align: left;
+            text-transform: capitalize;
+
+}
+#menu-link > li:hover .dropdown-menu {
+    display: block; /* Show dropdown on hover */
+        
+   
+}
+
+.dropdown-menu li {
+    list-style: none;
+    
+    /* Remove default list styling */
+   
+}
+
+.dropdown-menu li a {
+    display: block; /* Block-level links */
+    padding:15px; /* Padding for dropdown items */
+    color:black;
+    text-decoration: none; /* No underline */
+  //   border-bottom:1px solid black
+        background: white;
+        border-bottom: 2px solid #e5e5e5;
+   
+    
+}
+
+/*.dropdown-menu li a:hover {
+ background:#ffa71d;
+   color :black; 
+}*/
+.dropdown-menu li {
+    
+    display: block;
+}
+
+

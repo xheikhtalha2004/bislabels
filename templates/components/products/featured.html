@@ -1,0 +1,12 @@
+<h2 class="page-heading"><span>{{lang 'products.featured' }}</span></h2>
+{{#if settings.data_tag_enabled}}
+    <div class="tt-featuredcontent">
+        <div class="tt-featuredinner">
+            <ul id="featuredproducts" class="featuredproducts" data-product-type="featured">
+                {{> components/products/carousel products=products list="Featured Products"}}
+            </ul>
+        </div>
+    </div>  
+{{else}}
+    {{> components/products/carousel products=products}}
+{{/if}}

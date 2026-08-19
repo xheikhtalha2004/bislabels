@@ -1,0 +1,610 @@
+// =============================================================================
+// CARDS (CSS)
+// =============================================================================
+//
+// 1. Allow users to click the anchor tag on the image in the figcaption empty
+//    space. This provides a much larger and simpler hit state for navigating
+//    to the product details page. (Does not work in IE10 or earlier).
+// 2. Using translate3d to counter a chrome specific bug: When using a masonry
+//    styled layout via CSS column-count etc, transforms applied to descendants
+//    are made invisible, except for 3d transforms...
+//
+// -----------------------------------------------------------------------------
+
+
+.card-figure {
+    margin-top: $card-figure-marginTop;
+	position:relative;
+	transition: all 400ms ease-in-out;
+	-webkit-transition: all 400ms ease-in-out;
+	-moz-transition: all 400ms ease-in-out;
+	-o-transition: all 400ms ease-in-out;
+	-ms-transition: all 400ms ease-in-out;
+    &:after{
+		content:"";
+		border-top: 4px double stencilColor("container-border-global-color-base");
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 0;	
+	}
+}
+.card{
+	float: left;
+	overflow:hidden;
+	width: 100%;
+	padding: 0;
+	background:#ffffff;
+	border:1px solid stencilColor("container-border-global-color-base");
+	transition: all 400ms ease-in-out;
+	-webkit-transition: all 400ms ease-in-out;
+	-moz-transition: all 400ms ease-in-out;
+	-o-transition: all 400ms ease-in-out;
+	-ms-transition: all 400ms ease-in-out;
+	@media (max-width: 1199px){
+		margin-bottom: 20px;
+	}
+	.wdgimg-bg{
+		background: #ffffff;
+		-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.15);
+		-moz-box-shadow: 0 0 10px rgba(0,0,0,0.15);
+		-ms-box-shadow: 0 0 10px rgba(0,0,0,0.15);
+		-o-box-shadow: 0 0 10px rgba(0,0,0,0.15);
+		box-shadow: 0 0 10px rgba(0,0,0,0.15);
+		position: absolute;
+		border-radius: 8px;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: 0;
+		margin-bottom: 0;
+		-webkit-opacity: 0;
+		-moz-opacity: 0;
+		-khtml-opacity: 0;
+		opacity: 0;
+		-webkit-transform: scale(0.98);
+		-moz-transform: scale(0.98);
+		-ms-transform: scale(0.98);
+		-o-transform: scale(0.98);
+		transform: scale(0.98);
+		-webkit-transition: all 0.3s ease 0s;
+		-moz-transition: all 0.3s ease 0s;
+		-ms-transition: all 0.3s ease 0s;
+		-o-transition: all 0.3s ease 0s;
+		transition: all 0.3s ease 0s;
+		z-index: -1;
+		margin-bottom: -45px;
+		visibility: hidden;	
+		@media (max-width: 991px){
+			margin-bottom: -10px;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			opacity: 1;
+			-webkit-transform: scale(1);
+			-moz-transform: scale(1);
+			-ms-transform: scale(1);
+			-o-transform: scale(1);
+			transform: scale(1);
+			-webkit-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
+			-moz-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
+			-ms-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
+			-o-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
+			transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
+			visibility: visible;
+		}
+	}
+	.sold-out-product{
+		-webkit-opacity: 0.5;
+		-moz-opacity: 0.5;
+		-khtml-opacity: 0.5;
+		opacity: 0.5;
+	}
+	.wdgsold-out {
+		position: absolute;
+		height: 80px;
+		width: 80px;
+		line-height: 70px;
+		z-index: 1;
+		background: stencilColor("button--default-backgroundColor");
+		-webkit-opacity: 0.7;
+		-moz-opacity: 0.7;
+		-khtml-opacity: 0.7;
+		opacity: 0.9;
+		border-radius: 50%;
+		padding: 5px;
+		right: 0;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		color: stencilColor("button--default-color");
+		font-size: 13px;
+	}
+	.tt-price{
+		padding:0 10px;
+		margin: 0 0 10px;
+		text-align:center;
+		-webkit-transition: 400ms ease-in-out;
+		-moz-transition: 400ms ease-in-out;
+		-ms-transition: 400ms ease-in-out;
+		-o-transition: 400ms ease-in-out;
+		transition: 400ms ease-in-out;
+		> div{
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+		}
+	}
+	.card-title{
+		padding:0 10px;
+		margin:10px 0 6px;
+		-webkit-transition: 400ms ease-in-out;
+		-moz-transition: 400ms ease-in-out;
+		-ms-transition: 400ms ease-in-out;
+		-o-transition: 400ms ease-in-out;
+		transition: 400ms ease-in-out;
+		> a{
+			white-space:nowrap;
+		}
+	}
+	@media (max-width: 991px){
+	   transition: all 400ms ease-in-out;
+		-webkit-transition: all 400ms ease-in-out;
+		-moz-transition: all 400ms ease-in-out;
+		-o-transition: all 400ms ease-in-out;
+		-ms-transition: all 400ms ease-in-out;
+		.rating-block, .card-figcaption{
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+		}
+		.card-title > a{
+			color:stencilColor("card-title-color-hover");
+		}
+		.tt-price > div{
+			opacity:0;
+			-webkit-opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+			@media (max-width: 991px){
+				opacity: 1;	
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+			}
+		}
+		.sale-flag-side{
+			left:0;	
+		}
+		.tt-cart-btn{
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+			@media (max-width: 991px){
+				
+			}
+		}
+		 // scss-lint:disable NestingDepth
+        .card-figcaption {
+			right:0;
+            opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+			@media (min-width: 544px) and (max-width: 991px){
+				height: 117px;
+				right:10px;
+			}
+			@media (max-width: 544px){
+				height: 124px;
+				right:5px;
+			}
+			a, label{
+				opacity: 1;
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+			}
+        }
+    }
+	&:hover {
+		@media (min-width: 992px){
+	   transition: all 400ms ease-in-out;
+		-webkit-transition: all 400ms ease-in-out;
+		-moz-transition: all 400ms ease-in-out;
+		-o-transition: all 400ms ease-in-out;
+		-ms-transition: all 400ms ease-in-out;
+		.rating-block, .card-figcaption{
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+		}
+		.card-title{
+			-webkit-opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+			opacity: 0;
+			> a{
+				color:stencilColor("card-title-color-hover");
+			}
+		}
+		.tt-price{
+			-webkit-opacity: 0;
+			-moz-opacity: 0;
+			-khtml-opacity: 0;
+			opacity: 0;
+		}
+		.sale-flag-side{
+			left:0;	
+		}
+		.tt-cart-btn{
+			opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+		}
+		 // scss-lint:disable NestingDepth
+        .card-figcaption {
+			bottom:0;
+            opacity: 1;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+			@media (min-width: 544px) and (max-width: 991px){
+				right:10px;
+			}
+			@media (max-width: 544px){
+				right:5px;
+			}
+			a, label{
+				opacity: 1;
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+			}
+        }
+    }
+}
+}
+.card-img-container {
+	position:relative;
+	/* max-width: get-width(stencilString('productgallery_size')); */
+	@include lazy-loaded-padding('productgallery_size');
+	max-width: 100%;
+}
+
+.card-figcaption {
+	border-top: 1px solid stencilColor("container-border-global-color-base");
+	float: left;
+	width: 100%;
+	padding: 5px 0 0 0;
+	position: absolute;
+	left: 0;
+	opacity: 1;
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	-khtml-opacity: 1;
+	transition: all 400ms ease-in-out;
+	-webkit-transition: all 400ms ease-in-out;
+	-moz-transition: all 400ms ease-in-out;
+	-o-transition: all 400ms ease-in-out;
+	-ms-transition: all 400ms ease-in-out;
+	margin: 0;
+	height: 46px;
+	bottom: -50%;
+	top: auto;
+    pointer-events: none; // 1
+	.card-figcaption-button{
+		background:none;
+		.material-icons{
+			color:#888888;
+			font-size:21px;
+			line-height:36px;
+		}
+		&:hover{
+			background:none;
+			.material-icons{
+				color:#000000;
+			}
+		}
+	}
+}
+
+.card-figcaption-body {
+    display: $card-figcaption-body-display;
+	top:auto;
+	transform:none;
+	-webkit-transform:none;
+	-ms-transform:none;
+	-o-transform:none;
+	-moz-transform:none;
+	
+    pointer-events: all; // 1
+	a, label{
+		opacity: 1;
+		-webkit-opacity: 1;
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+	}
+	.quickview, .tt-wishlist{
+		margin: 0;
+	}
+	.tt-compare{
+		margin:0;
+	}
+	.tt-comparecheck{
+		display:none;
+	}
+}
+
+.card-image {
+    @include lazy-loaded-img;
+    border: 0;
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    /* Object-fit polyfill */
+    font-family: 'object-fit: contain;';
+}
+
+.card-title {
+    font-size: $card-title-fontSize;
+    > a {
+        color: $card-title-color;
+        text-decoration: $card-title-textDecoration;
+		font:400 14px/18px Open Sans,sans-serif;
+        // scss-lint:disable NestingDepth
+        &:hover {
+            color: $card-title-color-hover;
+        }
+    }
+}
+
+.card-text {
+    margin-bottom: $card-text-marginBottom;
+
+    abbr {
+        border: 0;
+        color: inherit;
+        font-size: inherit;
+    }
+}
+.tt-cart-btn{
+	position: absolute;
+	left: 9%;
+	right: 9%;
+	bottom: auto;
+	top: -21px;
+	margin: auto;
+	transition: all 400ms ease-in-out;
+	-webkit-transition: all 400ms ease-in-out;
+	-moz-transition: all 400ms ease-in-out;
+	-o-transition: all 400ms ease-in-out;
+	-ms-transition: all 400ms ease-in-out;
+	vertical-align: top;
+}
+
+.tt-cart-btn .card-figcaption-button{
+	&:hover{
+		width:100%;
+	}
+}
+.card-figcaption-button {
+	float:right;
+	height: 36px;
+	line-height: 36px;
+	font-size: 13px;
+	border: none;
+	width: 36px;
+	color: stencilColor("card-figcaption-button-color");
+	background-color: stencilColor("card-figcaption-button-background");
+	border-color: transparent;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	-khtml-border-radius: 25px;
+	border-radius: 25px;
+	padding: 0;
+	overflow: hidden;
+	margin: 0 auto;
+	transition: all 400ms ease-in-out;
+	-webkit-transition: all 400ms ease-in-out;
+	-moz-transition: all 400ms ease-in-out;
+	-o-transition: all 400ms ease-in-out;
+	-ms-transition: all 400ms ease-in-out;
+	font-weight: $fontWeight-semibold;
+	z-index: 1;
+	position: relative;
+	@media (max-width: 544px){
+		line-height: 34px;
+		font-size: 12px;
+	}
+	&:after {
+		background: #fff none repeat scroll 0 0;
+		content: "";
+		height: 100%;
+		left: 0;
+		opacity: 0.2;
+		-moz-opacity: 0.2;
+		-khtml-opacity: 0.2;
+		-webkit-opacity: 0.2;
+		position: absolute;
+		top: 0;
+		width: 0;
+		-webkit-border-radius: 8px;
+		-moz-border-radius: 8px;
+		-khtml-border-radius: 8px;
+		border-radius: 8px;
+		-webkit-transition: 500ms ease-in-out;
+		-moz-transition: 500ms ease-in-out;
+		-ms-transition: 500ms ease-in-out;
+		-o-transition: 500ms ease-in-out;
+		transition: 500ms ease-in-out;
+	}
+	&:hover{
+		background:stencilColor("button--primary-backgroundColorHover");
+		color:stencilColor("button--primary-colorHover");
+		-webkit-transition: 500ms ease-in-out;
+		-moz-transition: 500ms ease-in-out;
+		-ms-transition: 500ms ease-in-out;
+		-o-transition: 500ms ease-in-out;
+		transition: 500ms ease-in-out;
+		opacity: 1;
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+		-webkit-opacity: 1;
+		bottom: 0;
+		&:after {
+			width: 100%;
+		}
+		span{
+			color:stencilColor("button--primary-colorHover");
+		}
+	}
+    &:active {
+        background-color: $card-figcaption-button-backgroundHover;
+        border: $card-figcaption-button-border;
+		color:$card-figcaption-button-color;
+		.material-icons{
+			color:$card-figcaption-button-color;
+		}
+    }
+	.material-icons{
+		display: inline-block;
+		vertical-align: top;
+		line-height: 36px;
+		font-weight: 400;
+		font-size: 16px;
+		color: stencilColor("card-figcaption-button-color");
+		transition: all 400ms ease-in-out;
+		-webkit-transition: all 400ms ease-in-out;
+		-moz-transition: all 400ms ease-in-out;
+		-o-transition: all 400ms ease-in-out;
+		-ms-transition: all 400ms ease-in-out;
+		@media (max-width: 544px){
+			line-height: 34px;	
+		}
+	}
+}
+
+.card-body {
+    text-align: center;
+	position:relative;
+	float:left;
+	min-height: 70px;
+	padding:10px 0 0;
+	width:100%;
+    @include breakpoint("small") {
+        text-align: center;
+    }
+	@media (max-width: 991px){
+		padding: 10px 0 46px;	
+	}
+	.desc{
+		padding: 0 10px;
+		margin:0 0 10px;	
+		display:none;
+	}
+}
+
+.tt-price, .tt-list-price{
+	float: left;
+	width: 100%;
+	> div{
+		float:none;
+		display:inline-block;
+		vertical-align:top;
+		line-height:$lineHeight-small;
+	}
+}
+
+//
+// Alternate card
+//
+// Purpose: Used to give the card alternative styling
+// -----------------------------------------------------------------------------
+
+.card--alternate {
+    transition: all 0.15s ease;
+	-webkit-transition:  all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+    .card-body {
+        background-color: stencilColor("card--alternate-backgroundColor");
+        transition: all 0.15s ease;
+		-webkit-transition:  all 0.15s ease;
+		-moz-transition: all 0.15s ease;
+		-o-transition: all 0.15s ease;
+		-ms-transition: all 0.15s ease;
+    }
+}
+
+
+.tt-top-seller{
+	.card{
+		.tt-price{
+			margin:0 0 5px;	
+		}
+		&:hover{
+			@media (min-width: 992px){
+				.ttqtyprogress{
+					opacity: 0;
+					-moz-opacity: 0;
+					-khtml-opacity: 0;
+					-webkit-opacity: 0;
+				}
+				.card-title, .tt-price{
+					opacity: 1;
+					-moz-opacity: 1;
+					-khtml-opacity: 1;
+					-webkit-opacity: 1;
+				}
+			}
+		}
+	}	
+}
+
+
+.tt-top-seller{
+	.card-figcaption{
+		@media (max-width: 991px){
+			bottom: -70px;
+		}
+	}
+}

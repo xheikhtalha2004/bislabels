@@ -1,0 +1,68 @@
+// =============================================================================
+// BUTTONS (CSS)
+// =============================================================================
+
+.button {
+	font:$fontWeight-semibold 14px/18px "Roboto",Helvetica,sans-serif;
+    transition: all 0.15s ease;
+	-webkit-transition:  all 0.15s ease;
+	-moz-transition: all 0.15s ease;
+	-o-transition: all 0.15s ease;
+	-ms-transition: all 0.15s ease;
+	letter-spacing: 1px;
+	border-radius:25px;
+	overflow:hidden;
+    + .button {
+        margin-left: 0;
+    }
+	&:hover, &:focus, &.is-active, &.active {
+		background:stencilColor("button--primary-backgroundColorHover");
+		color:stencilColor("button--primary-colorHover");
+		 .material-icons{
+			 color:stencilColor("button--primary-colorHover");
+		}
+	}
+}
+
+.button[disabled] {
+    cursor: not-allowed;
+}
+
+.button--icon {
+	border-color:#e5e5e5 !important;
+	&:hover, &:focus{
+		border-color:stencilColor("button--primary-backgroundColorHover");
+		svg {
+			fill: stencilColor("button--icon-svg-hover-color");
+		}	
+	}
+    svg {
+        fill: stencilColor("button--icon-svg-color");
+    }
+}
+
+.button--small{
+	background:#e5e5e5;
+	border-color:#e5e5e5;
+	color: #666666;
+	
+	&:hover{
+		border-color:stencilColor("button--primary-backgroundColorHover");		
+	}
+}
+
+.button--default{
+	background:stencilColor("button--default-backgroundColor");		
+	border-color:stencilColor("button--default-backgroundColor");		
+	color:stencilColor("button--default-color");		
+	&:hover{
+		background:stencilColor("button--default-backgroundColorHover");		
+		border-color:stencilColor("button--default-backgroundColorHover");	
+		color:stencilColor("button--default-colorHover");		
+	}
+	&:active{
+		background:stencilColor("button--default-backgroundColorActive");		
+		border-color:stencilColor("button--default-backgroundColorActive");	
+		color:stencilColor("button--default-colorActive");	
+	}
+}

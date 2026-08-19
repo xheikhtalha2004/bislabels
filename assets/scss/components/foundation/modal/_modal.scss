@@ -1,0 +1,121 @@
+// =============================================================================
+// MODAL (CSS)
+// =============================================================================
+
+
+.modal {
+    margin: 0;
+    max-height: 90%;
+    max-width: 95%;
+    min-height: 240px;
+    outline: none;
+    overflow: hidden;
+    padding: 0;
+    left: 50%;
+    top: 50% !important;
+    transform: translate(-50%, -50%);
+	-webkit-transform:translate(-50%, -50%);
+	-ms-transform:translate(-50%, -50%);
+	-o-transform:translate(-50%, -50%);
+	-moz-transform:translate(-50%, -50%);
+}
+
+.modal--large {
+    @include breakpoint("large") {
+        width: $modal-width--large;
+    }
+}
+
+.modal-header {
+    padding-left: $reveal-modal-paddingHorizontal;
+    padding-right: remCalc($reveal-close-height) + $reveal-close-side;
+}
+
+.modal-header-title {
+    text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	color: #000;
+	@media (max-width: 544px){
+		font-size: 16px;
+		font-weight: 500;	
+	}
+}
+
+.modal-close {
+	height: 34px;
+	width: 34px;
+    color: stencilColor("icon-color");
+    font-size: 26px;
+    padding: 0;
+    position: absolute;
+	top:8px;
+	right:8px;
+    text-align: center;
+    text-decoration: none;
+    z-index: zIndex("high");
+
+    @include breakpoint("medium") {
+        font-size: 32px;
+    }
+	span{
+		float:left;
+		width:100%;
+		transition: 0.70s;
+		-webkit-transition: 0.70s;
+		-moz-transition: 0.70s;
+		-ms-transition: 0.70s;
+		-o-transition: 0.70s;
+	}
+    &:hover {
+		color: stencilColor("icon-color-hover");
+		span{
+			transform: rotate(180deg);
+			-webkit-transform:rotate(180deg);
+			-ms-transform:rotate(180deg);
+			-o-transform:rotate(180deg);
+			-moz-transform:rotate(180deg);
+		}
+    }
+}
+
+.modal-body {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: $reveal-modal-padding;
+}
+
+.modal--alert {
+    background-color: $alert-modal-bgColor;
+    border-radius: $alert-modal-borderRadius;
+    font-family: $alert-font-body;
+    padding: 40px 20px 20px 20px;
+    text-align: center;
+
+    .modal-content {
+        color: $alert-font-bodyColor;
+        font-size: $alert-font-bodySize;
+    }
+
+    .button-container {
+        margin: $alert-button-wrapperMargin;
+
+        .confirm {
+            background-color: $alert-button-bgColor;
+            border-color: $alert-button-borderColor;
+            color: $alert-button-color;
+        }
+
+        .confirm:focus, .confirm:hover {
+            background-color: $alert-button-bgColorHover;
+            border-color: $alert-button-borderColorHover;
+            color: $alert-button-colorHover;
+        }
+
+        .confirm:active {
+            background-color: $alert-button-bgColorActive;
+            border-color: $alert-button-borderColorActive;
+            color: $alert-button-colorActive;
+        }
+    }
+}

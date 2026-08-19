@@ -1,0 +1,68 @@
+.brand-image-container {
+    position: relative;
+    max-width: get-width(stencilString('thumb_size'));
+
+    img {
+        @include lazy-loaded-img;
+    }
+
+    @include lazy-loaded-padding('thumb_size');
+}
+
+.brand {
+    .card-img-container {
+        max-width: get-width(stencilString('brand_size'));
+
+        @include lazy-loaded-padding('brand_size');
+    }
+}
+
+body.brands{ 
+	.card {
+		padding:0; 
+		border: 1px solid #e5e5e5;
+		border-radius: 8px;
+		.card-figure {
+			text-align: center;
+			a {
+				float: left;
+				width: 100%;
+				.card-img-container{
+					float: left;
+					width: 100%;
+					max-width: 100%;
+					&:after{
+						display: none;
+					}
+					.card-image{
+						width: auto;
+						height: auto;
+						max-width: 100%;
+						border:none;
+						position:static;
+					}
+				}
+			}
+		}
+		.card-body{
+			min-height: auto;
+			border-top:1px solid #e5e5e5;
+			transition: all 400ms ease-in-out;
+			-webkit-transition: all 400ms ease-in-out;
+			-moz-transition: all 400ms ease-in-out;
+			-o-transition: all 400ms ease-in-out;
+			-ms-transition: all 400ms ease-in-out;
+			@media (max-width: 991px){
+				background:#f5f5f5;
+				border-color: #f5f5f5;	
+				padding:10px 8px;
+			}
+		}
+		&:hover{
+			.card-body {
+				background:#f5f5f5;
+				border-color: #f5f5f5;
+			}
+		}
+	}
+}

@@ -1,0 +1,814 @@
+// =============================================================================
+// Banners Component
+// =============================================================================
+
+
+// Banners
+// -----------------------------------------------------------------------------
+//
+// Purpose: Control the look and feel of the top and bottom site banners
+//
+// -----------------------------------------------------------------------------
+
+.ttcmsofferbanner{
+	padding:0px 50px;
+	float:left;
+	width:100%;
+	border-radius: 8px;
+	margin-bottom:30px;
+	@media (max-width: 991px){
+		margin-bottom: 20px;	
+		padding:0px 10px;
+	}
+	.offerbanner{
+		background:#ffffff;
+		border-radius: 8px;
+		margin:0 15px;
+		padding: 0;
+		@media (max-width: 991px){
+			margin:0 10px;
+		}
+		.offerimg{
+			float:left;
+			width:36.3%;
+			img{
+				border-right:4px double #e5e5e5;	
+			}
+		}
+		.offer-content{
+			float:left;
+			padding: 20px 0 0 10px;
+			width:63.7%;
+			text-align:left;
+			@media (min-width: 1500px) and (max-width: 1630px){
+				padding: 0px 0 0 10px;
+			}
+			@media (min-width: 1201px) and (max-width: 1259px){
+				padding: 10px 0 0 10px;
+			}
+			@media (min-width: 992px) and (max-width: 1200px){
+				padding: 8px 0 0 10px;
+			}
+			@media (min-width: 545px) and (max-width: 767px){
+				padding: 0 0 0 15px;
+			}
+			@media (max-width: 544px){
+				padding: 5px 10px;
+			}
+			.sub-title{
+				font:600 12px/18px "Open Sans", Helvetica, sans-serif;
+				color:#b00e23;
+				text-transform:uppercase;	
+			}
+			.title{
+				font:700 18px/24px "Open Sans", Helvetica, sans-serif;
+				color:#111111;
+				margin:5px 0;
+				@media (max-width: 1200px){
+					font-size:14px;	
+				}
+				@media (max-width: 544px){
+					font-size: 16px;
+					line-height:18px;
+				}
+			}
+			.offer-title{
+				font:400 13px/24px "Open Sans", Helvetica, sans-serif;
+				color:#1096e3;
+				.material-icons{
+					background: stencilColor("button--default-backgroundColor");
+					color: stencilColor("button--default-color");
+					text-align: center;
+					height: 20px;
+					width: 20px;
+					font-size: 16px;
+					line-height: 20px;
+					border-radius: 50%;
+					transition: 400ms ease-in-out;
+					margin: 3px 0 0 5px;	
+				}
+			}
+		}	
+	}	
+}
+
+.topbanner{
+	width: grid-calc(4.8, $total-columns);
+	float:left;
+	padding-left: 30px;
+	@media (max-width: 1200px){
+		padding-left: 20px;
+	}
+	@media (max-width: 991px){
+		width: 86%;
+		padding: 0;
+		float: none;
+		display: inline-block !important;
+		vertical-align: top;	
+	}
+	@media (max-width: 544px){
+		width: 100%;
+	}
+}
+
+.ttcmssubbanner{
+	float:left;
+	width:100%;
+	@media (max-width: 767px){
+		margin-bottom: 30px;	
+	}
+	.ttbanner-img3.ttbanner{
+		.ttright-banner-content{
+			.ttbanner-content{
+				text-align: left;
+				right: 0;
+				left: auto;
+				width: 46%;
+				top: 60px;
+				@media (min-width: 1500px) and (max-width: 1630px){
+					right: 0;	
+					width: 40%;
+					top: 35px;
+				}
+				@media (min-width: 1260px) and (max-width: 1499px){
+					top: 40px;
+				}
+				@media (min-width: 1201px) and (max-width: 1259px){
+					top: 20px;
+				}
+				@media (min-width: 992px) and (max-width: 1200px){
+					top: 12px;
+				}
+				@media (min-width: 768px) and (max-width: 991px){
+					width: 56%;
+					top: 12px;
+				}
+				@media (max-width: 544px){
+					right: 10px;
+					top: 6px;
+				}
+			}
+		}
+	}
+	
+	.ttbanner-img2.ttbanner{
+		@media (max-width: 767px){
+			margin:10px 0;
+		}
+		.ttright-banner-content{
+			.ttbanner-content{
+				width: 49%;
+				text-align: center;
+				right: 0;
+				top: 68px;
+				@media (min-width: 1500px) and (max-width: 1630px){
+					top: 53px;
+				}
+				@media (min-width: 1260px) and (max-width: 1499px){
+					width:50%;	
+					right: 0;
+					top: 36px;
+				}
+				@media (min-width: 1201px) and (max-width: 1259px){
+					width: 50%;
+					right: 0;
+					top: 30px;
+				}
+				@media (min-width: 992px) and (max-width: 1200px){
+					right: 15px;
+					top: 23px;
+				}
+				@media (min-width: 768px) and (max-width: 991px){
+					right: 18px;
+					top: 13px;
+				}
+				@media (max-width: 544px){
+					right: 20px;
+					top: 5px;
+				}
+				.subtitle,.title {
+					color:#111111;
+				}
+				.ttbanner-button {
+					a{
+						background: #111111;
+						border-color:#111111;
+						color:#ffffff;
+						&:hover{
+							background: stencilColor("button--primary-backgroundColor") !important;
+							border-color:stencilColor("button--primary-backgroundColor");
+							color: stencilColor("button--primary-color");
+							span{
+								background:stencilColor("button--default-backgroundColor");
+								color:stencilColor("button--default-color") !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	.ttbanner-img1.ttbanner{
+		.ttright-banner-content{
+			.ttbanner-content{
+				width: 45%;
+				text-align: left;
+				right: 0;
+				left: auto;
+				top: 65px;
+				@media (min-width: 1500px) and (max-width: 1630px){
+					width: 48%;	
+					top: 49px;
+				}
+				@media (min-width: 1260px) and (max-width: 1499px){
+					top: 40px;	
+				}
+				@media (min-width: 1201px) and (max-width: 1259px){
+					width: 46%;
+					top: 31px;	
+				}
+				@media (min-width: 992px) and (max-width: 1200px){
+					top: 25px;
+				}
+				@media (min-width: 768px) and (max-width: 991px){
+					width: 58%;
+					right: 0;
+					top: 12px;
+				}
+				@media (max-width: 544px){
+					width: 50%;
+					text-align: left;
+					right: 10px;
+					left: auto;
+					top: 5px;
+				}
+			}
+		}
+	}
+	.ttbanner {
+		float:left;
+		width: grid-calc(4, $total-columns);
+		padding:0 15px;
+		@media (min-width: 768px) and (max-width: 991px){
+			padding:0 10px;
+		}
+		@media (max-width: 767px){
+			float: none;
+			width: 100%;
+			display: inline-block;
+			vertical-align: top;
+			max-width: 530px;	
+		}
+		@media (max-width: 544px){
+			padding:0 5px;
+			margin:0;
+		}
+		img{
+			@media (max-width: 544px){
+				width:100%;
+				height:auto;
+			}
+		}	
+		.ttright-banner-content{
+			position:relative;
+			.ttbanner-content{
+				position:absolute;
+				.subtitle {
+					font: 400 16px/20px Open Sans,sans-serif;
+					text-transform: capitalize;
+					margin: 0 0 5px;
+					color:#ffffff;
+					@media (min-width: 992px) and (max-width: 1200px){
+						font-size: 14px;
+						line-height: 18px;
+						margin: 0;
+					}
+					@media (min-width: 768px) and (max-width: 991px){
+						font-size: 12px;
+						line-height: 16px;
+						margin: 0 0 5px;
+					}
+					@media (max-width: 544px){
+						font-size: 14px;
+						line-height: 28px;
+						margin:0;
+					}
+				}	
+				.title {
+					font: 700 26px/34px Open Sans,sans-serif;
+					text-transform: capitalize;
+					margin: 0 0 15px;
+					color:#ffffff;
+					@media (min-width: 1260px) and (max-width: 1630px){
+						margin: 0 0 10px;
+					}
+					@media (min-width: 1201px) and (max-width: 1499px){
+						font-size: 20px;
+						line-height: 24px;
+					}
+					@media (min-width: 992px) and (max-width: 1200px){
+						font-size: 16px;
+						line-height: 24px;
+						margin:0 0 10px;
+					}
+					@media (min-width: 768px) and (max-width: 991px){
+						font-size: 16px;
+						line-height: 18px;
+						margin: 0 0 5px;
+					}
+					@media (max-width: 767px){
+						font-size: 20px;	
+					}
+					@media (max-width: 544px){
+						font-size: 18px;
+						line-height: 24px;
+						margin: 0 0 10px;
+					}
+				}
+				.ttbanner-button {
+					float: left;
+					max-width: 100%;
+					width: 100%;
+					a{
+						background: stencilColor("button--default-backgroundColor");
+						border-color:stencilColor("button--default-backgroundColor");
+						float: none;
+						display: inline-block;
+						vertical-align: top;
+						width: auto;
+						overflow:visible;
+						color:stencilColor("button--default-color");
+						position: relative;
+						border-radius: 25px;
+						-webkit-border-radius: 25px;
+						-moz-border-radius: 25px;
+						-khtml-border-radius: 25px;
+						padding: 8px 15px;
+						transition: 400ms ease-in-out;
+						@media (min-width: 768px) and (max-width: 991px){
+							padding: 5px 10px;
+							font-size:13px;
+						}
+						@media (max-width: 544px){
+							padding: 5px 12px;
+						}
+						span{
+							background: #ffffff;
+							right: -12px;
+							left: auto;
+							color:#111111;
+							top: 0;
+							bottom: 0;
+							position: absolute;
+							text-align: center;
+							font-weight:normal;
+							height: 20px;
+							width: 20px;
+							font-size: 16px;
+							line-height: 20px;
+							-webkit-border-radius: 50%;
+							-moz-border-radius: 50%;
+							-khtml-border-radius: 50%;
+							border-radius: 50%;
+							-webkit-transition: 400ms ease-in-out;
+							-moz-transition: 400ms ease-in-out;
+							-ms-transition: 400ms ease-in-out;
+							-o-transition: 400ms ease-in-out;
+							transition: 400ms ease-in-out;
+							margin: auto;
+						}
+						&:hover{
+							padding-right:40px;
+							span{
+								right: 10px;
+								background: stencilColor("button--primary-backgroundColor");
+								color: stencilColor("button--primary-color") !important;
+							}
+						}
+					}
+				}
+			}	
+		}
+		&:hover{
+			a:after {
+				-webkit-opacity: 0;
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				opacity: 0;
+				height: 100%;
+				background: rgba(255,255,255,0.4);
+				transition-duration: 1.3s;
+				-moz-transition-duration: 1.3s;
+				-webkit-transition-duration: 1.3s;
+				-khtml-transition-duration: 1.3s;
+				-o-transition-duration: 1.3s;
+			}	
+		}
+	}
+
+}
+
+.ttcmsbottombanner{
+	margin: 10px 0 40px;
+	float: left;
+	width: 100%;
+	@media (max-width: 991px){
+		margin-bottom: 30px;	
+	}
+	@media (max-width: 767px){
+		margin-top: 20px !important;
+	}
+	@media (max-width: 544px){
+		float: none;
+		display: inline-block;
+		vertical-align: top;	
+	}
+	.ttbanner-img2.ttbanner{
+		width: grid-calc(4, $total-columns);
+		text-align:right;
+		@media (max-width: 767px){
+			float: none;
+			text-align:center;
+			width: 100%;
+			display: inline-block;
+			vertical-align: top;
+			max-width:530px;
+		}
+		.ttright-banner-content{
+			.ttbanner-content{
+				width: 42%;
+				text-align: left;
+				left: 30px;
+				right: auto;
+				top: 45px;
+				@media (min-width: 1500px) and (max-width: 1630px){
+					right: 36px;
+					width: 47%;
+					top: 30px;	
+				}
+				@media (min-width: 1260px) and (max-width: 1499px){
+					right: 14px;
+					top: 26px;
+				}
+				@media (min-width: 1201px) and (max-width: 1259px){
+					top: 15px;
+					left: 20px;
+					width: 48%;
+				}
+				@media (min-width: 992px) and (max-width: 1200px){
+					width: 45%;
+					left: 15px;
+					top: 17px;
+				}
+				@media (min-width: 768px) and (max-width: 991px){
+					width: 75%;
+					left: 9px;
+					top: 9px;
+				}
+				@media (min-width: 545px) and (max-width: 767px){
+					right: 0;
+					top: 13px;
+				}
+				@media (max-width: 544px){
+					top: 25px;
+					width: 36%;
+					left: 20px;
+				}
+				.title {
+					@media (max-width: 544px){
+						margin: 0 0 10px;
+					}
+				}
+				.subtitle,.title {
+					color:#ffffff;
+				}
+				.ttbanner-button {
+					a{
+						background: stencilColor("button--default-backgroundColor");
+						border-color:stencilColor("button--default-backgroundColor");
+						color:stencilColor("button--default-color");
+						&:after{
+							display:none;	
+						}
+						&:hover{
+							background: stencilColor("button--primary-backgroundColor") !important;
+							border-color:stencilColor("button--primary-backgroundColor");
+							color: stencilColor("button--primary-color");
+							&:after{
+								display:none;	
+							}
+							span{
+								background:stencilColor("button--default-backgroundColor");
+								color:stencilColor("button--default-color") !important;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	.ttbanner-img1.ttbanner{
+		width: grid-calc(8, $total-columns);
+		text-align:left;
+		@media (max-width: 767px){
+			float: none;
+			width: 100%;
+			display: inline-block;
+			vertical-align: top;
+			margin:0 0 10px 0;
+		}
+		.ttright-banner-content{
+			.ttbanner-content{
+				width: 34%;
+				text-align: left;
+				right: 90px;
+				top: 65px;
+				@media (min-width: 1500px) and (max-width: 1630px){
+					right: 50px;
+					top: 32px;	
+					width: 38%;
+				}
+				@media (min-width: 1260px) and (max-width: 1499px){
+					right: 40px;
+					top: 43px;
+				}
+				@media (min-width: 1201px) and (max-width: 1259px){
+					width: 50%;
+					right: -30px;
+					top: 30px;	
+				}
+				@media (min-width: 992px) and (max-width: 1200px){
+					right: 10px;
+					width: 40%;
+					top: 28px;
+				}
+				@media (min-width: 768px) and (max-width: 991px){
+					right: 0;
+					top: 17px;
+					width: 48%;
+				}
+				@media (min-width: 545px) and (max-width: 767px){
+					width: 50%;
+					right: 10px;
+					top: 13px;
+				}
+				@media (max-width: 544px){
+					width: 68%;
+					right: 0;
+					top: 2px;
+				}
+				.subtitle, .title{
+					color:#ffffff;	
+				}
+			}
+		}
+	}
+	.ttbanner {
+		float:left;
+		padding:0 15px;
+		margin:0;
+		@media (max-width: 991px){
+			padding:0 10px;
+		}
+		@media (max-width: 544px){
+			padding:0;
+		}
+		a{
+			position:relative;
+			float:left;
+			width:100%;
+			&:after {
+				content: "";
+				position: absolute;
+				width: 100%;
+				height: 0;
+				left: 0;
+				right: 0;
+				top: 0;
+				-webkit-opacity: 1;
+				-moz-opacity: 1;
+				-khtml-opacity: 1;
+				opacity: 1;
+			}
+			img{
+				@media (max-width: 544px){
+					width:100%;
+					height:auto;
+				}
+			}	
+		}
+		.ttright-banner-content{
+			position:relative;
+			.ttbanner-content{
+				position:absolute;
+				.subtitle {
+					font: 400 16px/20px Open Sans,sans-serif;
+					text-transform: capitalize;
+					margin: 0 0 5px;
+					color:#111111;
+					@media (min-width: 768px) and (max-width: 1200px){
+						font-size: 14px;
+						line-height: 18px;
+						margin: 0;
+					}
+					@media (max-width: 767px){
+						margin: 0;
+					}
+					@media (max-width: 544px){
+						font-size: 12px;
+						line-height: 16px;
+						margin: 0;
+					}
+				}	
+				.title {
+					font: 700 30px/36px Open Sans,sans-serif;
+					text-transform: capitalize;
+					margin: 0 0 15px;
+					color:#111111;
+					@media (min-width: 1260px) and (max-width: 1630px){
+						margin: 0 0 10px;
+					}
+					@media (min-width: 1260px) and (max-width: 1499px){
+						font-size: 20px;
+						line-height: 24px;
+					}
+					@media (min-width: 1201px) and (max-width: 1259px){
+						font-size: 24px;
+						line-height: 30px;
+					}
+					@media (min-width: 768px) and (max-width: 1200px){
+						font-size: 16px;
+						line-height: 20px;
+						margin:0 0 5px;
+					}
+					@media (max-width: 767px){
+						font-size: 20px;	
+						margin:0;
+					}
+					@media (max-width: 544px){
+						font-size: 14px;
+						line-height: 18px;
+						margin: 0;
+					}
+				}
+				.ttbanner-button {
+					float: left;
+					max-width: 100%;
+					width: 100%;
+					a{
+						background: stencilColor("button--default-backgroundColor");
+						border-color:stencilColor("button--default-backgroundColor");
+						float: none;
+						display: inline-block;
+						vertical-align: top;
+						width: auto;
+						font-weight:normal;
+						overflow:visible;
+						color:stencilColor("button--default-color");
+						position: relative;
+						border-radius: 25px;
+						-webkit-border-radius: 25px;
+						-moz-border-radius: 25px;
+						-khtml-border-radius: 25px;
+						padding: 8px 15px;
+						transition: 400ms ease-in-out;
+						@media (min-width: 768px) and (max-width: 991px){
+							padding: 5px 12px;
+							font-size:13px;
+						}
+						@media (max-width: 544px){
+							font-size: 12px;
+							line-height: 18px;
+							margin: 0;
+							padding: 4px 10px;
+						}
+						span{
+							background: #ffffff;
+							right: -12px;
+							left: auto;
+							color:#111111;
+							top: 0;
+							bottom: 0;
+							position: absolute;
+							text-align: center;
+							height: 20px;
+							width: 20px;
+							font-size: 16px;
+							line-height: 20px;
+							-webkit-border-radius: 50%;
+							-moz-border-radius: 50%;
+							-khtml-border-radius: 50%;
+							border-radius: 50%;
+							-webkit-transition: 400ms ease-in-out;
+							-moz-transition: 400ms ease-in-out;
+							-ms-transition: 400ms ease-in-out;
+							-o-transition: 400ms ease-in-out;
+							transition: 400ms ease-in-out;
+							margin: auto;
+						}
+						&:hover{
+							padding-right:40px;
+							span{
+								right: 10px;
+								background: stencilColor("button--primary-backgroundColor");
+								color: stencilColor("button--primary-color") !important;
+							}
+						}
+					}
+				}
+			}	
+		}
+		&:hover{
+			a:after {
+				-webkit-opacity: 0;
+				-moz-opacity: 0;
+				-khtml-opacity: 0;
+				opacity: 0;
+				height: 100%;
+				background: rgba(255,255,255,0.4);
+				transition-duration: 1.3s;
+				-moz-transition-duration: 1.3s;
+				-webkit-transition-duration: 1.3s;
+				-khtml-transition-duration: 1.3s;
+				-o-transition-duration: 1.3s;
+			}	
+		}
+	}
+}
+
+.ttbanner-img1, .ttbanner-img2{
+	margin-bottom:30px;
+	@media (max-width: 1200px){
+		margin-bottom:20px;
+	}
+}
+.ttbanner-img1, .ttbanner-img3{
+	text-align:left;	
+	padding-right:15px;
+	@media (max-width: 1200px){
+		padding-right:10px;
+	}
+	@media (max-width: 544px){
+		padding: 0 10px;
+	}
+}
+
+.ttbanner-img2,.ttbanner-img4{
+	text-align:right;
+	padding-left:15px;
+	@media (max-width: 1200px){
+		padding-left:10px;
+	}
+	@media (max-width: 544px){
+		padding: 0 10px;
+	}
+}
+
+#ttcmsbottombanner .ttbanner{
+	float:left;
+	width: grid-calc(6, $total-columns);
+}
+
+.banners {
+    color: stencilColor("color-white");
+	background:stencilColor("banner-bg");
+    padding: 0;
+	float:left;
+	width:100%;
+    text-align: center;
+	@media (max-width: 544px){
+		margin:0 !important;
+	}
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+    a {
+        color: color("whites", "bright");
+		float: left;
+		width: 100%;
+		position: relative;
+		overflow: hidden;
+		&:after {
+			content: "";
+			position: absolute;
+			width: 100%;
+			height: 0;
+			left: 0;
+			right: 0;
+			top: 0;
+			-webkit-opacity: 1;
+			-moz-opacity: 1;
+			-khtml-opacity: 1;
+			opacity: 1;
+		}
+    }
+}
+
+.banner {
+    + .banner {
+        margin-top: spacing("single");
+    }
+}

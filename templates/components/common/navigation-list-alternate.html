@@ -1,0 +1,10 @@
+{{#if children}}
+    <a class="navPages-action navPages-action-depth-max has-subMenu is-root{{#if is_active}} activePage{{/if}}" href="{{url}}" >
+    	<span class="material-icons tt-left-arrow">arrow_forward</span>  
+        {{name}}
+        <span class="material-icons tt-right-arrow" data-collapsible="navPages-{{id}}">keyboard_arrow_down</span>
+    </a>
+    {{> components/common/navigation-dropdown}}
+{{else}}
+    <a class="navPages-action{{#if is_active}} activePage{{/if}}" href="{{url}}"><span class="material-icons tt-left-arrow">arrow_forward</span>  {{name}}</a>
+{{/if}}

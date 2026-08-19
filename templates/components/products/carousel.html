@@ -1,0 +1,72 @@
+<section class="productCarousel row"
+    data-list-name="{{list}}"
+    data-slick='{
+        "dots": false,
+        "infinite": false,
+		"autoplay": false,
+        "mobileFirst": true,
+        "slidesToShow": {{ columns }},
+        "slidesToScroll": 1,
+         "responsive": [
+         	{
+              "breakpoint": 1710,
+              "settings": {
+                "slidesToShow": 7,
+                "slidesToScroll": 1
+              }
+            },
+            {
+              "breakpoint": 1460,
+              "settings": {
+                "slidesToShow": 6,
+                "slidesToScroll": 1
+              }
+            },
+            {
+              "breakpoint": 1199,
+              "settings": {
+                "slidesToShow": 5,
+                "slidesToScroll": 1
+              }
+            },
+            {
+              "breakpoint": 991,
+              "settings": {
+                "slidesToShow": 4,
+                "slidesToScroll": 1
+              }
+            },
+            {
+              "breakpoint": 767,
+              "settings": {
+                "slidesToShow": 3,
+                "slidesToScroll": 1
+              }
+            },
+            {
+              "breakpoint": 320,
+              "settings": {
+                "slidesToShow": 2,
+                "slidesToScroll": 1
+              }
+            },
+            {
+              "breakpoint": 0,
+              "settings": {
+                "slidesToShow": 2,
+                "slidesToScroll": 1
+              }
+            }
+        ]
+    }'
+>
+   
+	
+{{#each products}}
+    	{{products.name}}
+		<div class="productCarousel-slide">
+			{{> components/products/card settings=../settings theme_settings=../theme_settings customer=../customer event="list" position=(add @index 1)}}
+		</div>
+{{/each}}
+</section>
+

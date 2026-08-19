@@ -1,0 +1,13 @@
+<h2 class="page-heading"><span>{{lang 'products.new' }}</span></h2>
+
+{{#if settings.data_tag_enabled}}
+<div class="tt-newproductcontent">
+	<div class="tt-newproductinner">
+	    <ul id="newproducts" class="newproducts" data-product-type="new">
+            {{> components/products/carousel products=products list="New Products"}}
+        </ul>
+    </div>
+</div>  
+{{else}}
+    {{> components/products/carousel products=products}}
+{{/if}}

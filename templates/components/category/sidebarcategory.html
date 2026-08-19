@@ -1,0 +1,78 @@
+<div class="sidebarBlock">
+<div class="box-category-heading"><h5 class="page-heading"><span>{{lang 'header.category'}}</span></h5><i class="fa fa-angle-down" aria-hidden="true"></i></div>
+		
+		{{#if template_file '===' 'pages/home'}}
+			<div class="catgory-left">
+		{{else}}
+			<div class="catgory-left inner-cat-page">
+		{{/if}}
+		<div class="category-lfet-box">
+		
+			<ul class="navList level-0">
+				{{#each categories}}
+				<li class="navList-item level-0">
+				<a class="navList-action" href="{{url}}">{{name}}</a>		
+					{{#if children}}
+					<div class="right-angle">
+						<i class="icon" aria-hidden="true">
+							<svg>
+								<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-right"></use>
+							</svg>
+						</i>
+					 </div>
+					<div class="plus_minus">
+						<svg class="icon_plus">
+							<use xlink:href="#icon-add" />
+						</svg>
+						<svg class="icon_minus">
+							<use xlink:href="#icon-remove" />
+						</svg>
+					</div>
+							
+					<div class="my_dropdown-menu column3">
+						<div class="my_dropdown-inner">
+							<ul class="navList category level-1">
+							{{#each children}}
+								<li class="navList-item level-1">
+								<a class="navList-action" href="{{url}}">{{name}}</a>
+									{{#if children}}
+									<div class="right-angle">
+										<i class="icon" aria-hidden="true">
+											<svg>
+												<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-chevron-right"></use>
+											</svg>
+										</i>
+									</div>
+									<div class="plus_minus">
+										<svg class="icon_plus">
+											<use xlink:href="#icon-add" />
+										</svg>
+										<svg class="icon_minus">
+											<use xlink:href="#icon-remove" />
+										</svg>
+									</div>	
+									<div class="my_dropdown-menu">
+										<div class="my_dropdown-inner">
+											<ul class="navList category level-2" id="navPages-{{id}}">
+												{{#each children}}
+												<li class="navList-item level-2">
+													<a class="navList-action" href="{{url}}">{{name}}</a>
+												</li>
+												{{/each}}
+											</ul>
+										</div>
+									</div>
+									{{/if}}
+								</li>
+							{{/each}}
+							</ul>
+						</div>
+					</div>
+					{{/if}}
+				</li>
+				{{/each}}
+			</ul>
+			
+		</div>
+	</div>
+</div>

@@ -1,0 +1,616 @@
+// Page Navigation
+// -----------------------------------------------------------------------------
+//
+// Purpose: Contains the styles for the page navigation, deals with 2 viewsdue to
+// responsive layout of that navigation
+//
+// 1. It's not exactly a grid row, as it's a little further down the DOM tree, but
+// I use it here to grab the max width centering.
+// 2. Prevent document scrolling by clipping its body
+// 3. Prevent inertia scrolling of document
+//
+// -----------------------------------------------------------------------------
+
+
+//
+// Shared styles for sub page navigation
+// -----------------------------------------------------------------------------
+
+%navPage-childList {
+    border-left: 1px solid $navPage-childList-borderColor;
+    margin: spacing("quarter") spacing("half");
+    padding-left: spacing("half");
+}
+
+//
+// When navPages is open
+// -----------------------------------------------------------------------------
+
+.has-activeNavPages {
+    // scss-lint:disable VendorPrefix
+    overflow: hidden; // 2
+    -webkit-overflow-scrolling: auto; // 3
+}
+
+//
+// Top level Pages navigation container
+// -----------------------------------------------------------------------------
+
+.navPages-container {
+    // scss-lint:disable VendorPrefix
+    bottom: 0;
+    display: none;
+    height: 100%;
+    left: 0;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    right: 0;
+    z-index: zIndex("lower");
+    @include breakpoint("medium") {
+        background: transparent;
+        display: block;
+        height: auto;
+        padding: 0;
+        position: relative;
+    }
+	@media (max-width: 991px){
+		background:#fff;
+		position:fixed;
+		padding:15px;
+		z-index:150;
+		height:100%;
+		left:0;
+		right:auto;
+		top:0;
+		display:block;
+		box-shadow:-1px 0 2px rgba(0,0,0,.1);
+		-moz-box-shadow:-1px 0 2px rgba(0,0,0,.1);
+		-webkit-box-shadow:-1px 0 2px rgba(0,0,0,.1);
+		transition:all .5s cubic-bezier(.99,.95,.49,1.03);
+		-webkit-transition:all .5s cubic-bezier(.99,.95,.49,1.03);
+		-moz-transition:all .5s cubic-bezier(.99,.95,.49,1.03);
+		-ms-transition:all .5s cubic-bezier(.99,.95,.49,1.03);
+		-o-transition:all .5s cubic-bezier(.99,.95,.49,1.03);
+		transform:translateX(-100%);
+		-webkit-transform:translateX(-100%);
+		-ms-transform:translateX(-100%);
+		-o-transform:translateX(-100%);
+		-moz-transform:translateX(-100%);
+	}
+
+    &.is-open {
+		display: block;
+		padding-top: 55px;
+		@media (max-width: 991px){
+			z-index:990;
+			padding-top:15px;
+			overflow:scroll;
+			transform:translateX(0);
+			-webkit-transform:translateX(0);
+			-ms-transform:translateX(0);
+			-o-transform:translateX(0);
+			-moz-transform:translateX(0);
+			box-shadow: 0 0 5px rgba(0,0,0,.15);
+			-moz-box-shadow: 0 0 5px rgba(0,0,0,.15);
+			-webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
+		}
+		.ttcat-title{
+			display:none;	
+		}
+		ul.cat-Menu-toggle{
+			display:block !important;
+		}
+    }
+}
+
+//
+// Top level Pages navigation list styles
+// -----------------------------------------------------------------------------
+
+.navPages {
+    background-color: $navPages-backgroundColor;
+    height: 100%;
+    overflow-y: auto;
+    padding: spacing("single");
+    @include breakpoint("medium") {
+        @include grid-row(); // 1
+        @include nav($style: "navBar", $wrapper: "nav");
+        background: none;
+        font-size: 0; // 1
+        overflow-y: visible;
+        padding: 0;
+        text-align: center;
+    }
+	@media (max-width: 991px){
+		background:#ffffff;
+		padding: 0;
+	}
+	
+    ul.cat-Menu-toggle {
+        list-style: none;
+		@media (min-width: 992px){
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+			-moz-box-shadow:0 0 5px rgba(0, 0, 0, 0.15);
+			-webkit-box-shadow:0 0 5px rgba(0, 0, 0, 0.15);
+		}
+		&:before {
+			color: #e5e5e5;
+			font-size: 30px;
+			right: auto;
+			position: absolute;
+			top: -26px;
+			left: 14px;
+			content: "\e5c7";
+			font-family: "Material Icons";
+		}
+    }
+
+    .navPage-subMenu-list {
+        border-left: 0;
+        list-style: none;
+        margin-left: 0;
+        padding-left: 0;
+		@media (max-width: 991px){
+			float:left;
+			width:100%;	
+		}
+        @include breakpoint("medium") {
+            @include grid-row();
+            border-left: 0;
+            margin: auto;
+            padding-left: 0;
+        }
+    }
+}
+
+.navPages-list {
+    margin: 0;
+
+    @include breakpoint("medium") {
+        display: inline-block;
+        float: none;
+    }
+
+    + .navPages-list {
+        border-top: 1px solid $navPages-list--user-borderColor;
+        margin-top: spacing("half");
+        padding-top: spacing("half");
+    }
+}
+
+.navPages-action-depth-max{
+	.material-icons{
+		float:right;	
+		font-size:18px;
+		line-height:30px;
+	}
+}
+.navPages-list-depth-max.subMenu-is-open {
+    .is-hidden {
+        display: none;
+
+        @include breakpoint("medium") {
+            display: inline-block;
+        }
+    }
+
+    .navPages-item-page {
+        display: none;
+
+        @include breakpoint("medium") {
+            display: inline-block;
+        }
+    }
+}
+
+.navPages-action-depth-max.has-subMenu.is-root.is-open {
+    .navPages-action-moreIcon {
+        @include breakpoint("medium") {
+            transform: rotate(0);
+			-webkit-transform:rotate(0);
+			-ms-transform:rotate(0);
+			-o-transform:rotate(0);
+			-moz-transform:rotate(0);
+        }
+    }
+}
+
+.navPages-action-depth-max.has-subMenu.is-open {
+    border-bottom: 1px solid $navPages-list--user-borderColor;
+    text-align: center;
+
+    @include breakpoint("medium") {
+        border-bottom: 0;
+        text-align: left;
+    }
+
+    .navPages-action-moreIcon {
+        border: solid 1px $navPages-action-moreIcon-borderColor;
+        border-radius: 4px;
+        float: left;
+        height: 35px;
+        margin-top: -10px;
+        padding: 11.7px; // (33 - 9.6) / 2
+        transform: rotate(90deg);
+		-webkit-transform:rotate(90deg);
+		-ms-transform:rotate(90deg);
+		-o-transform:rotate(90deg);
+		-moz-transform:rotate(90deg);
+        width: 35px;
+
+        @include breakpoint("medium") {
+            @include square(8px);
+            border: 0;
+            border-radius: 0;
+            float: none;
+            margin-top: 0;
+            padding: 0;
+            transform: rotate(-90deg);
+			-webkit-transform:rotate(-90deg);
+			-ms-transform:rotate(-90deg);
+			-o-transform:rotate(-90deg);
+			-moz-transform:rotate(-90deg);
+        }
+    }
+
+    svg {
+        height: 9.6px;
+        width: 9.6px;
+
+        @include breakpoint("medium") {
+            height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+.navPages-action {
+    color: stencilColor("navPages-color");
+    display: block;
+    font-size:  stencilNumber("fontSize-root");
+    font-weight: fontWeight("bold");
+    padding: spacing("half") 0;
+    text-decoration: none;
+    
+
+    @include breakpoint("medium") {
+        display: inline-block;
+        padding: spacing("half") (spacing("half") + spacing("quarter")) (spacing("half") + spacing("quarter"));
+    }
+
+    &:hover, &.activePage {
+        color: stencilColor("navPages-color-hover");
+		.tt-left-arrow {
+			color:stencilColor("navPages-color-hover");
+		}
+        // scss-lint:disable NestingDepth
+        svg {
+            fill: stencilColor("navPages-color-hover");
+            stroke: stencilColor("navPages-color-hover");
+        }
+    }
+
+    svg {
+        fill: stencilColor("navPages-color");
+        stroke: stencilColor("navPages-color");
+        transition: all 0.15s ease;
+		-webkit-transition: all 0.15s ease;
+		-moz-transition: all 0.15s ease;
+		-ms-transition: all 0.15s ease;
+		-o-transition: all 0.15s ease;
+    }
+}
+
+.cat-Menu-toggle > .navPages-action:after {
+    color: #333333;
+    content: "\e5cf";
+    font-family: "Material Icons";
+    right: auto;
+    position: absolute;
+    left: 15px;
+    top: 18px;
+    z-index: 2;
+    transition: 300ms ease-in-out;
+	-webkit-transition:300ms ease-in-out;
+	-moz-transition:300ms ease-in-out;
+	-ms-transition:300ms ease-in-out;
+	-o-transition:300ms ease-in-out;
+    height: 20px;
+    width: 20px;
+    font-size: $fontSize-smaller;
+    line-height: 20px;
+    bottom: 0;
+    font-weight: 400;
+}
+.navPages-item > .navPages-action{
+	&:before{
+		border-bottom: 1px solid stencilColor("navPages-subMenu-separatorColor");
+		bottom: 0;
+		content: "";
+		left: 0;
+		margin: 0 auto;
+		position: absolute;
+		right: 0;
+		width: 90%;
+	}
+}
+
+
+.navPages-action--storeCredit {
+    color: stencilColor("color-textSecondary");
+}
+
+.navPages-action--compare {
+    display: none;
+
+    &.show {
+        display: block;
+    }
+}
+
+.navPages-action-moreIcon {
+	width:20px;
+	height:20px;
+    @include breakpoint("medium") {
+        transform: none;
+		-webkit-transform:none;
+		-ms-transform:none;
+		-o-transform:none;
+		-moz-transform:none;
+    }
+
+    .has-subMenu.is-open & {
+        transform: rotate(0);
+		-webkit-transform:rotate(0);
+		-ms-transform:rotate(0);
+		-o-transform:rotate(0);
+		-moz-transform:rotate(0);
+    }
+}
+
+
+// Sub page navigation and children of sub pages
+// -----------------------------------------------------------------------------
+
+.navPage-childList {
+    // @extend %navPage-childList;
+    display: none;
+	@media (max-width: 991px){
+		margin: 10px 0 15px 15px;
+	}
+    @include breakpoint("medium") {
+        border: 0;
+        display: block;
+    }
+
+    &.is-open {
+        display: block;
+    }
+}
+
+
+// Sub menu, first level down from top level categories
+// -----------------------------------------------------------------------------
+//
+// 1. navBar mixin has lots of decendant child selectors to deal with
+//
+// -----------------------------------------------------------------------------
+
+.navPage-subMenu {
+    display: none;
+    outline: 0;
+
+    @include breakpoint("medium") {
+        // scss-lint:disable ImportantRule
+        background-color: stencilColor("navPages-subMenu-backgroundColor");
+        padding: 15px 0;
+        text-align: left;
+
+        &.is-open {
+            display: block;
+            width: 100%;
+        }
+
+        .navPages-action-moreIcon {
+            display: none;
+			line-height:20px;
+        }
+    }
+
+    &.is-open {
+        display: block;
+    }
+}
+
+.has-subMenu.is-root + .navPage-subMenu-horizontal {
+    @include breakpoint("medium") {
+        height: $navPage-subMenu-horizontal-height;
+        right: inherit;
+        margin: auto;
+        top: inherit;
+        width: $navPage-subMenu-horizontal-width;
+    }
+}
+
+.navPage-subMenu-horizontal {
+    .navPages-action-moreIcon {
+        @include breakpoint("medium") {
+            display: inline-block;
+           // transform: rotate(-90deg);
+        }
+    }
+}
+
+.simple .navPage-subMenu-item {
+	padding: 0 0.75rem 12px !important;
+	@media (max-width: 991px){
+		padding: 0 0.75rem 0 !important;
+	}
+}
+.navPage-subMenu-item {
+    @include breakpoint("medium") {
+        // scss-lint:disable ImportantRule
+       // @include grid-column(3);
+        .navPages-action {
+            text-transform: none;
+            width: 100%;
+        }
+    }
+}
+
+.navPage-subMenu-action.navPages-action {
+	line-height:18px;
+	font-size:stencilNumber("fontSize-root");
+    font-weight: normal;
+    padding:5px 0;
+	@media (max-width: 991px){
+		line-height:30px;
+		padding:0 0;
+	}
+}
+
+.navPage-subMenu-list.grid-3 {
+	@media (max-width: 991px){
+    	padding: 10px 0 0;
+	}
+}
+.simple ul.navPage-subMenu-list{
+	.navPage-subMenu-action{
+		font-weight:$fontWeight-semibold;
+		position:relative;
+		padding: 0;
+		margin-bottom: 10px;
+		padding: 0 0 8px;
+		.tt-right-arrow{
+			display:none;
+			@media (max-width: 991px){
+				display:block;
+			}	
+		}
+		@media (max-width: 991px){
+			margin-bottom: 0;
+			padding: 0;
+		}
+		&:before {
+			border-bottom: 1px solid #eeeeee;
+			bottom: 0;
+			content: "";
+			left: 0;
+			margin: 0 auto;
+			position: absolute;
+			right: 0;
+			width:100%;
+			@media (max-width: 991px){
+				display:none;
+			}
+		}
+	}	
+	.navPage-childList{
+		.navPage-childList-action{
+			font-weight:normal;
+			font-size:stencilNumber("fontSize-root");
+			line-height:$lineHeight-large;
+			padding:0;
+			&:before{
+				display:none;
+			}	
+		}	
+	}
+}
+.navPage-subMenu-item-child,
+.navPage-subMenu-item-parent {
+    width: 100%;
+
+    @include breakpoint("medium") {
+        .navPage-subMenu-action {
+            padding-left: 20px;
+            padding-right: 15px;
+            width: 100%;
+        }
+        .navPage-subMenu-action.is-open,
+		.navPage-subMenu-action:active,
+        .navPage-subMenu-action:hover {
+            background: $navPage-subMenu-item--is-highlighted-background;
+            color: $navPage-subMenu-item--is-highlighted-color;
+        }
+    }
+}
+
+.navPage-subMenu-action {
+    padding: spacing("half") 0;
+
+    @include breakpoint("medium") {
+        padding: spacing("half") 0 (spacing("half") + spacing("quarter"));
+    }
+}
+
+
+//
+// Child pages of sub pages navigation lists
+// -----------------------------------------------------------------------------
+
+.navPage-childList-item {
+    @include breakpoint("medium") {
+    }
+}
+
+.navPage-childList-action {
+    font-weight: fontWeight("normal");
+    padding: 0 0 spacing("quarter");
+}
+
+
+//
+// Quick search inside the mobile nav
+// -----------------------------------------------------------------------------
+
+.navPages-quickSearch {
+    border-bottom: container("border");
+    margin-bottom: spacing("half");
+
+    @include breakpoint("medium") {
+        display: none;
+    }
+
+    > .container {
+        padding: 0;
+    }
+
+    .form {
+        margin: 0;
+    }
+
+    .form-field {
+        margin-bottom: 0;
+    }
+}
+
+
+//
+// NavPages user section for mobile nav panel
+// -----------------------------------------------------------------------------
+
+.navPages-list--user {
+    @include breakpoint("medium") {
+        display: none;
+    }
+
+    // scss-lint:disable SelectorDepth, NestingDepth, IdSelector
+    #currencySelection2 {
+        background-color: color("whites", "bright");
+        border: container("border");
+
+        .dropdown-menu-item {
+            padding: 0;
+
+            // scss-lint:disable NestingDepth
+            &:not(:last-child) {
+                border-bottom: container("border");
+            }
+        }
+
+        a {
+            padding: spacing("half") spacing("single");
+        }
+    }
+}

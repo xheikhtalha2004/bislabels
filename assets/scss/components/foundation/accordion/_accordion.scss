@@ -1,0 +1,214 @@
+// =============================================================================
+// ACCORDION (CSS)
+// =============================================================================
+
+
+.accordion {
+    border-radius: $accordion-borderRadius;
+    box-shadow: none;
+	-moz-box-shadow:none;
+	-webkit-box-shadow:none;
+    .navList {
+        margin-bottom: 5px;
+		float:left;
+		width:100%;
+    }
+}
+
+.accordion-content {
+    border: 0;
+	float:left;
+	width:100%;
+    .form:only-child {
+        margin-bottom: 0;
+    }
+}
+
+.accordion-title, .sidebarBlock-heading{
+	@media (min-width: 991px){
+		margin:0 !important;
+	}
+}
+.accordion-title{
+	font: $fontWeight-bold 14px/28px "Roboto",Helvetica,sans-serif;
+	padding: 2px 0 !important;
+	float: left;
+	width: 100%;
+	color: #000;
+	position: relative;
+	text-transform: capitalize;
+	@media (max-width: 991px){
+		padding: 10px 0 !important;
+		margin:0;
+	}
+}
+.sidebarBlock-heading {
+    background: stencilColor("button--primary-backgroundColor");
+	color: stencilColor("button--primary-color");
+	border: none;
+	float: left;
+	font: $fontWeight-medium 14px/24px "Roboto", Helvetica, sans-serif;
+	text-transform: uppercase;
+	margin: 0;
+	padding: 10px 15px !important;
+	position: relative;
+	text-align: left;
+	width: 100%;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	letter-spacing: 0.6px;
+}
+
+.accordion-navigation {
+    position: relative;
+	border:none;
+    text-decoration: none;
+	&:hover{
+		.accordion-navigation-actions svg{
+			fill:#000000;	
+		}	
+	}
+}
+
+.accordion-navigation-actions svg.toggleLink-text--on{
+	fill:#000000;	
+}	
+
+// Accordion nav list
+// -----------------------------------------------------------------------------
+//
+// Purpose: Used as navigation menu, for example: faceted search menu.
+//
+// -----------------------------------------------------------------------------
+.accordion--navList {
+	float:left;
+	width:100%;
+	padding:0 15px;
+	margin:0;
+    @include breakpoint("medium") {
+        border: 0;
+    }
+	@media (min-width: 1260px) and (max-width: 1499px){
+		padding:10px;
+	}
+	@media (min-width: 992px) and (max-width: 1199px){
+		padding: 10px 6px;		
+	}
+	@media (max-width: 991px){
+		border-top:none;
+	}
+    .sidebarBlock + & {
+        @include breakpoint("medium") {
+            margin-top: $accordion-navList-spacing;
+        }
+    }
+
+    .accordion-block {
+		float:left;
+		width:100%;
+		border-bottom:1px solid stencilColor("container-border-global-color-base");
+		&:last-child{
+			border:none;	
+		}
+        @include breakpoint("medium") {
+           padding: 8px 0;
+        }
+		#facetedSearch-content--rating{
+			.rating--small{
+				margin-right:10px;
+				.material-icons{
+					line-height: 14px;	
+				}	
+			}	
+		}
+    }
+
+    .accordion-content {
+		padding: 0;
+    }
+
+    .accordion-navigation {
+        float:left;
+		width:100%;
+    }
+
+    .accordion-indicator {
+        fill: color("greys", "light");
+    }
+
+    .accordion-navigation-actions {
+        right: $accordion-navList-padding;
+        top: $accordion-navList-padding + spacing("eighth");
+
+        @include breakpoint("medium") {
+            right: 0;
+            top: 6px;
+        }
+    }
+}
+
+
+// Accordion block
+// -----------------------------------------------------------------------------
+//
+// Purpose: Child blocks of an accordion
+//
+// -----------------------------------------------------------------------------
+.accordion-block:first-child {
+    margin-top: 0;
+
+    .accordion-navigation {
+        border-radius: $accordion-borderRadius $accordion-borderRadius 0 0;
+    }
+}
+
+.accordion-block:last-child {
+    .accordion-navigation,
+    .accordion-content {
+        border-radius: 0 0 $accordion-borderRadius $accordion-borderRadius;
+    }
+
+    .accordion-navigation {
+        border-bottom-width: 0;
+
+        // scss-lint:disable NestingDepth
+        &.is-open {
+            border-bottom-width: 1px;
+            border-radius: 0;
+
+        }
+    }
+}
+
+// Accordion navigation actions
+// -----------------------------------------------------------------------------
+//
+// Purpose: Action links, usually aligned to the right of .accordion-navigation
+//
+// -----------------------------------------------------------------------------
+.accordion-navigation-actions {
+    position: absolute;
+    right: $accordion-navigation-paddingHorizontal;
+    top: $accordion-navigation-paddingVertical;
+
+    > a {
+        color: stencilColor("color-textSecondary");
+        vertical-align: middle;
+
+        // scss-lint:disable NestingDepth
+        &:hover {
+            color: stencilColor("color-textSecondary--hover");
+        }
+        // scss-lint:enable NestingDepth
+    }
+}
+
+.subcategory{
+	.navList-item{
+		a{
+			line-height:$lineHeight-small;	
+		}	
+	}	
+}

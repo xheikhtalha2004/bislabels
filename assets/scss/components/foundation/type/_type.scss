@@ -1,0 +1,226 @@
+// =============================================================================
+// TYPE (CSS)
+// =============================================================================
+
+// Stencil type component additions
+// -----------------------------------------------------------------------------
+
+
+body {
+	font-style:$fontFamily-sans;
+    font-size: $body-fontSize;
+    font-weight: $body-font-weight;
+	letter-spacing: 0.8px;
+	
+	p {
+    	clear: both;
+	}
+    .tml{
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        z-index: 99999;
+        background: #ffffff;
+        top: 0;
+    }
+	#loader {
+	   position: absolute;
+	   left: 0;
+	   right: 0;
+	   margin: 0 auto;
+	   top: 45%;
+       width: 64px;
+	   height: 64px;
+	}
+	#loader div {
+	  animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	  transform-origin: 32px 32px;
+	}
+	#loader div:after {
+	  content: " ";
+	  display: block;
+	  position: absolute;
+	  width: 6px;
+	  height: 6px;
+	  border-radius: 50%;
+	  background: stencilColor("header-backgroundColor");
+	  margin: -3px 0 0 -3px;
+	}
+	#loader div:nth-child(1) {
+	  animation-delay: -0.036s;
+	}
+	#loader div:nth-child(1):after {
+	  top: 50px;
+	  left: 50px;
+	}
+	#loader div:nth-child(2) {
+	  animation-delay: -0.072s;
+	}
+	#loader div:nth-child(2):after {
+	  top: 54px;
+	  left: 45px;
+	}
+	#loader div:nth-child(3) {
+	  animation-delay: -0.108s;
+	}
+	#loader div:nth-child(3):after {
+	  top: 57px;
+	  left: 39px;
+	}
+	#loader div:nth-child(4) {
+	  animation-delay: -0.144s;
+	}
+	#loader div:nth-child(4):after {
+	  top: 58px;
+	  left: 32px;
+	}
+	#loader div:nth-child(5) {
+	  animation-delay: -0.18s;
+	}
+	#loader div:nth-child(5):after {
+	  top: 57px;
+	  left: 25px;
+	}
+	#loader div:nth-child(6) {
+	  animation-delay: -0.216s;
+	}
+	#loader div:nth-child(6):after {
+	  top: 54px;
+	  left: 19px;
+	}
+	#loader div:nth-child(7) {
+	  animation-delay: -0.252s;
+	}
+	#loader div:nth-child(7):after {
+	  top: 50px;
+	  left: 14px;
+	}
+	#loader div:nth-child(8) {
+	  animation-delay: -0.288s;
+	}
+	#loader div:nth-child(8):after {
+	  top: 45px;
+	  left: 10px;
+	}
+	@keyframes loader {
+	  0% {
+	    transform: rotate(0deg);
+		-webkit-transform:rotate(0deg);
+		-ms-transform:rotate(0deg);
+		-o-transform:rotate(0deg);
+		-moz-transform:rotate(0deg);
+	  }
+	  100% {
+	    transform: rotate(360deg);
+		-webkit-transform:rotate(360deg);
+		-ms-transform:rotate(360deg);
+		-o-transform:rotate(360deg);
+		-moz-transform:rotate(360deg);
+	  }
+	}
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: $header-font-weight;
+    margin-top: $heading-marginTop;
+    letter-spacing: 0.6px;
+}
+
+a {
+    transition: $anchor-transition;
+	-webkit-transition: 0.70s;
+	-moz-transition: 0.70s;
+	-ms-transition: 0.70s;
+	-o-transition: 0.70s;
+	text-decoration:none;
+	color:stencilColor("color-textLink");	
+	&:hover, &:active{
+		color:stencilColor("color-textLink--hover");	
+	}
+}
+
+cite {
+    line-height: $blockquote-cite-lineHeight;
+    margin: $blockquote-cite-margin;
+}
+
+*:focus {
+    outline: none;
+	color:stencilColor("color-textLink--hover");	
+}
+
+.main.full{
+	.page-heading {
+		margin: spacing("quarter") 0 spacing("quarter");
+		position: relative;
+		font-size: stencilNumber("fontSize-h1");
+		font-weight: bold;
+		text-align: left;
+		border-bottom: 1px solid #e0e0e0;
+	}
+}
+.page{
+	.page-heading {
+		float: left;
+		width: auto;
+		position: relative;
+		margin: 30px 0 15px;
+		text-transform:capitalize;
+		font-weight: normal;
+	}
+}
+
+h1 {
+    font-size: $h1-font-size;
+}
+
+h2 {
+    font-size: $h2-font-size;
+}
+
+h3 {
+    font-size: $h3-font-size;
+}
+
+h4 {
+    font-size: $h4-font-size;
+}
+
+h5 {
+    font-size: $h5-font-size;
+}
+
+h6 {
+    font-size: $h6-font-size;
+}
+
+.definitionList {
+    @include clearfix;
+}
+
+.definitionList-key {
+    color: stencilColor("color-textSecondary");
+    float: left;
+    font-weight: fontWeight("normal");
+    margin: 0 spacing("quarter") 0 0;
+}
+
+.definitionList-value {
+    margin: 0;
+}
+.btm-border{
+    position: relative;
+}
+
+.tt-sitemap{
+	text-align:left;
+	ul ul, ul ol, ol ul, ol ol{
+		margin:8px 15px 15px 25px;	
+	}	
+}

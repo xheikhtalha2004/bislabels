@@ -1,0 +1,46 @@
+{{#if children}}
+{{!--<a class="navPages-action has-subMenu{{#if is_active}} activePage{{/if}}" href="{{url}}" data-collapsible="navPages-{{id}}"> --}}
+<a class="navPages-action has-subMenu{{#if is_active}} activePage{{/if}}" href="{{url}}">
+    <span class="material-icons tt-left-arrow">arrow_forward</span>
+    {{name}}
+    <span class="material-icons tt-right-arrow"  data-collapsible="navPages-{{id}}">keyboard_arrow_down</span>
+</a>
+<div class="navPage-subMenu" id="navPages-{{id}}" aria-hidden="true" tabindex="-1">
+    <ul class="navPage-subMenu-list grid-2">
+        {{!--<li class="navPage-subMenu-item">
+            <a class="navPage-subMenu-action navPages-action" href="{{url}}">{{lang 'category.view_all.name' category=name}}</a>
+        </li>--}}
+        {{#each children}}
+            <li class="navPage-subMenu-item">
+                {{#if children}}
+                    <a
+                        class="navPage-subMenu-action navPages-action has-subMenu{{#if is_active}} activePage{{/if}}"
+                        href="{{url}}">
+                        {{name}} <span class="material-icons tt-right-arrow"  data-collapsible="navPages-{{id}}">keyboard_arrow_down</span>
+                    </a>
+                    <ul class="navPage-childList" id="navPages-{{id}}">
+                        {{#each children}}
+                         
+                        <li class="navPage-childList-item">
+                            <a class="navPage-childList-action navPages-action{{#if is_active}} activePage{{/if}}" href="{{url}}">{{name}}</a>
+                        </li>
+                        {{/each}}
+                    </ul>
+                {{else}}
+                    <a class="navPage-subMenu-action navPages-action{{#if is_active}} activePage{{/if}}" href="{{url}}">{{name}}</a>
+                {{/if}}
+            </li>
+        {{/each}}
+    </ul>
+    <div class="banners">
+		<a class="subcat-img" href="{{url}}" >
+            <img class="lazyload" data-sizes="auto" alt="{{categories.alt}}" src="{{cdn 'img/loading.svg'}}" data-src="{{getImage image 'data-sizes'}}">
+        </a>
+	</div>
+</div>
+{{else}}
+<a class="navPages-action{{#if is_active}} activePage{{/if}}" href="{{url}}">
+	<span class="material-icons tt-left-arrow">arrow_forward</span>
+	{{name}}
+</a>
+{{/if}}

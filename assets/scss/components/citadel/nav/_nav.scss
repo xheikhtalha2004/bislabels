@@ -1,0 +1,166 @@
+// =============================================================================
+// NAV (CSS)
+// =============================================================================
+
+
+// Citadel inline messages
+// -----------------------------------------------------------------------------
+//
+// 1. Remove the margin-left we add to default lists.
+//
+// -----------------------------------------------------------------------------
+
+.navList,
+.navBar {
+    margin-left: 0; // 1
+}
+
+.navList-action,
+.navBar-action {
+    text-decoration: none;
+	color:#777777;
+	&:hover{
+		color:#000000;
+	}
+}
+
+.navList-action.is-active {
+    font-weight: $navList-action-fontWeight--active;
+}
+
+
+// NavList action checkbox
+// -----------------------------------------------------------------------------
+//
+// Purpose: Display a checkbox next to an actionable link, without actually using
+// a checkbox element.
+//
+// 1. Position checkbox so it is vertically centered
+//
+// -----------------------------------------------------------------------------
+
+.navList-action--checkbox {
+    @include checkRadioBase();
+    @include checkBox-base();
+	@media (min-width: 992px) and (max-width: 1199px){
+		padding-left: 22px;	
+	}
+    &:before,
+    &:after {
+        top: 50%; // 1
+    }
+
+    &:before {
+        margin-top: -$checkRadio-outerSize / 2;
+    }
+
+    &:after {
+        margin-top: -$checkRadio-outerSize / 2 + remCalc(1);
+    }
+
+    &:focus {
+        @include checkRadioBase--focus();
+    }
+
+    &.is-disabled {
+        @include checkRadioBase--disabled();
+    }
+
+    &.is-checked,
+    &.is-selected {
+        @include checkRadioBase--checked();
+    }
+}
+
+
+// NavList action close
+// -----------------------------------------------------------------------------
+//
+.navList-action-close {
+    background: $navList-action-close-background;
+    border-radius: $navList-action-close-borderRadius;
+    display: inline-block;
+    float: right;
+    line-height: 0;
+    opacity: 0;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	-khtml-opacity: 0;
+    padding: $navList-action-close-padding;
+    transition: $navList-action-close-transition;
+	-webkit-transition: $navList-action-close-transition;
+	-moz-transition: $navList-action-close-transition;
+	-o-transition: $navList-action-close-transition;
+	-ms-transition: $navList-action-close-transition;
+    visibility: hidden;
+
+    .icon {
+        @include square($navList-action-close-iconSize);
+        fill: stencilColor("color-textLink");
+    }
+
+    .navList-action.is-selected:hover & {
+        opacity: 1;
+		-webkit-opacity: 1;
+		-moz-opacity: 1;
+		-khtml-opacity: 1;
+        visibility: visible;
+    }
+}
+
+
+// Page Subnavigation
+// -----------------------------------------------------------------------------
+
+.navBar--sub {
+    margin-bottom: spacing("single");
+    text-align: center;
+
+    .navBar-section {
+        float: none;
+    }
+
+    .navBar-item {
+        float: left;
+        margin:0 20px 0 0;
+
+        @include breakpoint("medium") {
+            display: inline-block;
+        }
+		
+
+        // scss-lint:disable SelectorDepth, NestingDepth
+        &.is-active {
+			color:stencilColor("color-textBase");
+			line-height:30px;
+			color: stencilColor("color-textSecondary--hover");
+			border-bottom: 2px solid stencilColor("color-textBase");
+            @include breakpoint("medium") {
+                border-bottom: 2px solid stencilColor("color-textBase");
+            }
+
+            > .navBar-action {
+                color: color("greys", "dark");
+            }
+        }
+
+        &.navBar-item--separate {
+            @include breakpoint("medium") {
+                border-left: 1px solid stencilColor("color-textSecondary");
+                margin: 0;
+                padding-left: spacing("half");
+            }
+        }
+    }
+
+    .navBar-action {
+        color: stencilColor("color-textSecondary");
+        font-size: fontSize("base");
+        padding: 0;
+
+        // scss-lint:disable NestingDepth
+        &:hover {
+            color: stencilColor("color-textSecondary--hover");
+        }
+    }
+}

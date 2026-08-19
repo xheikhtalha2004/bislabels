@@ -1,0 +1,54 @@
+// =============================================================================
+// LOGIN (CSS)
+// =============================================================================
+
+
+.login-row {
+	float:left;
+    @include grid-row();
+	margin-top: spacing("single");
+}
+
+.login-form {
+    @include grid-column(12);
+	text-align:left;
+    @include breakpoint("medium") {
+        @include grid-column(6);
+        margin-top: spacing("double");
+    }
+	.form-actions{
+		text-align:left;
+		.forgot-password{
+			line-height:42px;	
+		}
+	}
+}
+
+.new-customer {
+	text-align:left;
+    @include grid-column(12);
+    @include breakpoint("medium") {
+        @include grid-column(6);
+    }
+}
+
+.new-customer-intro {
+    margin-bottom: 0;
+}
+
+.new-customer-fact-list {
+    margin-left: spacing("single");
+	margin-top:10px;
+}
+
+.new-customer-fact {
+    padding-left: 2px;
+}
+
+.panel-header, .panel-body{
+	background-color: #f5f5f5;	
+}
+.panel-title{
+	font-weight:bold;
+	color:#000000;
+}
