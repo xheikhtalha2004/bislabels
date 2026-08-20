@@ -1,0 +1,41 @@
+# BigCommerce Stencil local configuration & secrets
+.stencil
+secrets.stencil.json
+config.stencil.json
+*.stencil
+
+# BigCommerce API credentials downloads
+BigCommerceAPI-credentials-*.txt
+
+# Dependencies
+node_modules/
+
+# Logs & Debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+
+# IDEs, Editors & System files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Caches & Temporary build artifacts
+.cache/
+.sass-cache/
+.eslintcache
+.tmp/
