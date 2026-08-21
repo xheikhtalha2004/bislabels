@@ -1,96 +1,61 @@
-{{!-- There are 2 code paths for generating the PDP pricing HTML determined by the following #and condition. 
-If a 'price_range' exists then we generate all HTML in price-range.html, otherwise it is defined here. Both code
-paths generate the same HTML structure with some differences in whether that element is displayed by default (css styling).
-
-If you are making a change here or in price-range.html, you probably want to make that change in both files. --}}
-
+{{!-- Price component for BIS Labels PDP --}}
 {{#and price.price_range (if theme_settings.price_ranges '==' true)}}
     {{> components/products/price-range price=price schema_org=schema_org}}
 {{else}}
-    {{#if price.with_tax}}
-        <div class="price-section price-section--withTax rrp-price--withTax" {{#unless price.rrp_with_tax}}style="display: none;"{{/unless}}>
-            {{theme_settings.pdp-retail-price-label}}
-            <span data-product-rrp-with-tax class="price price--rrp">
-                {{price.rrp_with_tax.formatted}}
-            </span>
-        </div>
-        
-        <div class="price-section price-section--withTax" {{#if schema_org}}itemprop="offers" itemscope itemtype="http://schema.org/Offer"{{/if}}>
-            <span class="price-label" {{#if price.non_sale_price_with_tax}}style="display: none;"{{/if}}>
-                {{theme_settings.pdp-price-label}}
-            </span>
-            <span class="price-now-label" {{#unless price.non_sale_price_with_tax}}style="display: none;"{{/unless}}>
-                {{!--  {{theme_settings.pdp-sale-price-label}} --}}
-            </span>
-            <span data-product-price-with-tax class="price price--withTax">{{price.with_tax.formatted}}</span>
-            {{#if schema_org}}
-                <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability" 
-                	content="http://schema.org/{{#if product.pre_order}}PreOrder{{else if product.out_of_stock}}OutOfStock{{else if product.can_purchase '===' false}}OutOfStock{{else}}InStock{{/if}}">
-                <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/{{product.condition}}Condition">
-                <meta itemprop="priceCurrency" content="{{currency_selector.active_currency_code}}">
-                <meta itemprop="url" content="{{product.url}}">
-                <div itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
-                    <meta itemprop="price" content="{{price.with_tax.value}}">
-                    <meta itemprop="priceCurrency" content="{{currency_selector.active_currency_code}}">
-                    <meta itemprop="valueAddedTaxIncluded" content="true">
-                </div>
+    <div class="bis-price-row">
+        {{!-- Primary Active Price --}}
+        <div class="bis-price-main">
+            {{#if price.with_tax}}
+                <span data-product-price-with-tax class="price price--withTax bis-price-val">{{price.with_tax.formatted}}</span>
             {{/if}}
             {{#if price.without_tax}}
-                <abbr title="{{lang 'products.including_tax'}}">{{lang 'products.price_with_tax' tax_label=price.tax_label}}</abbr>
+                <span data-product-price-without-tax class="price price--withoutTax bis-price-val">{{price.without_tax.formatted}}</span>
             {{/if}}
+            <span class="bis-price-unit">/ CASE</span>
         </div>
-		<div class="price-section price-section--withTax non-sale-price--withTax" {{#unless price.non_sale_price_with_tax}}style="display: none;"{{/unless}}>
-            {{!-- {{theme_settings.pdp-non-sale-price-label}}  --}}
-            <span data-product-non-sale-price-with-tax class="price price--non-sale">
-                {{price.non_sale_price_with_tax.formatted}}
+
+        {{!-- Original / Non-Sale Strikethrough Price --}}
+        <div class="bis-price-compare" {{#unless price.non_sale_price_without_tax}}{{#unless price.rrp_without_tax}}style="display: none;"{{/unless}}{{/unless}}>
+            <span class="bis-price-divider">|</span>
+            <span data-product-non-sale-price-without-tax class="price price--non-sale bis-price-strike">
+                {{#if price.non_sale_price_without_tax}}
+                    {{price.non_sale_price_without_tax.formatted}}
+                {{else}}
+                    {{price.rrp_without_tax.formatted}}
+                {{/if}}
             </span>
-        </div>
-    {{/if}}
-    {{#if price.without_tax}}
-        <div class="price-section price-section--withoutTax rrp-price--withoutTax{{#if price.with_tax}} price-section--minor{{/if}}" {{#unless price.rrp_without_tax}}style="display: none;"{{/unless}}>
-            {{theme_settings.pdp-retail-price-label}}
-            <span data-product-rrp-price-without-tax class="price price--rrp"> 
+            <span data-product-rrp-price-without-tax class="price price--rrp bis-price-strike" style="display: none;">
                 {{price.rrp_without_tax.formatted}}
             </span>
         </div>
-        <div class="price-section price-section--withoutTax non-sale-price--withoutTax{{#if price.with_tax}} price-section--minor{{/if}}" {{#unless price.non_sale_price_without_tax}}style="display: none;"{{/unless}}>
-            {{theme_settings.pdp-non-sale-price-label}}
-            <span data-product-non-sale-price-without-tax class="price price--non-sale">
-                {{price.non_sale_price_without_tax.formatted}}
-            </span>
+
+        {{!-- Savings Pill Badge --}}
+        <div class="bis-price-save-badge price-section--saving" {{#unless price.saved}}style="display: none;"{{/unless}}>
+            <span class="bis-badge-text">SAVE <span data-product-price-saved>{{price.saved.formatted}}</span></span>
         </div>
-        <div class="price-section price-section--withoutTax" {{#if schema_org}}itemprop="offers" itemscope itemtype="http://schema.org/Offer"{{/if}}>
-            <span class="price-label" {{#if price.non_sale_price_without_tax}}style="display: none;"{{/if}}>
-                {{theme_settings.pdp-price-label}}
-            </span>
-            <span class="price-now-label" {{#unless price.non_sale_price_without_tax}}style="display: none;"{{/unless}}>
-                {{theme_settings.pdp-sale-price-label}}
-            </span>
-            <span data-product-price-without-tax class="price price--withoutTax{{#if price.with_tax}} price-section--minor{{/if}}">{{price.without_tax.formatted}}</span>
-            {{#if schema_org}}
-                <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability"
-                    content="http://schema.org/{{#if product.pre_order}}PreOrder{{else if product.out_of_stock}}OutOfStock{{else if product.can_purchase '===' false}}OutOfStock{{else}}InStock{{/if}}">
-                <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/{{product.condition}}Condition">
+
+        {{!-- Microdata Schema for SEO --}}
+        {{#if schema_org}}
+            <meta itemprop="availability" itemtype="http://schema.org/ItemAvailability" 
+                content="http://schema.org/{{#if product.pre_order}}PreOrder{{else if product.out_of_stock}}OutOfStock{{else if product.can_purchase '===' false}}OutOfStock{{else}}InStock{{/if}}">
+            <meta itemprop="itemCondition" itemtype="http://schema.org/OfferItemCondition" content="http://schema.org/{{product.condition}}Condition">
+            <meta itemprop="priceCurrency" content="{{currency_selector.active_currency_code}}">
+            <meta itemprop="url" content="{{product.url}}">
+            <div itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
+                <meta itemprop="price" content="{{#if price.with_tax}}{{price.with_tax.value}}{{else}}{{price.without_tax.value}}{{/if}}">
                 <meta itemprop="priceCurrency" content="{{currency_selector.active_currency_code}}">
-                <meta itemprop="url" content="{{product.url}}">
-                <div itemprop="priceSpecification" itemscope itemtype="http://schema.org/PriceSpecification">
-                    <meta itemprop="price" content="{{price.without_tax.value}}">
-                    <meta itemprop="priceCurrency" content="{{currency_selector.active_currency_code}}">
-                    <meta itemprop="valueAddedTaxIncluded" content="false">
-                </div>
-            {{/if}}
-            {{#if price.with_tax}}
-                <abbr title="{{lang 'products.excluding_tax'}}">{{lang 'products.price_without_tax' tax_label=price.tax_label}}</abbr>
-            {{/if}}
+                <meta itemprop="valueAddedTaxIncluded" content="{{#if price.with_tax}}true{{else}}false{{/if}}">
+            </div>
+        {{/if}}
+
+        {{!-- Hidden compatibility elements for product-details.js ViewModel --}}
+        <div style="display:none;">
+            <div class="rrp-price--withTax"><span data-product-rrp-with-tax></span></div>
+            <div class="rrp-price--withoutTax"><span data-product-rrp-price-without-tax></span></div>
+            <div class="non-sale-price--withTax"><span data-product-non-sale-price-with-tax></span></div>
+            <div class="non-sale-price--withoutTax"><span data-product-non-sale-price-without-tax></span></div>
+            <span class="price-now-label"></span>
+            <span class="price-label"></span>
         </div>
-    {{/if}}
-    {{#if page_type '===' 'product'}}
-         <div class="price-section price-section--saving price" {{#unless price.saved}}style="display: none;"{{/unless}}>
-                <span class="price">{{lang 'products.you_save_opening_text'}}</span>
-                <span data-product-price-saved class="price price--saving">
-                    {{price.saved.formatted}}
-                </span>
-                <span class="price">{{lang 'products.you_save_closing_bracket'}}</span>
-         </div>
-    {{/if}}
+    </div>
 {{/and}}

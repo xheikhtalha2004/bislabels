@@ -39,3 +39,9 @@ desktop.ini
 .sass-cache/
 .eslintcache
 .tmp/
+
+# Audit reports & Workspace customizations
+reports/
+skills-lock.json
+.agents/
+

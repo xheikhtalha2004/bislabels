@@ -1,306 +1,874 @@
 // =============================================================================
-// PRODUCT VIEW (CSS)
+// BIS LABELS — PDP SCOPED STYLES (layouts/products/_productView.scss)
+// Replaces only PDP-scoped rules. All other site areas unaffected.
 // =============================================================================
 
+$bis-red:         #e31b23;
+$bis-red-dark:    #c5161d;
+$bis-red-light:   #fff5f5;
+$bis-dark:        #0f172a;
+$bis-gray:        #334155;
+$bis-muted:       #64748b;
+$bis-bg-subtle:   #f8fafc;
+$bis-border:      #e2e8f0;
+$bis-border-md:   #cbd5e1;
 
-// Product view layout
-// -----------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// 1. HIDE THE BREADCRUMB AREA'S PAGE HEADING (category-name h1 band)
+//    The breadcrumbs partial renders an h1.category-name on product pages.
+//    We hide only that heading so the PDP h1 remains the only title visible.
+// -------------------------------------------------------------------------
+.tt-breadcrumbs-main .category-name {
+    display: none !important;
+}
 
-.productView {
+// -------------------------------------------------------------------------
+// 2. CORE PDP CONTAINER
+// -------------------------------------------------------------------------
+.productView.bis-pdp {
+    // Reset the old float-based layout the theme applies to .productView
+    float: none !important;
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding: 12px 0 40px 0;
+    clear: both;
+    overflow: visible;
+
+    // -------------------------------------------------------------------------
+    // 3. TWO-COLUMN GRID — media left, purchase right
+    // -------------------------------------------------------------------------
+    .bis-pdp-main-grid {
+        display: grid;
+        grid-template-columns: 46% 1fr;
+        gap: 32px;
+        align-items: start;
+        min-width: 0;
+
+        @media (max-width: 991px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // 4. LEFT COLUMN — GALLERY
+    // -------------------------------------------------------------------------
+    .bis-pdp-gallery {
+        float: none !important;
+        width: 100% !important;
+        min-width: 0;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        // Main image wrapper: override the position:relative + lazy-padding approach
+        .bis-pdp-main-image {
+            position: relative;
+            background: #fff;
+            border: 1px solid $bis-border;
+            border-radius: 6px;
+            overflow: hidden;
+
+            // Let image size drive height. Override the component min-height: 366px.
+            display: block !important;
+            min-height: 0 !important;
+            max-height: none !important;
+
+            // Override lazy-loaded-padding pseudo-element:
+            // The productView-img-container::after normally creates ~120%
+            // padding-bottom (570x684 aspect ratio). We collapse it here.
+            .productView-img-container {
+                position: static !important;        // lift out of relative stack
+                max-width: 100%;
+                width: 100%;
+                height: auto !important;
+                margin: 0 auto;
+                padding: 16px;
+
+                // Kill the ::after padding-bottom pseudo-element entirely.
+                // ponytail: using !important here because the component-level
+                // rule (specificity 10) would otherwise win in same order.
+                &::after {
+                    content: none !important;
+                    display: none !important;
+                    padding-bottom: 0 !important;
+                    height: 0 !important;
+                }
+
+                // Reflow the image from position:absolute to normal flow
+                img {
+                    position: static !important;
+                    display: block;
+                    // Fill the container width; object-fit:contain maintains ratio
+                    width: 100% !important;
+                    max-width: 100%;
+                    max-height: 420px;
+                    height: auto;
+                    object-fit: contain;
+                    margin: 0 auto;
+                    top: auto !important;
+                    left: auto !important;
+                    right: auto !important;
+                    bottom: auto !important;
+                }
+            }
+
+            // SALE badge — top-left overlay
+            .bis-sale-badge {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                z-index: 2;
+                background: $bis-red;
+                color: #fff;
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 0.06em;
+                line-height: 1;
+                text-transform: uppercase;
+                padding: 5px 10px;
+                border-radius: 3px;
+            }
+
+            // Sold-out overlay
+            .sold-out-product { opacity: 0.5; }
+            .wdgsold-out { display: none; }
+        }
+
+        // Thumbnail row
+        .bis-pdp-thumbnails {
+            list-style: none;
+            margin: 10px 0 0 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            // Reset slick defaults that try to float/position
+            &.slick-slider { display: flex !important; }
+            .slick-track { display: flex !important; gap: 8px; }
+
+            .productView-thumbnail {
+                flex: 0 0 calc(25% - 6px);
+                margin: 0;
+                padding: 0;
+
+                @media (max-width: 480px) {
+                    flex: 0 0 calc(33.333% - 6px);
+                }
+
+                .productView-thumbnail-link {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #fff;
+                    border: 1.5px solid $bis-border-md;
+                    border-radius: 5px;
+                    padding: 4px;
+                    min-height: 66px;
+                    transition: border-color 0.15s;
+
+                    img {
+                        max-height: 56px;
+                        max-width: 100%;
+                        object-fit: contain;
+                    }
+
+                    &:hover, &.is-active {
+                        border-color: $bis-red;
+                        box-shadow: 0 0 0 1px $bis-red;
+                    }
+                }
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // 5. RIGHT COLUMN — PURCHASE PANEL
+    // -------------------------------------------------------------------------
+    .bis-pdp-details {
+        float: none !important;
+        width: 100% !important;
+        min-width: 0;
+        padding: 0 !important;
+        margin: 0 !important;
+
+        // Product title
+        .bis-pdp-title {
+            font-size: 22px;
+            line-height: 1.2;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: $bis-dark;
+            letter-spacing: -0.01em;
+            margin: 0 0 4px 0;
+            padding: 0;
+            border: none;
+
+            @media (max-width: 768px) { font-size: 18px; }
+        }
+
+        // Brand (small, under title)
+        .productView-brand {
+            font-size: 12px;
+            font-weight: 500;
+            color: $bis-muted;
+            margin: 0 0 10px 0;
+            border: none;
+            a { color: $bis-muted; text-decoration: none; }
+        }
+
+        // Subtitle / tagline
+        .bis-pdp-subtitle {
+            font-size: 14px;
+            font-weight: 400;
+            color: $bis-muted;
+            margin: 2px 0 12px 0;
+            line-height: 1.4;
+        }
+
+        // -------------------------------------------------------------------------
+        // 6. PRICE BLOCK
+        // -------------------------------------------------------------------------
+        .bis-pdp-price-wrap {
+            margin-bottom: 12px;
+
+            // Container from price.html
+            .bis-price-row {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .bis-price-main {
+                display: flex;
+                align-items: baseline;
+                gap: 5px;
+
+                .bis-price-val {
+                    color: $bis-red;
+                    font-size: 30px;
+                    font-weight: 800;
+                    letter-spacing: -0.02em;
+                    line-height: 1;
+
+                    @media (max-width: 768px) { font-size: 26px; }
+                }
+
+                .bis-price-unit {
+                    color: $bis-red;
+                    font-size: 14px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                }
+            }
+
+            .bis-price-compare {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                .bis-price-divider {
+                    color: $bis-border-md;
+                    font-size: 18px;
+                    font-weight: 300;
+                }
+
+                .bis-price-strike {
+                    color: $bis-muted;
+                    font-size: 16px;
+                    font-weight: 500;
+                    text-decoration: line-through;
+                }
+            }
+
+            .bis-price-save-badge {
+                display: inline-flex;
+
+                .bis-badge-text {
+                    background: $bis-red;
+                    color: #fff;
+                    font-size: 11px;
+                    font-weight: 800;
+                    letter-spacing: 0.05em;
+                    text-transform: uppercase;
+                    padding: 5px 9px;
+                    border-radius: 3px;
+                    line-height: 1;
+                }
+            }
+
+            // Hide when no sale
+            .bis-price-compare,
+            .bis-price-save-badge {
+                &[style*="display: none"],
+                &[style*="display:none"] { display: none !important; }
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 7. QUICK SPECS — only shown if custom fields supply real data
+        // -------------------------------------------------------------------------
+        .bis-quick-specs {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            padding: 10px 16px;
+            background: $bis-bg-subtle;
+            border: 1px solid $bis-border;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            font-weight: 500;
+            // Hide redundant fields from compact top bar (they appear in specs section below)
+            [data-spec-name*="Price"],
+            [data-spec-name*="price"],
+            [data-spec-name*="Type"],
+            [data-spec-name*="type"],
+            [data-spec-name*="Across"],
+            [data-spec-name*="across"] {
+                display: none !important;
+            }
+
+            .bis-spec-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+
+                .bis-spec-icon { stroke: $bis-red; flex-shrink: 0; }
+
+                .bis-spec-text {
+                    strong {
+                        font-weight: 700;
+                        color: $bis-dark;
+                    }
+                }
+
+                &:not(:first-child) {
+                    position: relative;
+                }
+            }
+
+            @media (max-width: 480px) {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 8. OPTIONS CONTAINER (shown by product-details.js when options exist)
+        // -------------------------------------------------------------------------
+        .bis-options-container {
+            margin-bottom: 10px;
+        }
+
+        .bis-option-group {
+            margin-bottom: 14px;
+
+            .bis-option-label {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 7px;
+                font-size: 13px;
+                font-weight: 700;
+                color: $bis-dark;
+                margin: 0 0 7px 0;
+                padding: 0;
+
+                .bis-required-tag {
+                    font-size: 11px;
+                    color: $bis-red;
+                    font-weight: 600;
+                }
+
+                .bis-selected-val {
+                    font-weight: 500;
+                    color: $bis-muted;
+                }
+            }
+
+            // Dropdown
+            .bis-select-box {
+                position: relative;
+                width: 100%;
+
+                .bis-select-input {
+                    appearance: none;
+                    -webkit-appearance: none;
+                    width: 100%;
+                    height: 48px;
+                    padding: 0 40px 0 14px;
+                    background: #fff;
+                    border: 1.5px solid $bis-border-md;
+                    border-radius: 5px;
+                    color: $bis-dark;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: border-color 0.15s;
+
+                    &:hover { border-color: $bis-dark; }
+                    &:focus {
+                        border-color: #2563eb;
+                        outline: none;
+                        box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+                    }
+                }
+
+                .bis-select-chevron {
+                    position: absolute;
+                    right: 12px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    pointer-events: none;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            // Rectangle (card) options
+            .bis-rectangle-grid {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+
+                .bis-rectangle-radio {
+                    position: absolute;
+                    opacity: 0;
+                    pointer-events: none;
+                    width: 0; height: 0;
+
+                    &:checked + .bis-rectangle-card {
+                        border-color: $bis-dark;
+                        background: $bis-bg-subtle;
+                        box-shadow: 0 0 0 1px $bis-dark;
+
+                        .bis-rectangle-check { opacity: 1; transform: scale(1); }
+                    }
+
+                    &:focus + .bis-rectangle-card {
+                        box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+                    }
+                }
+
+                .bis-rectangle-card {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 7px;
+                    min-height: 44px;
+                    padding: 8px 16px;
+                    background: #fff;
+                    border: 1.5px solid $bis-border-md;
+                    border-radius: 5px;
+                    color: $bis-gray;
+                    font-size: 13px;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.15s;
+                    user-select: none;
+                    margin: 0;
+
+                    &:hover { border-color: $bis-dark; color: $bis-dark; }
+
+                    .bis-rectangle-check {
+                        display: inline-flex;
+                        opacity: 0;
+                        transform: scale(0.5);
+                        transition: all 0.15s;
+                        color: $bis-dark;
+                    }
+                }
+            }
+
+            // Radio list
+            .bis-radio-list {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+
+                .bis-radio-item {
+                    display: flex;
+                    align-items: center;
+                    min-height: 44px;
+
+                    .bis-custom-radio { margin-right: 8px; cursor: pointer; }
+
+                    .bis-radio-label {
+                        cursor: pointer;
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: $bis-dark;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 9. PURCHASE CONTROLS — Qty + Add to Cart
+        // -------------------------------------------------------------------------
+        .bis-purchase-container {
+            margin: 12px 0 10px 0;
+
+            .bis-purchase-controls {
+                display: flex;
+                gap: 12px;
+                align-items: stretch;
+
+                @media (max-width: 480px) { flex-direction: column; }
+
+                // Quantity stepper
+                .bis-qty-wrapper {
+                    flex: 0 0 120px;
+                    margin: 0;
+
+                    @media (max-width: 480px) { flex: 1 1 auto; }
+
+                    .bis-qty-stepper {
+                        display: flex;
+                        align-items: stretch;
+                        height: 48px;
+                        border: 1.5px solid $bis-border-md;
+                        border-radius: 5px;
+                        background: #fff;
+                        overflow: hidden;
+                        margin: 0;
+                        padding: 0;
+
+                        .bis-qty-btn {
+                            flex: 0 0 36px;
+                            background: transparent;
+                            border: none;
+                            color: $bis-gray;
+                            font-size: 18px;
+                            font-weight: 700;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            cursor: pointer;
+                            transition: background 0.15s;
+                            padding: 0;
+                            margin: 0;
+                            line-height: 1;
+
+                            &:hover { background: $bis-bg-subtle; color: $bis-dark; }
+                            &:focus { outline: none; background: $bis-border; }
+                        }
+
+                        .bis-qty-input {
+                            flex: 1 1 auto;
+                            border: none;
+                            background: transparent;
+                            text-align: center;
+                            color: $bis-dark;
+                            font-size: 15px;
+                            font-weight: 700;
+                            width: 100%;
+                            margin: 0;
+                            padding: 0;
+
+                            &:focus { outline: none; }
+                        }
+                    }
+                }
+
+                // Add to Cart button
+                .bis-add-cart-action {
+                    flex: 1 1 auto;
+                    margin: 0;
+
+                    .bis-btn-add-cart {
+                        width: 100%;
+                        height: 48px;
+                        background: $bis-red;
+                        color: #fff;
+                        font-size: 14px;
+                        font-weight: 800;
+                        text-transform: uppercase;
+                        letter-spacing: 0.04em;
+                        border: none;
+                        border-radius: 5px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 9px;
+                        cursor: pointer;
+                        transition: background 0.15s, transform 0.1s;
+                        padding: 0 20px;
+                        margin: 0;
+                        box-shadow: 0 2px 8px rgba(227,27,35,0.25);
+
+                        .bis-cart-icon { stroke: #fff; flex-shrink: 0; }
+
+                        &:hover {
+                            background: $bis-red-dark;
+                            transform: translateY(-1px);
+                            box-shadow: 0 4px 12px rgba(227,27,35,0.35);
+                        }
+                        &:active { transform: translateY(0); }
+                        &:focus { outline: none; box-shadow: 0 0 0 3px rgba(227,27,35,0.3); }
+                    }
+                }
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // 10. TALK TO AN EXPERT — secondary CTA
+        // -------------------------------------------------------------------------
+        .bis-talk-expert-wrap {
+            margin: 8px 0 12px 0;
+
+            .bis-btn-talk-expert {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                width: 100%;
+                height: 44px;
+                background: #fff;
+                border: 1.5px solid $bis-border-md;
+                border-radius: 5px;
+                color: $bis-dark;
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                text-decoration: none;
+                transition: all 0.15s;
+                cursor: pointer;
+
+                svg { stroke: $bis-dark; transition: stroke 0.15s; }
+
+                &:hover {
+                    border-color: $bis-red;
+                    color: $bis-red;
+                    background: $bis-red-light;
+                    svg { stroke: $bis-red; }
+                }
+                &:focus { outline: none; box-shadow: 0 0 0 3px rgba(227,27,35,0.15); }
+            }
+        }
+
+        // Wishlist — keep but de-emphasize
+        .bis-wishlist-wrap {
+            margin-top: 6px;
+            font-size: 13px;
+
+            // Scope wishlist link to be subtle
+            .wishlistDropdown, a, button {
+                color: $bis-muted;
+                font-size: 12px;
+                font-weight: 500;
+                text-decoration: underline;
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+
+                &:hover { color: $bis-dark; }
+            }
+        }
+
+        // Alert box for option validation
+        .alertBox.productAttributes-message {
+            margin: 8px 0;
+            font-size: 13px;
+        }
+
+        // Stock display
+        .form-field--stock { margin: 8px 0; font-size: 12px; color: $bis-muted; }
+    }
+
+    // -------------------------------------------------------------------------
+    // 11. TRUST STRIP
+    // -------------------------------------------------------------------------
+    .bis-trust-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        background: $bis-bg-subtle;
+        border: 1px solid $bis-border;
+        border-radius: 6px;
+        padding: 16px 20px;
+        margin: 24px 0 20px 0;
+        clear: both;
+
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            padding: 16px;
+        }
+
+        @media (max-width: 480px) {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 14px;
+        }
+
+        .bis-trust-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 16px 0 0;
+            border-right: 1px solid $bis-border;
+
+            &:last-child { border-right: none; padding-right: 0; }
+
+            @media (max-width: 768px) {
+                border-right: none;
+                padding-right: 0;
+            }
+
+            .bis-trust-icon {
+                flex-shrink: 0;
+                width: 40px;
+                height: 40px;
+                border-radius: 6px;
+                background: #fff;
+                border: 1px solid $bis-border;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .bis-trust-content {
+                .bis-trust-title {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: $bis-dark;
+                    margin: 0 0 1px 0;
+                    line-height: 1.2;
+                }
+                .bis-trust-desc {
+                    font-size: 11px;
+                    color: $bis-muted;
+                    margin: 0;
+                    line-height: 1.2;
+                }
+            }
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // 12. LOWER FEATURE / SPEC CARDS
+    // -------------------------------------------------------------------------
+    .bis-feature-section {
+        margin: 28px 0 36px 0;
+        clear: both;
+
+        .bis-feature-heading {
+            text-align: center;
+            font-size: 22px;
+            font-weight: 800;
+            color: $bis-dark;
+            margin: 0 0 20px 0;
+            letter-spacing: -0.01em;
+        }
+
+        .bis-feature-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+
+            @media (max-width: 991px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media (max-width: 480px) {
+                grid-template-columns: 1fr;
+            }
+
+            .bis-feature-card {
+                background: #fff;
+                border: 1px solid $bis-border;
+                border-radius: 8px;
+                padding: 24px 16px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+                    border-color: $bis-border-md;
+                }
+
+                .bis-feature-icon {
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 50%;
+                    background: $bis-red-light;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-bottom: 12px;
+                }
+
+                .bis-feature-title {
+                    font-size: 15px;
+                    font-weight: 700;
+                    color: $bis-dark;
+                    margin: 0 0 6px 0;
+                    line-height: 1.3;
+                }
+
+                .bis-feature-desc {
+                    font-size: 12px;
+                    color: $bis-muted;
+                    line-height: 1.45;
+                    margin: 0;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+
+    // Modal quick-view overrides
+    .modal & {
+        padding: 20px;
+        .bis-trust-strip,
+        .bis-feature-section { display: none; }
+    }
+}
+
+// -------------------------------------------------------------------------
+// LEGACY RULES (kept for non-PDP contexts only)
+// -------------------------------------------------------------------------
+
+// These apply to the old productView layout used outside PDP (quick-view, etc.)
+// They're only reached when .bis-pdp is NOT present.
+.productView:not(.bis-pdp) {
     @include grid-row($behavior: "nest");
     margin-left: -(spacing("base"));
     margin-right: -(spacing("base"));
-	@media (max-width: 991px){
-		margin:0;
-		width:100%;
-	}
-	@media (max-width: 544px){
-		padding:0;
-	}
-	.socialLinks{
-		@media (max-width: 991px){
-			text-align: left;
-		}	
-	}
-    .modal & {
-        padding-bottom: 0;
-        padding-top: 0;
-    }
+    float: left;
+    width: 100%;
+
+    @media (max-width: 991px) { margin: 0; width: 100%; }
+    @media (max-width: 544px) { padding: 0; }
 }
 
-.productView--quickView {
-    .socialLinks-item--print {
-        display: none;
-    }
-}
-
-.productView-images{
-	padding-left: spacing("base");
-    padding-right: spacing("base");
-	@media (min-width: 544px) and (max-width: 991px){
-		float: none;
-		width: 80%;
-		margin-bottom:0;
-		display: inline-block;
-		vertical-align: top;
-	}
-	@media (max-width: 544px){
-		padding:0;
-		float:left;
-		width:100%;	
-	}
-	.wdgimg-bg{
-		background: #ffffff;
-		-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.15);
-		-moz-box-shadow: 0 0 10px rgba(0,0,0,0.15);
-		-ms-box-shadow: 0 0 10px rgba(0,0,0,0.15);
-		-o-box-shadow: 0 0 10px rgba(0,0,0,0.15);
-		box-shadow: 0 0 10px rgba(0,0,0,0.15);
-		position: absolute;
-		border-radius: 8px;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		top: 0;
-		margin-bottom: 0;
-		-webkit-opacity: 0;
-		-moz-opacity: 0;
-		-khtml-opacity: 0;
-		opacity: 0;
-		-webkit-transform: scale(0.98);
-		-moz-transform: scale(0.98);
-		-ms-transform: scale(0.98);
-		-o-transform: scale(0.98);
-		transform: scale(0.98);
-		-webkit-transition: all 0.3s ease 0s;
-		-moz-transition: all 0.3s ease 0s;
-		-ms-transition: all 0.3s ease 0s;
-		-o-transition: all 0.3s ease 0s;
-		transition: all 0.3s ease 0s;
-		z-index: -1;
-		margin-bottom: -45px;
-		visibility: hidden;	
-		@media (max-width: 991px){
-			margin-bottom: -10px;
-			-webkit-opacity: 1;
-			-moz-opacity: 1;
-			-khtml-opacity: 1;
-			opacity: 1;
-			-webkit-transform: scale(1);
-			-moz-transform: scale(1);
-			-ms-transform: scale(1);
-			-o-transform: scale(1);
-			transform: scale(1);
-			-webkit-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-			-moz-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-			-ms-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-			-o-transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-			transition: opacity 0.3s ease 0s, visibility 0s ease 0s, transform 0.3s ease 0s, -webkit-transform 0.3s ease 0s;
-			visibility: visible;
-		}
-	}
-	.sold-out-product{
-		-webkit-opacity: 0.5;
-		-moz-opacity: 0.5;
-		-khtml-opacity: 0.5;
-		opacity: 0.5;
-	}
-	.wdgsold-out {
-		position: absolute;
-		height: 80px;
-		width: 80px;
-		line-height: 70px;
-		z-index: 1;
-		background: stencilColor("button--default-backgroundColor");
-		-webkit-opacity: 0.7;
-		-moz-opacity: 0.7;
-		-khtml-opacity: 0.7;
-		opacity: 0.9;
-		border-radius: 50%;
-		padding: 5px;
-		right: 0;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		margin: auto;
-		color: stencilColor("button--default-color");
-		font-size: 13px;
-	}
-	.productView-image {
-		border: 1px solid stencilColor("container-border-global-color-base");
-		border-radius: 8px;
-		overflow:hidden;
-	}
-	&:hover{
-		.wdgsold-out{
-			display:none;	
-		}	
-	}
-}
-.productView-details {
-    padding-left: spacing("base");
-    padding-right: spacing("base");
-	text-align:left;
-	@media (max-width: 991px){
-		float:left;
-		width:100%;	
-		padding:0;
-		margin: 30px 0 0 0;
-	}
-	@media (max-width: 544px){	
-		padding:0;
-		margin: 10px 0 0 0;
-	}
-	
-}
-
-.productView-btn{
-	@media (min-width: 544px) and (max-width: 991px){
-		margin: 0 0 30px;
-		padding:0;
-	}
-	@media (min-width: 320px) and (max-width: 543px){
-		margin: 0 0 10px;
-		padding:0;
-	}
-}
-
-.productView-title {
-	border-bottom: 1px solid stencilColor("container-border-global-color-base");
-	color: #222222;
-	margin: 0 0 12px;
-	padding-bottom: 12px;
-	text-transform: capitalize;
-	font: $fontWeight-bold 18px/24px Roboto,Helvetica,sans-serif;
-}
-	
 .productView-description {
-	margin: 30px 0 45px;
-	background: #fff;
-	padding: 15px 25px;
-	border: 1px solid stencilColor("container-border-global-color-base");
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	-khtml-border-radius: 8px;
-	border-radius: 8px;
-	float: left;
-	width: 100%;
-	@media (min-width: 544px) and (max-width: 991px){
-		margin: 0px 0 30px;
-		padding: 15px 15px;
-	}
-	@media (max-width: 544px){
-		margin: 20px 0 25px;
-		padding: 15px 15px;
-	}
-	.tabs{
-		border-bottom: 1px solid #ddd;
-		margin: 0 0 -4px;
-		list-style: outside none none;
-		margin-bottom: 15px;
-		li.tab{
-			margin-right: 30px;
-			float: left;
-			position: relative;
-			border:none;
-			margin-bottom: 0;
-			a{	
-				color: #777;
-				font: $fontWeight-semibold 16px/20px Roboto,sans-serif;
-				letter-spacing: 1px;
-				margin: 0 0 1px;
-				outline: medium none;
-				padding: 10px 0 12px;
-				position: relative;
-				text-transform: capitalize;
-				border-radius: 8px;
-				-moz-border-radius: 8px;
-				-webkit-border-radius: 8px;
-				-khtml-border-radius: 8px;
-				border: none;
-				background: none;
-				z-index: 1;
-				&:before{
-					border-bottom: 3px solid stencilColor("container-border-global-color-base");
-					bottom: -3px;
-					top: auto;
-					margin: auto;
-					content: "";
-					height: 3px;
-					left: 0;
-					position: absolute;
-					right: 0;
-					width: 0;
-					transition: 400ms ease-in-out;	
-					-webkit-transition:400ms ease-in-out;
-					-moz-transition:400ms ease-in-out;
-					-ms-transition:400ms ease-in-out;
-					-o-transition:400ms ease-in-out;
-				}
-			}	
-			&:before {
-				content: "";
-				position: absolute;
-				width: 0;
-				height: 3px;
-				bottom: -2px;
-				top: auto;
-				background: stencilColor("button--primary-backgroundColorHover");
-				left: 0;
-				right: 0;
-				margin: auto;
-				transition: 400ms ease-in-out;
-				-webkit-transition:400ms ease-in-out;
-				-moz-transition:400ms ease-in-out;
-				-ms-transition:400ms ease-in-out;
-				-o-transition:400ms ease-in-out;
-			}
-			&:hover{
-				a{
-					color:#000000;	
-					&:before {
-						width: 100%;	
-					}
-				}	
-			}
-		}	
-		li.is-active{
-			a{
-				color:#000000;	
-			}
-			&:before {
-				width: 100%;
-			}	
-			> a::before {
-				width: 100%;
-				border: none;
-			}
-		}
-	}
-	.tabs-contents{
-		text-align:left;
-		padding:10px 0 0 0;	
-		li{
-			list-style: outside;
-		}
-		p{
-			span{
-				color:#333333;
-			}
-		}
-	}
+    margin: 30px 0 45px;
+    background: #fff;
+    padding: 15px 25px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    float: left;
+    width: 100%;
+    @media (max-width: 544px) { margin: 20px 0 25px; padding: 15px; }
 }
 
-.productView-brand{
-	font:400 14px/20px "Roboto",Helvetica,sans-serif;
-	a{
-		text-decoration:none;
-		text-transform: capitalize;
-		color: #222222;
-	}
+.productView-brand {
+    font: 400 14px/20px "Roboto", Helvetica, sans-serif;
+    a { text-decoration: none; text-transform: capitalize; color: #222; }
 }
 
-
-.modal-body .productView-details {
-    padding: 30px;
-}
+.modal-body .productView-details { padding: 30px; }

@@ -1,5 +1,6 @@
-<div class="productView" {{#if settings.data_tag_enabled}} data-event-type="product" data-entity-id="{{product.id}}" data-name="{{product.title}}" data-product-category="{{#each product.category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{product.brand.name}}" data-product-price="{{#if product.price.with_tax}}{{product.price.with_tax.value}}{{else}}{{product.price.without_tax.value}}{{/if}}" data-product-variant="single-product-option"{{/if}}>
-{{#each product.reviews.messages}}
+<div class="productView bis-pdp" {{#if settings.data_tag_enabled}} data-event-type="product" data-entity-id="{{product.id}}" data-name="{{product.title}}" data-product-category="{{#each product.category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{product.brand.name}}" data-product-price="{{#if product.price.with_tax}}{{product.price.with_tax.value}}{{else}}{{product.price.without_tax.value}}{{/if}}" data-product-variant="single-product-option"{{/if}}>
+    
+    {{#each product.reviews.messages}}
         {{#if error}}
             {{> components/common/alert-error error}}
         {{/if}}
@@ -8,390 +9,262 @@
         {{/if}}
     {{/each}}
 
-    
+    {{!-- 2-COLUMN HERO: Gallery left, Purchase right --}}
+    <div class="bis-pdp-main-grid">
 
-    <section class="productView-images col-5" data-image-gallery>
-        {{!--
-            Note that these image sizes are coupled to image sizes used in /assets/js/theme/common/product-details.js
-            for variant/rule image replacement
-        --}}
-        <figure class="productView-image"
-                data-image-gallery-main
-                {{#if product.main_image}}
-                data-zoom-image="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size }}"
-                {{/if}}
-                >
-                {{#if product.out_of_stock}}
-                <span class="wdgsold-out">{{lang 'products.sold_out'}}</span>
-            {{/if}}
-            <div class="productView-img-container {{#if product.out_of_stock}}sold-out-product{{/if}}">
-                {{!-- Remove the surrounding a-element if there is no main image. --}}
-                {{#if product.main_image}}
-                    <a href="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size}}"
-                        target="_blank"{{#if schema}} itemprop="image"{{/if}}>
-                {{/if}}
-                {{> components/common/responsive-img
-                    image=product.main_image
-                    class="productView-image--default"
-                    fallback_size=theme_settings.product_size
-                    lazyload=theme_settings.lazyload_mode
-                    default_image=theme_settings.default_image_product
-                    otherAttributes="data-main-image"
-                }}
-                {{!-- Remove the surrounding a-element if there is no main image. --}}
-                {{#if product.main_image}}
-                    </a>
-                {{/if}}
-            </div>
-        </figure>
-        <ul class="productView-thumbnails"{{#gt product.images.length 0}} data-slick='{
-                "infinite": false,
-                "mobileFirst": true,
-                "dots": false,
-                "slidesToShow": 4,
-                "slidesToScroll": 1,
-                "responsive": [
-                    {
-                      "breakpoint": 1200,
-                      "settings": {
-                        "slidesToShow": 4,
-                        "slidesToScroll": 1
-                      }
-                    },
-                    {
-                      "breakpoint": 990,
-                      "settings": {
-                        "slidesToShow": 3,
-                        "slidesToScroll": 1
-                      }
-                    },
-                    {
-                      "breakpoint": 800,
-                      "settings": {
-                        "slidesToShow": 2,
-                        "slidesToScroll": 1
-                      }
-                    },
-                    {
-                      "breakpoint": 544,
-                      "settings": {
-                        "slidesToShow": 4,
-                        "slidesToScroll": 1
-                      }
-                    },
-                    {
-                      "breakpoint": 320,
-                      "settings": {
-                        "slidesToShow": 3,
-                        "slidesToScroll": 1
-                      }
-                    },
-                    {
-                      "breakpoint": 0,
-                      "settings": {
-                        "slidesToShow": 2,
-                        "slidesToScroll": 1
-                      }
-                    }
-                ]
-            }'{{/gt}}>
-            {{#each product.images}}
-                <li class="productView-thumbnail">
-                    <a
-                        class="productView-thumbnail-link"
-                        href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
-                        data-image-gallery-item
-                        data-image-gallery-new-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.product_size}}"
-                        data-image-gallery-new-image-srcset="{{getImageSrcset this use_default_sizes=true}}"
-                        data-image-gallery-zoom-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
-                    >
-                    {{> components/common/responsive-img
-                        image=this
-                        fallback_size=../theme_settings.productview_thumb_size
-                        lazyload=../theme_settings.lazyload_mode
-                    }}
-                    </a>
-                </li>
-            {{/each}}
-        </ul>
-    </section>
-    
-    <section class="productView-details col-7">
-        <div class="productView-product">
-            <h1 class="productView-title" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h1>
-            {{#if product.brand}}
-                <h2 class="productView-brand"{{#if schema}} itemprop="brand" itemscope itemtype="http://schema.org/Brand"{{/if}}>
-                    <a href="{{product.brand.url}}"{{#if schema}} itemprop="url"{{/if}}><span{{#if schema}} itemprop="name"{{/if}}>{{product.brand.name}}</span></a>
-                </h2>
-            {{/if}}
-            {{#if product.call_for_price}}
-                <p class="productView-price">
-                    <span class="tt-call-price">
-                        <span class="material-icons">phone</span>
-                        {{product.call_for_price}}
-                    </span>
-                </p>
-            {{/if}}
-            <div class="productView-price">
-                {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
-                    {{> components/products/price price=product.price schema_org=schema}}
-                {{else}}
-                    {{> components/common/login-for-pricing}}
+        {{!-- LEFT COLUMN: IMAGE GALLERY --}}
+        <section class="productView-images bis-pdp-gallery" data-image-gallery>
+            <figure class="productView-image bis-pdp-main-image"
+                    data-image-gallery-main
+                    {{#if product.main_image}}
+                    data-zoom-image="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size }}"
+                    {{/if}}>
+
+                {{!-- Sale badge --}}
+                {{#or product.price.non_sale_price_with_tax product.price.non_sale_price_without_tax product.price.saved}}
+                    <span class="bis-sale-badge">SALE</span>
                 {{/or}}
-            </div>
-            {{{region name="product_below_price"}}}
-            <div class="productView-rating"{{#if product.num_reviews '>' 0}}{{#if schema}} itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating"{{/if}}{{/if}}>
-                {{#if settings.show_product_rating}}
-                    {{#if product.num_reviews '>' 0}}
-                        {{#if schema}}
-                            <meta itemprop="ratingValue" content="{{product.rating}}">
-                            <meta itemprop="ratingCount" content="{{product.num_reviews}}">
-                            <meta itemprop="reviewCount" content="{{product.num_reviews}}">
-                        {{/if}}
-                    {{/if}}
-                    {{> components/products/ratings rating=product.rating}}
-                    <span class="productView-reviewLink tt-readreview">
-                        {{#if product.num_reviews '>' 0}}
-                            <a href="#">
-                                <span class="material-icons">mode_comment</span>
-                                {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
-                            </a>
-                        {{else}}
-                            {{lang 'products.reviews.link_to_review' total=product.num_reviews}}
-                        {{/if}}
-                    </span>
-                {{/if}}
-                {{#if settings.show_product_reviews}}
-                    <span class="productView-reviewLink">
-                        <a href="{{product.url}}{{#if is_ajax}}#write_review{{/if}}"
-                           {{#unless is_ajax }}data-reveal-id="modal-review-form"{{/unless}}>
-                           <span class="material-icons">edit</span>
-                           {{lang 'products.reviews.new'}}
-                        </a>
-                    </span>
-                    {{> components/products/modals/writeReview}}
-                {{/if}}
-            </div>
-            {{product.detail_messages}}
-            <dl class="productView-info">
-                <dt class="productView-info-name sku-label"{{#unless product.sku}} style="display: none;"{{/unless}}>{{lang 'products.sku'}}</dt>
-                <dd class="productView-info-value" data-product-sku{{#if schema}} itemprop="sku"{{/if}}>{{product.sku}}</dd>
-                <dt class="productView-info-name upc-label"{{#unless product.upc}} style="display: none;"{{/unless}}>{{lang 'products.upc'}}</dt>
-                <dd class="productView-info-value" data-product-upc>{{product.upc}}</dd>
-                {{#if schema}}
-                    {{#if product.mpn}}<meta itemprop="mpn" content="{{product.mpn}}" />{{/if}}
-                    {{#if product.gtin}}<meta itemprop="gtin" content="{{product.gtin}}" />{{/if}}
-                {{/if}}
-                {{#if product.condition}}
-                    <dt class="productView-info-name">{{lang 'products.condition'}}</dt>
-                    <dd class="productView-info-value">{{product.condition}}</dd>
-                {{/if}}
-                {{#if product.availability}}
-                    <dt class="productView-info-name">{{lang 'products.availability'}}</dt>
-                    <dd class="productView-info-value">{{product.availability}}</dd>
-                {{/if}}
-                {{#all product.weight theme_settings.show_product_weight}}
-                    <dt class="productView-info-name">{{lang 'products.weight'}}</dt>
-                    <dd class="productView-info-value" data-product-weight>{{product.weight}}</dd>
-                {{/all}}
-                {{#all product.width product.height product.depth theme_settings.show_product_dimensions}}
-                    <dt class="productView-info-name">{{lang 'products.width'}}</dt>
-                    <dd class="productView-info-value" data-product-width>
-                        {{product.width}}
-                        {{#if settings.measurements.length '==' 'Centimeters'}}
-                        ({{lang 'products.measurement.metric'}})
-                        {{else}}
-                        ({{lang 'products.measurement.imperial'}})
-                        {{/if}}
-                    </dd>
-                    <dt class="productView-info-name">{{lang 'products.height'}}</dt>
-                    <dd class="productView-info-value" data-product-height>
-                        {{product.height}}
-                        {{#if settings.measurements.length '==' 'Centimeters'}}
-                        ({{lang 'products.measurement.metric'}})
-                        {{else}}
-                        ({{lang 'products.measurement.imperial'}})
-                        {{/if}}
-                    </dd>
-                    <dt class="productView-info-name">{{lang 'products.depth'}}</dt>
-                    <dd class="productView-info-value" data-product-depth>
-                        {{product.depth}}
-                        {{#if settings.measurements.length '==' 'Centimeters'}}
-                        ({{lang 'products.measurement.metric'}})
-                        {{else}}
-                        ({{lang 'products.measurement.imperial'}})
-                        {{/if}}
-                    </dd>
-                {{/all}}
-                {{#if product.min_purchase_quantity}}
-                    <dt class="productView-info-name">{{lang 'products.min_purchase_quantity'}}</dt>
-                    <dd class="productView-info-value">{{lang 'products.purchase_units' quantity=product.min_purchase_quantity}}</dd>
-                {{/if}}
-                {{#if product.max_purchase_quantity}}
-                    <dt class="productView-info-name">{{lang 'products.max_purchase_quantity'}}</dt>
-                    <dd class="productView-info-value">{{lang 'products.purchase_units' quantity=product.max_purchase_quantity}}</dd>
-                {{/if}}
-                {{#if product.gift_wrapping_available}}
-                    <dt class="productView-info-name">{{lang 'products.gift_wrapping'}}</dt>
-                    <dd class="productView-info-value">{{lang 'products.gift_wrapping_available'}}</dd>
-                {{/if}}
-                {{#if product.shipping}}
-                    {{#if product.shipping.calculated}}
-                        <dt class="productView-info-name">{{lang 'products.shipping'}}</dt>
-                        <dd class="productView-info-value">{{lang 'products.shipping_calculated'}}</dd>
-                    {{else}}
-                        {{#if product.shipping.price.value '===' 0}}
-                            <dt class="productView-info-name">{{lang 'products.shipping'}}</dt>
-                            <dd class="productView-info-value">{{lang 'products.shipping_free'}}</dd>
-                        {{else}}
-                            <dt class="productView-info-name">{{lang 'products.shipping'}}</dt>
-                            <dd class="productView-info-value">{{lang 'products.shipping_fixed' amount=product.shipping.price.formatted}}</dd>
-                        {{/if}}
-                    {{/if}}
-                {{/if}}
 
-                {{#if settings.bulk_discount_enabled}}
-                    <div class="productView-info-bulkPricing">
-                        {{> components/products/bulk-discount-rates bulk_discount_rates=product.bulk_discount_rates}}
-                    </div>
-                {{/if}}
-
-                {{#if theme_settings.show_custom_fields_tabs '!==' true}}
-                    {{#each product.custom_fields}}
-                        <dt class="productView-info-name">{{name}}:</dt>
-                        <dd class="productView-info-value">{{{value}}}</dd>
-                    {{/each}}
-                {{/if}}
-            </dl>
-        </div>
-    </section>
-    <section class="productView-btn col-7">
-        <div class="productView-options">
-            {{#if product.release_date }}
-                <p>{{product.release_date}}</p>
-            {{/if}}
-            <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data"
-                  data-cart-item-add>
-                <input type="hidden" name="action" value="add">
-                <input type="hidden" name="product_id" value="{{product.id}}"/>
-                <div data-product-option-change style="display:none;">
-                    {{#each product.options}}
-                        {{{dynamicComponent 'components/products/options'}}}
-                    {{/each}}
-                </div>
-                <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
-                    <label class="form-label form-label--alternate">
-                        {{lang 'products.current_stock'}}
-                        <span data-product-stock>{{product.stock_level}}</span>
-                    </label>
-                </div>
-                {{#if product.can_purchase}}
-                    {{> components/products/add-to-cart}}
-                {{/if}}
                 {{#if product.out_of_stock}}
-                    {{#if product.out_of_stock_message}}
-                        {{> components/common/alert-error product.out_of_stock_message}}
-                    {{else}}
-                        {{> components/common/alert-error (lang 'products.sold_out')}}
-                    {{/if}}
+                    <span class="wdgsold-out">{{lang 'products.sold_out'}}</span>
                 {{/if}}
-            </form>
-            {{#if settings.show_wishlist}}
-                {{> components/common/wishlist-dropdown}}
-            {{/if}}
+
+                <div class="productView-img-container {{#if product.out_of_stock}}sold-out-product{{/if}}">
+                    {{#if product.main_image}}
+                        <a href="{{getImageSrcset product.main_image (cdn theme_settings.default_image_product) 1x=theme_settings.zoom_size}}"
+                            target="_blank"{{#if schema}} itemprop="image"{{/if}}>
+                    {{/if}}
+                    {{> components/common/responsive-img
+                        image=product.main_image
+                        class="productView-image--default"
+                        fallback_size=theme_settings.product_size
+                        lazyload=theme_settings.lazyload_mode
+                        default_image=theme_settings.default_image_product
+                        otherAttributes="data-main-image"
+                    }}
+                    {{#if product.main_image}}
+                        </a>
+                    {{/if}}
+                </div>
+            </figure>
+
+            {{#gt product.images.length 1}}
+            <ul class="productView-thumbnails bis-pdp-thumbnails" data-slick='{
+                    "infinite": false,
+                    "mobileFirst": true,
+                    "dots": false,
+                    "slidesToShow": 4,
+                    "slidesToScroll": 1,
+                    "responsive": [
+                        { "breakpoint": 1200, "settings": { "slidesToShow": 4, "slidesToScroll": 1 } },
+                        { "breakpoint": 768, "settings": { "slidesToShow": 4, "slidesToScroll": 1 } },
+                        { "breakpoint": 320, "settings": { "slidesToShow": 3, "slidesToScroll": 1 } }
+                    ]
+                }'>
+                {{#each product.images}}
+                    <li class="productView-thumbnail">
+                        <a
+                            class="productView-thumbnail-link"
+                            href="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
+                            data-image-gallery-item
+                            data-image-gallery-new-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.product_size}}"
+                            data-image-gallery-new-image-srcset="{{getImageSrcset this use_default_sizes=true}}"
+                            data-image-gallery-zoom-image-url="{{getImageSrcset this (cdn ../theme_settings.default_image_product) 1x=../theme_settings.zoom_size}}"
+                        >
+                        {{> components/common/responsive-img
+                            image=this
+                            fallback_size=../theme_settings.productview_thumb_size
+                            lazyload=../theme_settings.lazyload_mode
+                        }}
+                        </a>
+                    </li>
+                {{/each}}
+            </ul>
+            {{/gt}}
+        </section>
+
+        {{!-- RIGHT COLUMN: PRODUCT DETAILS & PURCHASE --}}
+        <section class="productView-details bis-pdp-details">
+            <div class="productView-product">
+
+                {{!-- PRODUCT TITLE --}}
+                <h1 class="productView-title bis-pdp-title" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h1>
+
+                {{!-- BRAND TAGLINE — shown as sub-heading --}}
+                <p class="bis-pdp-subtitle">Reliable. Durable. Built for High-Volume Printing.</p>
+
+                {{!-- BRAND (if set) --}}
+                {{#if product.brand}}
+                    <h2 class="productView-brand"{{#if schema}} itemprop="brand" itemscope itemtype="http://schema.org/Brand"{{/if}}>
+                        <a href="{{product.brand.url}}"{{#if schema}} itemprop="url"{{/if}}><span{{#if schema}} itemprop="name"{{/if}}>{{product.brand.name}}</span></a>
+                    </h2>
+                {{/if}}
+
+                {{!-- PRICING --}}
+                <div class="productView-price bis-pdp-price-wrap">
+                    {{#or customer (if theme_settings.restrict_to_login '!==' true)}}
+                        {{> components/products/price price=product.price schema_org=schema}}
+                    {{else}}
+                        {{> components/common/login-for-pricing}}
+                    {{/or}}
+                </div>
+
+                {{{region name="product_below_price"}}}
+
+                {{!-- QUICK SPECS ROW — driven by product.custom_fields when available --}}
+                {{#if product.custom_fields}}
+                <div class="bis-quick-specs">
+                    {{#each product.custom_fields}}
+                        <div class="bis-spec-item" data-spec-name="{{name}}">
+                            <svg class="bis-spec-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                            <span class="bis-spec-text"><strong>{{value}}</strong> {{name}}</span>
+                        </div>
+                    {{/each}}
+                </div>
+                {{/if}}
+
+                {{!-- HIDDEN METADATA (SKU/UPC/weight) — preserved for JS compatibility --}}
+                <dl class="productView-info" style="display:none;">
+                    <dt class="productView-info-name sku-label"{{#unless product.sku}} style="display: none;"{{/unless}}>{{lang 'products.sku'}}</dt>
+                    <dd class="productView-info-value" data-product-sku{{#if schema}} itemprop="sku"{{/if}}>{{product.sku}}</dd>
+                    <dt class="productView-info-name upc-label"{{#unless product.upc}} style="display: none;"{{/unless}}>{{lang 'products.upc'}}</dt>
+                    <dd class="productView-info-value" data-product-upc>{{product.upc}}</dd>
+                    {{#if schema}}
+                        {{#if product.mpn}}<meta itemprop="mpn" content="{{product.mpn}}" />{{/if}}
+                        {{#if product.gtin}}<meta itemprop="gtin" content="{{product.gtin}}" />{{/if}}
+                    {{/if}}
+                    {{#all product.weight theme_settings.show_product_weight}}
+                        <dt class="productView-info-name">{{lang 'products.weight'}}</dt>
+                        <dd class="productView-info-value" data-product-weight>{{product.weight}}</dd>
+                    {{/all}}
+                </dl>
+
+                {{!-- OPTIONS & PURCHASE FORM --}}
+                <div class="productView-options bis-pdp-form-wrap">
+                    {{#if product.release_date}}
+                        <p>{{product.release_date}}</p>
+                    {{/if}}
+
+                    <form class="form" method="post" action="{{product.cart_url}}" enctype="multipart/form-data" data-cart-item-add>
+                        <input type="hidden" name="action" value="add">
+                        <input type="hidden" name="product_id" value="{{product.id}}"/>
+
+                        {{!-- Dynamic options (shown by product-details.js when options exist) --}}
+                        <div data-product-option-change class="bis-options-container" style="display:none;">
+                            {{#each product.options}}
+                                {{{dynamicComponent 'components/products/options'}}}
+                            {{/each}}
+                        </div>
+
+                        <div class="form-field form-field--stock{{#unless product.stock_level}} u-hiddenVisually{{/unless}}">
+                            <label class="form-label form-label--alternate">
+                                {{lang 'products.current_stock'}}
+                                <span data-product-stock>{{product.stock_level}}</span>
+                            </label>
+                        </div>
+
+                        {{#if product.can_purchase}}
+                            {{> components/products/add-to-cart}}
+                        {{/if}}
+
+                        {{#if product.out_of_stock}}
+                            {{#if product.out_of_stock_message}}
+                                {{> components/common/alert-error product.out_of_stock_message}}
+                            {{else}}
+                                {{> components/common/alert-error (lang 'products.sold_out')}}
+                            {{/if}}
+                        {{/if}}
+                    </form>
+
+                    {{!-- Secondary CTA: Talk to an Expert --}}
+                    <div class="bis-talk-expert-wrap">
+                        <a href="tel:+15137725252" class="bis-btn-talk-expert">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                            <span>NEED HELP CHOOSING? TALK TO AN EXPERT</span>
+                        </a>
+                    </div>
+
+                    {{#if settings.show_wishlist}}
+                        <div class="bis-wishlist-wrap">
+                            {{> components/common/wishlist-dropdown}}
+                        </div>
+                    {{/if}}
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    {{!-- TRUST REASSURANCE STRIP --}}
+    <section class="bis-trust-strip">
+        <div class="bis-trust-item">
+            <div class="bis-trust-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e31b23" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+            <div class="bis-trust-content">
+                <h4 class="bis-trust-title">Fast, Reliable Shipping</h4>
+                <p class="bis-trust-desc">Nationwide Delivery</p>
+            </div>
         </div>
-        {{> components/common/share}}
+
+        <div class="bis-trust-item">
+            <div class="bis-trust-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e31b23" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </div>
+            <div class="bis-trust-content">
+                <h4 class="bis-trust-title">Expert Label Support</h4>
+                <p class="bis-trust-desc">We're Here to Help</p>
+            </div>
+        </div>
+
+        <div class="bis-trust-item">
+            <div class="bis-trust-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e31b23" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+            </div>
+            <div class="bis-trust-content">
+                <h4 class="bis-trust-title">High-Volume Fulfillment</h4>
+                <p class="bis-trust-desc">Built for Your Business</p>
+            </div>
+        </div>
+
+        <div class="bis-trust-item">
+            <div class="bis-trust-icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#e31b23" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+            </div>
+            <div class="bis-trust-content">
+                <h4 class="bis-trust-title">30+ Years of Experience</h4>
+                <p class="bis-trust-desc">Trusted by Thousands</p>
+            </div>
+        </div>
     </section>
+
+    {{!-- FEATURE CARDS — data-driven from product.custom_fields --}}
+    {{#if product.custom_fields}}
+    <section class="bis-feature-section">
+        <h3 class="bis-feature-heading">Built for Reliable Thermal Transfer Printing</h3>
+        <div class="bis-feature-grid">
+            {{#each product.custom_fields}}
+            <div class="bis-feature-card">
+                <div class="bis-feature-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e31b23" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
+                <h4 class="bis-feature-title">{{value}}</h4>
+                <p class="bis-feature-desc">{{name}}</p>
+            </div>
+            {{/each}}
+        </div>
+    </section>
+    {{/if}}
+
+    {{!-- PRODUCT DESCRIPTION (below feature cards) --}}
+    {{#if product.description}}
+    <section class="productView-description">
+        {{{product.description}}}
+    </section>
+    {{/if}}
+
 </div>
 
-{{#if theme_settings.show_product_details_tabs '==' false}}
-    <div class="tt-product-description">
-        {{> components/products/description  settings=../settings}}
-    </div>
-{{/if}}
-
-{{#if theme_settings.show_product_reviews_tabs '==' false}}
-    {{#if product.num_reviews '>' 0}}
-        <div class="tt-product-review">
-            <p class="productView-title">{{lang 'products.reviews.title'}}</p>
-            {{> components/products/reviews reviews=product.reviews product=product urls=urls}}
-        </div>
-    {{/if}}
-{{/if}}
-
-
-
-
-{{#if schema}}
-
-
-<article class="productView-description {{#if product.videos.list.length '>' 0 or theme_settings.show_product_details_tabs '==' true or theme_settings.show_product_reviews_tabs '==' true}}tt-tab-active{{else if theme_settings.show_product_details_tabs '==' true or theme_settings.show_product_reviews_tabs '==' true}}tt-tab-active{{else if product.videos.list.length '<=' 0 and theme_settings.show_product_details_tabs '==' false and theme_settings.show_product_reviews_tabs '==' false}}tt-tab-disable{{else}}tt-tab-disable{{/if}}" {{#if schema}} itemprop="description"{{/if}}>
-{{!--        
-        {{#if theme_settings.show_product_details_tabs}}
-            {{> components/products/description-tabs}}
-        {{else}}
-            {{> components/products/description  settings=../settings}}
-        {{/if}}
---}}
-        <ul class="tabs" data-tab>
-            {{#if theme_settings.show_product_details_tabs '==' true}}
-                <li class="tab is-active">
-                    <a class="tab-title" href="#tab-description">{{lang 'products.description'}}</a>
-                </li>
-            {{/if}}
-			{{#if theme_settings.show_product_reviews_tabs '==' true}}
-                {{#if product.num_reviews '>' 0}}
-                    <li class="tab {{#if theme_settings.show_product_details_tabs '==' false}}is-active{{/if}}">
-                        <a id="product-reviews" class="tab-title" href="#tab-productReviews">{{lang 'products.reviews.title'}}</a>
-                    </li>
-                {{/if}}
-            {{/if}}
-			
-            {{#if theme_settings.show_product_details_tabs '==' true}}
-                {{#if product.warranty}}
-                    <li class="tab">
-                        <a class="tab-title" href="#tab-warranty">{{lang 'products.warranty'}}</a>
-                    </li>
-                {{/if}}
-            {{/if}}
-            
-            {{#if product.videos.list.length}}
-            
-                <li class="tab tt-video-title {{#if theme_settings.show_product_details_tabs '==' true}}is-disable{{else if theme_settings.show_product_reviews_tabs '==' true}}is-disable{{else}}is-active{{/if}}">
-                    <a class="tab-title" href="#tab-videoGallery">{{lang 'products.videos.header'}}</a>
-                </li>
-            {{/if}}
-        </ul>
-		
-        <div class="tabs-contents">
-            {{#if theme_settings.show_product_details_tabs '==' true}}
-			<div class="tab-content is-active" id="tab-description">
-				{{{product.description}}}
-				{{{snippet 'product_description'}}}
-			</div>
-			{{/if}}
-			{{#if theme_settings.show_product_reviews_tabs}}
-				<div class="tab-content {{#if theme_settings.show_product_details_tabs '==' false}}is-active{{/if}}" id="tab-productReviews">
-					{{> components/products/reviews reviews=product.reviews product=product urls=urls}}
-				</div>
-			{{/if}}
-			
-            {{#if theme_settings.show_product_details_tabs '==' true}}
-               {{#if product.warranty}}
-                   <div class="tab-content" id="tab-warranty">
-                       {{{product.warranty}}}
-                   </div>
-               {{/if}}
-            {{/if}}
-           
-           {{#if product.videos.list.length}}
-                <div class="tab-content tt-video-list {{#if theme_settings.show_product_details_tabs '==' true}}is-disable{{else if theme_settings.show_product_reviews_tabs '==' true}}is-disable{{else}}is-active{{/if}}" id="tab-videoGallery">
-                    {{> components/products/videos product.videos}}
-                </div>
-            {{/if}}
-        </div>
-    </article>
-{{/if}}
 <div id="previewModal" class="modal modal--large" data-reveal>
     <a href="#" class="modal-close" aria-label="{{lang 'common.close'}}" role="button">
         <span aria-hidden="true">&#215;</span>
