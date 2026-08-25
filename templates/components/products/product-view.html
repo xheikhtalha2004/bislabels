@@ -1,5 +1,5 @@
 <div class="productView bis-pdp" {{#if settings.data_tag_enabled}} data-event-type="product" data-entity-id="{{product.id}}" data-name="{{product.title}}" data-product-category="{{#each product.category}}{{#if @last}}{{this}}{{else}}{{this}}, {{/if}}{{/each}}" data-product-brand="{{product.brand.name}}" data-product-price="{{#if product.price.with_tax}}{{product.price.with_tax.value}}{{else}}{{product.price.without_tax.value}}{{/if}}" data-product-variant="single-product-option"{{/if}}>
-    
+
     {{#each product.reviews.messages}}
         {{#if error}}
             {{> components/common/alert-error error}}
@@ -90,7 +90,7 @@
                 {{!-- PRODUCT TITLE --}}
                 <h1 class="productView-title bis-pdp-title" {{#if schema}}itemprop="name"{{/if}}>{{product.title}}</h1>
 
-                {{!-- BRAND TAGLINE — shown as sub-heading --}}
+                {{!-- BRAND TAGLINE --}}
                 <p class="bis-pdp-subtitle">Reliable. Durable. Built for High-Volume Printing.</p>
 
                 {{!-- BRAND (if set) --}}
@@ -111,7 +111,7 @@
 
                 {{{region name="product_below_price"}}}
 
-                {{!-- QUICK SPECS ROW — driven by product.custom_fields when available --}}
+                {{!-- QUICK SPECS ROW --}}
                 {{#if product.custom_fields}}
                 <div class="bis-quick-specs">
                     {{#each product.custom_fields}}
@@ -149,8 +149,8 @@
                         <input type="hidden" name="action" value="add">
                         <input type="hidden" name="product_id" value="{{product.id}}"/>
 
-                        {{!-- Dynamic options (shown by product-details.js when options exist) --}}
-                        <div data-product-option-change class="bis-options-container" style="display:none;">
+                        {{!-- Options container — always block so options render; BC JS manages interaction --}}
+                        <div data-product-option-change class="bis-options-container">
                             {{#each product.options}}
                                 {{{dynamicComponent 'components/products/options'}}}
                             {{/each}}
@@ -163,9 +163,16 @@
                             </label>
                         </div>
 
-                        {{#if product.can_purchase}}
-                            {{> components/products/add-to-cart}}
-                        {{/if}}
+                        {{!-- Unavailable combination message (managed by BC JS) --}}
+                        <div class="alertBox productAttributes-message" style="display:none">
+                            <div class="alertBox-column alertBox-icon">
+                                <icon glyph="ic-success" class="icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></svg></icon>
+                            </div>
+                            <p class="alertBox-column alertBox-message"></p>
+                        </div>
+
+                        {{!-- ADD TO CART + BUY NOW — always rendered, disabled when unavailable --}}
+                        {{> components/products/add-to-cart}}
 
                         {{#if product.out_of_stock}}
                             {{#if product.out_of_stock_message}}
@@ -256,10 +263,13 @@
     </section>
     {{/if}}
 
-    {{!-- PRODUCT DESCRIPTION (below feature cards) --}}
+    {{!-- PRODUCT DESCRIPTION --}}
     {{#if product.description}}
-    <section class="productView-description">
-        {{{product.description}}}
+    <section class="bis-pdp-description productView-description">
+        <h3 class="bis-desc-heading">Product Description</h3>
+        <div class="bis-desc-body">
+            {{{product.description}}}
+        </div>
     </section>
     {{/if}}
 

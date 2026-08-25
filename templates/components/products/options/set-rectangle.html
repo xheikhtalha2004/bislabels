@@ -19,10 +19,15 @@
                     data-default
                 {{/if}}
                 {{#if ../required}}required{{/if}}>
-            <label class="form-option bis-rectangle-card" for="attribute_rectangle__{{../id}}_{{id}}" data-product-attribute-value="{{id}}">
+            <label class="form-option bis-rectangle-card"
+                   for="attribute_rectangle__{{../id}}_{{id}}"
+                   data-product-attribute-value="{{id}}"
+                   title="{{this.label}}">
+                {{!-- Color swatch dot: rendered by JS in bis-pdp-options.js from label name --}}
+                <span class="bis-rect-color-dot" data-color-label="{{this.label}}" aria-hidden="true"></span>
                 <span class="form-option-variant bis-rectangle-text">{{this.label}}</span>
                 <span class="bis-rectangle-check" aria-hidden="true">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </span>
             </label>
         {{/each}}

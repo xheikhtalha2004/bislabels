@@ -359,10 +359,22 @@ $bis-border-md:   #cbd5e1;
         }
 
         // -------------------------------------------------------------------------
-        // 8. OPTIONS CONTAINER (shown by product-details.js when options exist)
+        // 8. OPTIONS CONTAINER
+        // Always visible — BC JS manages disabled/unavailable state internally.
         // -------------------------------------------------------------------------
         .bis-options-container {
+            display: block !important; // override any inline display:none
             margin-bottom: 10px;
+        }
+
+        // Unavailable option: hide completely (set by initUnavailableFilter JS)
+        .bis-option--unavailable {
+            display: none !important;
+        }
+
+        // Unavailable rectangle radio + its label — hidden pair
+        .bis-rectangle-radio[disabled] + .bis-rectangle-card {
+            display: none !important;
         }
 
         .bis-option-group {
@@ -509,7 +521,7 @@ $bis-border-md:   #cbd5e1;
         }
 
         // -------------------------------------------------------------------------
-        // 9. PURCHASE CONTROLS — Qty + Add to Cart
+        // 9. PURCHASE CONTROLS — Qty + Add to Cart + Buy Now
         // -------------------------------------------------------------------------
         .bis-purchase-container {
             margin: 12px 0 10px 0;
@@ -616,6 +628,53 @@ $bis-border-md:   #cbd5e1;
             }
         }
 
+        // Buy Now button
+        .bis-buy-now-wrap {
+            margin-top: 10px;
+
+            .bis-btn-buy-now {
+                width: 100%;
+                height: 48px;
+                background: $bis-dark;
+                color: #fff;
+                font-size: 14px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                border: none;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 9px;
+                cursor: pointer;
+                transition: background 0.15s, transform 0.1s;
+                padding: 0 20px;
+                box-shadow: 0 2px 8px rgba(15,23,42,0.18);
+
+                svg { stroke: #fff; flex-shrink: 0; }
+
+                &:hover {
+                    background: #1e293b;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(15,23,42,0.28);
+                }
+                &:active { transform: translateY(0); }
+                &:focus { outline: none; box-shadow: 0 0 0 3px rgba(15,23,42,0.2); }
+
+                &.is-loading {
+                    opacity: 0.7;
+                    cursor: wait;
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                    transform: none;
+                }
+            }
+        }
+
         // -------------------------------------------------------------------------
         // 10. TALK TO AN EXPERT — secondary CTA
         // -------------------------------------------------------------------------
@@ -677,6 +736,159 @@ $bis-border-md:   #cbd5e1;
         .alertBox.productAttributes-message {
             margin: 8px 0;
             font-size: 13px;
+            border-radius: 5px;
+        }
+
+        // ─── Searchable custom select ───────────────────────────────────────────
+        .bis-searchable-select {
+            position: relative;
+
+            // Keep native select in DOM for BC JS but visually hidden
+            .bis-select-native {
+                position: absolute;
+                opacity: 0;
+                pointer-events: none;
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                clip: rect(0,0,0,0);
+                white-space: nowrap;
+            }
+
+            .bis-custom-select {
+                position: relative;
+                user-select: none;
+            }
+
+            .bis-custom-select-trigger {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 48px;
+                padding: 0 14px;
+                background: #fff;
+                border: 1.5px solid $bis-border-md;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: border-color 0.15s;
+
+                &:hover { border-color: $bis-dark; }
+
+                .bis-custom-select-value {
+                    font-size: 14px;
+                    font-weight: 500;
+                    color: $bis-dark;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    flex: 1;
+                }
+
+                .bis-select-chevron-icon {
+                    flex-shrink: 0;
+                    margin-left: 8px;
+                    transition: transform 0.15s;
+                }
+            }
+
+            .bis-custom-select.is-open {
+                .bis-custom-select-trigger {
+                    border-color: #2563eb;
+                    box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+                    border-radius: 5px 5px 0 0;
+                }
+                .bis-select-chevron-icon { transform: rotate(180deg); }
+            }
+
+            .bis-custom-select-dropdown {
+                position: absolute;
+                z-index: 200;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #fff;
+                border: 1.5px solid #2563eb;
+                border-top: none;
+                border-radius: 0 0 5px 5px;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+                overflow: hidden;
+                display: none; // starts closed; JS opens on click
+            }
+
+            .bis-custom-select-search-wrap {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 8px 12px;
+                border-bottom: 1px solid $bis-border;
+                background: $bis-bg-subtle;
+
+                svg { flex-shrink: 0; }
+
+                .bis-custom-select-search {
+                    flex: 1;
+                    border: none;
+                    background: transparent;
+                    font-size: 13px;
+                    color: $bis-dark;
+                    outline: none;
+                    padding: 0;
+                    line-height: 1.4;
+
+                    &::placeholder { color: $bis-muted; }
+                }
+            }
+
+            .bis-custom-select-list {
+                list-style: none;
+                margin: 0;
+                padding: 4px 0;
+                max-height: 220px;
+                overflow-y: auto;
+
+                li {
+                    padding: 10px 14px;
+                    font-size: 14px;
+                    color: $bis-dark;
+                    cursor: pointer;
+                    transition: background 0.1s;
+
+                    &:hover { background: $bis-bg-subtle; }
+
+                    &.is-selected {
+                        background: #eff6ff;
+                        color: #2563eb;
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            .bis-custom-select-empty {
+                padding: 12px 14px;
+                font-size: 13px;
+                color: $bis-muted;
+                margin: 0;
+            }
+        }
+
+        // ─── Color swatch dots in rectangle options ─────────────────────────────
+        .bis-rectangle-grid {
+            .bis-rect-color-dot {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                display: none; // JS shows it when color is detected
+                flex-shrink: 0;
+                vertical-align: middle;
+                box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+            }
+
+            // When color group: tighten padding and let dot drive width
+        }
+
+        .bis-has-colors .bis-rectangle-card {
+            gap: 8px;
+            padding: 8px 12px;
         }
 
         // Stock display
@@ -835,6 +1047,46 @@ $bis-border-md:   #cbd5e1;
         padding: 20px;
         .bis-trust-strip,
         .bis-feature-section { display: none; }
+    }
+}
+
+// ─── Product Description Section ─────────────────────────────────────────────
+.bis-pdp-description {
+    margin: 28px 0 40px 0;
+    background: #fff;
+    border: 1px solid $bis-border;
+    border-radius: 8px;
+    padding: 28px 32px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+
+    @media (max-width: 544px) {
+        padding: 20px 16px;
+        margin: 20px 0 28px;
+    }
+
+    .bis-desc-heading {
+        font-size: 18px;
+        font-weight: 800;
+        color: $bis-dark;
+        margin: 0 0 16px 0;
+        padding-bottom: 12px;
+        border-bottom: 2px solid $bis-border;
+        letter-spacing: -0.01em;
+    }
+
+    .bis-desc-body {
+        font-size: 14px;
+        line-height: 1.65;
+        color: $bis-gray;
+
+        p { margin: 0 0 12px 0; &:last-child { margin-bottom: 0; } }
+        ul, ol { padding-left: 20px; margin-bottom: 12px; }
+        li { margin-bottom: 4px; }
+        strong { color: $bis-dark; }
+        h2, h3, h4 { color: $bis-dark; margin: 16px 0 8px; font-weight: 700; }
+        a { color: $bis-red; text-decoration: underline; }
     }
 }
 

@@ -166,7 +166,11 @@ export default class ProductDetails {
                 view.attr('data-product-variant', productVariant);
             } else {
                 const productName = view.find('.productView-title')[0].innerText;
-                const card = $(`[data-name="${productName}"]`);
+                // CSS.escape prevents selector crash when product name contains " or other special chars
+                const safeProductName = typeof CSS !== 'undefined' && CSS.escape
+                    ? CSS.escape(productName)
+                    : productName.replace(/"/g, '\\"');
+                const card = $(`[data-name="${safeProductName}"]`);
                 card.attr('data-product-variant', productVariant);
             }
         }

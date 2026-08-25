@@ -7,6 +7,8 @@ import collapsibleFactory from './common/collapsible';
 import ProductDetails from './common/product-details';
 import videoGallery from './product/video-gallery';
 import { classifyForm } from './common/form-utils';
+import initBisPdpOptions from './bis-pdp-options';
+
 
 export default class Product extends PageManager {
     constructor(context) {
@@ -33,6 +35,11 @@ export default class Product extends PageManager {
         this.productDetails.setProductVariant();
 
         videoGallery();
+
+        // BIS Labels PDP enhancements: searchable selects, color swatches, Buy Now
+        if (document.querySelector('.bis-pdp')) {
+            initBisPdpOptions();
+        }
 
         const $reviewForm = classifyForm('.writeReview-form');
         const review = new Review($reviewForm);
