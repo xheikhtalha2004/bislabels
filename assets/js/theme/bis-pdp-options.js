@@ -2,73 +2,70 @@
  * bis-pdp-options.js
  * Handles: searchable select dropdowns, color swatch dots, Buy Now button,
  *          and hiding unavailable option combinations in the PDP.
- *
- * Loaded by assets/js/theme/product.js via import.
- * ponytail: no framework deps, pure DOM + BC cart API fetch.
  */
 
 // ─── Color name → CSS color map ────────────────────────────────────────────
-const COLOR_MAP = {
-  'black':            '#111111',
-  'white':            '#ffffff',
-  'red':              '#e31b23',
-  'dark blue':        '#1a3a6b',
-  'dark-blue':        '#1a3a6b',
-  'blue':             '#2563eb',
-  'light blue':       '#60a5fa',
-  'light-blue':       '#60a5fa',
-  'kelly green':      '#22a34a',
-  'kelly-green':      '#22a34a',
-  'green':            '#16a34a',
-  'fluorescent green':'#39ff14',
-  'fluorescent-green':'#39ff14',
-  'fluorescent orange':'#ff6a00',
-  'fluorescent-orange':'#ff6a00',
-  'fluorescent pink': '#ff69b4',
-  'fluorescent-pink': '#ff69b4',
-  'fluorescent red':  '#ff1a1a',
-  'fluorescent-red':  '#ff1a1a',
-  'fluorescent yellow':'#ffff00',
-  'fluorescent-yellow':'#ffff00',
-  'yellow':           '#facc15',
-  'orange':           '#f97316',
-  'purple':           '#9333ea',
-  'pink':             '#ec4899',
-  'brown':            '#78350f',
-  'silver':           '#94a3b8',
-  'gold':             '#d97706',
-  'gray':             '#6b7280',
-  'grey':             '#6b7280',
-  'tan':              '#c4a882',
-  'beige':            '#f5f0e8',
-  'navy':             '#172554',
+var COLOR_MAP = {
+  'black':              '#111111',
+  'white':              '#ffffff',
+  'red':                '#e31b23',
+  'dark blue':          '#1a3a6b',
+  'dark-blue':          '#1a3a6b',
+  'blue':               '#2563eb',
+  'light blue':         '#60a5fa',
+  'light-blue':         '#60a5fa',
+  'kelly green':        '#22a34a',
+  'kelly-green':        '#22a34a',
+  'green':              '#16a34a',
+  'fluorescent green':  '#39ff14',
+  'fluorescent-green':  '#39ff14',
+  'fluorescent orange': '#ff6a00',
+  'fluorescent-orange': '#ff6a00',
+  'fluorescent pink':   '#ff69b4',
+  'fluorescent-pink':   '#ff69b4',
+  'fluorescent red':    '#ff1a1a',
+  'fluorescent-red':    '#ff1a1a',
+  'fluorescent yellow': '#ffff00',
+  'fluorescent-yellow': '#ffff00',
+  'yellow':             '#facc15',
+  'orange':             '#f97316',
+  'purple':             '#9333ea',
+  'pink':               '#ec4899',
+  'brown':              '#78350f',
+  'silver':             '#94a3b8',
+  'gold':               '#d97706',
+  'gray':               '#6b7280',
+  'grey':               '#6b7280',
+  'tan':                '#c4a882',
+  'beige':              '#f5f0e8',
+  'navy':               '#172554',
 };
 
 function getColorForLabel(label) {
   if (!label) return null;
-  const key = label.toLowerCase().trim();
+  var key = label.toLowerCase().trim();
   if (COLOR_MAP[key]) return COLOR_MAP[key];
-  // Partial match: find first key contained in the label
-  for (const [k, v] of Object.entries(COLOR_MAP)) {
-    if (key.includes(k)) return v;
+  for (var k in COLOR_MAP) {
+    if (COLOR_MAP.hasOwnProperty(k) && key.indexOf(k) !== -1) {
+      return COLOR_MAP[k];
+    }
   }
   return null;
 }
 
 // ─── Color dot rendering ────────────────────────────────────────────────────
 function initColorDots() {
-  document.querySelectorAll('[data-product-attribute="set-rectangle"]').forEach(group => {
-    const dots = group.querySelectorAll('.bis-rect-color-dot');
-    let anyColor = false;
+  document.querySelectorAll('[data-product-attribute="set-rectangle"]').forEach(function(group) {
+    var dots = group.querySelectorAll('.bis-rect-color-dot');
+    var anyColor = false;
 
-    dots.forEach(dot => {
-      const label = dot.dataset.colorLabel || '';
-      const color = getColorForLabel(label);
+    dots.forEach(function(dot) {
+      var label = dot.getAttribute('data-color-label') || '';
+      var color = getColorForLabel(label);
       if (color) {
         dot.style.backgroundColor = color;
         dot.style.display = 'inline-block';
-        // Add border for light colors
-        if (['#ffffff', '#ffff00', '#facc15', '#f5f0e8', '#ff69b4'].includes(color)) {
+        if (['#ffffff', '#ffff00', '#facc15', '#f5f0e8', '#ff69b4'].indexOf(color) !== -1) {
           dot.style.border = '1px solid #cbd5e1';
         }
         anyColor = true;
@@ -77,211 +74,274 @@ function initColorDots() {
       }
     });
 
-    // If this group has color dots, add class so grid auto-sizes correctly
     if (anyColor) group.classList.add('bis-has-colors');
   });
 }
 
 // ─── Searchable custom select ───────────────────────────────────────────────
 function initSearchableSelects() {
-  document.querySelectorAll('[data-searchable-select]').forEach(wrap => {
-    const nativeSelect = wrap.querySelector('.bis-select-native');
-    const customSelect = wrap.querySelector('.bis-custom-select');
+  document.querySelectorAll('[data-searchable-select]').forEach(function(wrap) {
+    var nativeSelect = wrap.querySelector('.bis-select-native');
+    var customSelect = wrap.querySelector('.bis-custom-select');
     if (!nativeSelect || !customSelect) return;
 
-    const trigger  = customSelect.querySelector('.bis-custom-select-trigger');
-    const valLabel = customSelect.querySelector('.bis-custom-select-value');
-    const dropdown = customSelect.querySelector('.bis-custom-select-dropdown');
-    const searchIn = customSelect.querySelector('.bis-custom-select-search');
-    const list     = customSelect.querySelector('.bis-custom-select-list');
-    const empty    = customSelect.querySelector('.bis-custom-select-empty');
-    const items    = () => list.querySelectorAll('.bis-custom-select-item');
+    // Helper: is a native option available for purchase?
+    function isOptionValid(opt) {
+      if (!opt) return false;
+      if (opt.disabled) return false;
+      if (opt.style.display === 'none') return false;
+      if (opt.hidden) return false;
+      return true;
+    }
 
-    let isOpen = false;
+    // Helper: filter list by search query & availability
+    function filterList() {
+      var searchIn = customSelect.querySelector('.bis-custom-select-search');
+      var list     = customSelect.querySelector('.bis-custom-select-list');
+      var empty    = customSelect.querySelector('.bis-custom-select-empty');
+      var query    = searchIn ? (searchIn.value || '').toLowerCase().trim() : '';
+      var visible  = 0;
 
+      if (!list) return;
+      var items = list.querySelectorAll('.bis-custom-select-item');
+      items.forEach(function(li) {
+        var val = li.getAttribute('data-value');
+        var label = (li.getAttribute('data-label') || '').toLowerCase();
+        var nativeOpt = nativeSelect.querySelector('option[value="' + val + '"]');
+        var valid = isOptionValid(nativeOpt);
+        var match = !query || label.indexOf(query) !== -1;
+        var shouldShow = match && valid;
+
+        li.style.display = shouldShow ? '' : 'none';
+        li.classList.toggle('is-disabled', !valid);
+        if (shouldShow) visible++;
+      });
+
+      if (empty) {
+        empty.style.display = visible === 0 ? '' : 'none';
+      }
+    }
+
+    // Helper: sync label and selection from native select
     function syncFromNative() {
-      const opt = nativeSelect.options[nativeSelect.selectedIndex];
-      valLabel.textContent = opt && opt.value ? opt.text : nativeSelect.options[0].text;
-      items().forEach(li => {
-        li.classList.toggle('is-selected', li.dataset.value === nativeSelect.value);
+      var valLabel = customSelect.querySelector('.bis-custom-select-value');
+      var selectedIndex = nativeSelect.selectedIndex;
+      var opt = selectedIndex >= 0 ? nativeSelect.options[selectedIndex] : null;
+
+      if (valLabel) {
+        if (opt && opt.value) {
+          valLabel.textContent = opt.text;
+        } else {
+          valLabel.textContent = nativeSelect.options[0] ? nativeSelect.options[0].text : 'Select...';
+        }
+      }
+
+      var list = customSelect.querySelector('.bis-custom-select-list');
+      if (list) {
+        list.querySelectorAll('.bis-custom-select-item').forEach(function(li) {
+          var val = li.getAttribute('data-value');
+          var nativeOpt = nativeSelect.querySelector('option[value="' + val + '"]');
+          var valid = isOptionValid(nativeOpt);
+          li.classList.toggle('is-selected', val === nativeSelect.value);
+          li.classList.toggle('is-disabled', !valid);
+          if (!valid) {
+            li.style.display = 'none';
+          }
+        });
+      }
+    }
+
+    // Prevent duplicate event binding
+    if (wrap.getAttribute('data-initialized') !== 'true') {
+      wrap.setAttribute('data-initialized', 'true');
+
+      var trigger = customSelect.querySelector('.bis-custom-select-trigger');
+      var searchIn = customSelect.querySelector('.bis-custom-select-search');
+      var list = customSelect.querySelector('.bis-custom-select-list');
+
+      // Click trigger to toggle dropdown
+      if (trigger) {
+        trigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var wasOpen = customSelect.classList.contains('is-open');
+
+          // Close all dropdowns on the page
+          document.querySelectorAll('.bis-custom-select.is-open').forEach(function(el) {
+            el.classList.remove('is-open');
+          });
+
+          if (!wasOpen) {
+            customSelect.classList.add('is-open');
+            if (searchIn) {
+              searchIn.value = '';
+              filterList();
+              searchIn.focus();
+            }
+          }
+        });
+      }
+
+      // Search input typing
+      if (searchIn) {
+        searchIn.addEventListener('input', function() {
+          filterList();
+        });
+        searchIn.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      }
+
+      // Item selection
+      if (list) {
+        list.addEventListener('click', function(e) {
+          var li = e.target.closest('.bis-custom-select-item');
+          if (!li || li.classList.contains('is-disabled') || li.style.display === 'none') return;
+
+          var val = li.getAttribute('data-value');
+          var nativeOpt = nativeSelect.querySelector('option[value="' + val + '"]');
+          if (!isOptionValid(nativeOpt)) return;
+
+          nativeSelect.value = val;
+          // Trigger change event to fire BigCommerce optionChange
+          var evt = document.createEvent('HTMLEvents');
+          evt.initEvent('change', true, false);
+          nativeSelect.dispatchEvent(evt);
+
+          customSelect.classList.remove('is-open');
+          syncFromNative();
+        });
+      }
+
+      // Sync when native select changes
+      nativeSelect.addEventListener('change', function() {
+        syncFromNative();
       });
-    }
 
-    function open() {
-      isOpen = true;
-      customSelect.classList.add('is-open');
-      dropdown.style.display = 'block';
-      searchIn.value = '';
-      filterList('');
-      searchIn.focus();
-    }
-
-    function close() {
-      isOpen = false;
-      customSelect.classList.remove('is-open');
-      dropdown.style.display = 'none';
-    }
-
-    function filterList(q) {
-      const query = q.toLowerCase();
-      let visible = 0;
-      items().forEach(li => {
-        // Skip already-disabled options
-        const opt = nativeSelect.querySelector(`option[value="${li.dataset.value}"]`);
-        const disabled = opt && opt.disabled;
-        const match = !query || li.dataset.label.toLowerCase().includes(query);
-        li.style.display = (match && !disabled) ? '' : 'none';
-        if (match && !disabled) visible++;
+      // Watch for options being added/removed/disabled by BigCommerce AJAX
+      var observer = new MutationObserver(function() {
+        syncFromNative();
+        filterList();
       });
-      empty.style.display = visible === 0 ? '' : 'none';
+      observer.observe(nativeSelect, { childList: true, subtree: true, attributes: true, attributeFilter: ['disabled', 'style', 'hidden', 'selected'] });
     }
 
-    function selectItem(li) {
-      nativeSelect.value = li.dataset.value;
-      nativeSelect.dispatchEvent(new Event('change', { bubbles: true }));
-      syncFromNative();
-      close();
-    }
-
-    trigger.addEventListener('click', () => isOpen ? close() : open());
-    searchIn.addEventListener('input', e => filterList(e.target.value));
-
-    list.addEventListener('click', e => {
-      const li = e.target.closest('.bis-custom-select-item');
-      if (li && li.style.display !== 'none') selectItem(li);
-    });
-
-    // Keyboard: escape closes, enter/space selects focused item
-    customSelect.addEventListener('keydown', e => {
-      if (e.key === 'Escape') close();
-    });
-
-    // Close on outside click
-    document.addEventListener('click', e => {
-      if (isOpen && !wrap.contains(e.target)) close();
-    });
-
-    // Keep custom UI in sync when BC JS changes the native select
-    nativeSelect.addEventListener('change', syncFromNative);
-
-    // Initial sync
+    // Always do an initial sync & filter
     syncFromNative();
-    dropdown.style.display = 'none';
+    filterList();
   });
 }
 
-// ─── Hide unavailable options after selection ───────────────────────────────
-// BC JS sets `disabled` on unavailable <option> elements and adds
-// .form-option--unavailable on rectangle/swatch labels.
-// We additionally hide them so the customer never hits dead ends.
+// Global outside click listener to close dropdowns
+if (typeof document !== 'undefined' && !document._bisOutsideClickListenerAdded) {
+  document._bisOutsideClickListenerAdded = true;
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.bis-searchable-select')) {
+      document.querySelectorAll('.bis-custom-select.is-open').forEach(function(el) {
+        el.classList.remove('is-open');
+      });
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.keyCode === 27) {
+      document.querySelectorAll('.bis-custom-select.is-open').forEach(function(el) {
+        el.classList.remove('is-open');
+      });
+    }
+  });
+}
+
+// ─── Hide unavailable rectangle options after selection ─────────────────────
 function initUnavailableFilter() {
-  const form = document.querySelector('[data-cart-item-add]');
+  var form = document.querySelector('[data-cart-item-add]');
   if (!form) return;
 
   function refresh() {
-    // Dropdowns: hide disabled options
-    form.querySelectorAll('.bis-select-native').forEach(sel => {
-      // Re-filter visible items in custom UI
-      const wrap = sel.closest('[data-searchable-select]');
-      if (!wrap) return;
-      const searchVal = wrap.querySelector('.bis-custom-select-search')?.value || '';
-      const list = wrap.querySelector('.bis-custom-select-list');
-      if (!list) return;
-      list.querySelectorAll('.bis-custom-select-item').forEach(li => {
-        const opt = sel.querySelector(`option[value="${li.dataset.value}"]`);
-        if (opt && opt.disabled) {
-          li.style.display = 'none';
+    form.querySelectorAll('.bis-rectangle-grid').forEach(function(grid) {
+      grid.querySelectorAll('.bis-rectangle-radio').forEach(function(radio) {
+        var label = grid.querySelector('label[for="' + radio.id + '"]');
+        if (!label) return;
+        if (radio.disabled || radio.style.display === 'none') {
+          label.style.display = 'none';
+        } else {
+          label.style.display = '';
         }
       });
     });
-
-    // Rectangle cards: hide unavailable ones
-    form.querySelectorAll('.bis-rectangle-card').forEach(card => {
-      const radio = document.getElementById(card.getAttribute('for'));
-      if (radio && radio.disabled) {
-        card.closest('.bis-rectangle-radio + .bis-rectangle-card')?.parentElement?.style;
-        card.classList.add('bis-option--unavailable');
-      } else {
-        card.classList.remove('bis-option--unavailable');
-      }
-    });
   }
 
-  // Watch for BC JS triggering option changes
-  form.addEventListener('change', () => setTimeout(refresh, 50));
+  form.addEventListener('change', function() {
+    setTimeout(refresh, 50);
+  });
+  if (window.$) {
+    $(form).on('product-attributes-updated', function() {
+      setTimeout(refresh, 50);
+    });
+  }
   refresh();
 }
 
 // ─── Buy Now ────────────────────────────────────────────────────────────────
 function initBuyNow() {
-  const btn = document.getElementById('bis-buy-now-btn');
-  if (!btn) return;
+  var btn = document.getElementById('bis-buy-now-btn');
+  if (!btn || btn.getAttribute('data-buynow-initialized') === 'true') return;
+  btn.setAttribute('data-buynow-initialized', 'true');
 
-  btn.addEventListener('click', async () => {
-    const form = btn.closest('form') || document.querySelector('[data-cart-item-add]');
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var form = btn.closest('form') || document.querySelector('[data-cart-item-add]');
     if (!form) return;
 
     btn.disabled = true;
     btn.classList.add('is-loading');
 
-    try {
-      const data = new FormData(form);
-      data.set('action', 'add');
+    var data = new FormData(form);
+    data.set('action', 'add');
 
-      const res = await fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-      });
-
-      if (res.ok || res.redirected) {
-        window.location.href = '/checkout';
-      } else {
-        // Fall back: submit form normally
-        const hidden = document.createElement('input');
-        hidden.type = 'hidden';
-        hidden.name = 'action';
-        hidden.value = 'add';
-        form.appendChild(hidden);
-        form.submit();
-      }
-    } catch {
-      // Network error fallback
+    fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(function() {
       window.location.href = '/checkout';
-    } finally {
+    })
+    .catch(function() {
+      window.location.href = '/checkout';
+    })
+    ['finally'](function() {
       btn.disabled = false;
       btn.classList.remove('is-loading');
-    }
+    });
   });
 }
 
-// ─── Init ────────────────────────────────────────────────────────────────────
-export default function initBisPdpOptions() {
+// ─── Global Refresh Helper ──────────────────────────────────────────────────
+export function refreshBisPdpOptions() {
   initColorDots();
   initSearchableSelects();
   initUnavailableFilter();
   initBuyNow();
 }
 
-// Run color dots + Buy Now immediately via DOMContentLoaded
-// so they work even if BC product-details.js throws (e.g. special chars in product name)
+// ─── Init ────────────────────────────────────────────────────────────────────
+export default function initBisPdpOptions() {
+  refreshBisPdpOptions();
+}
+
+// Self-init via DOMContentLoaded
 if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
       if (document.querySelector('.bis-pdp')) {
-        initColorDots();
-        initBuyNow();
-        initSearchableSelects();
-        initUnavailableFilter();
+        refreshBisPdpOptions();
       }
     });
   } else {
-    // Already loaded (module evaluated after DOM ready)
     if (document.querySelector('.bis-pdp')) {
-      initColorDots();
-      initBuyNow();
-      initSearchableSelects();
-      initUnavailableFilter();
+      refreshBisPdpOptions();
     }
   }
 }

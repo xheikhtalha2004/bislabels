@@ -166,10 +166,8 @@ export default class ProductDetails {
                 view.attr('data-product-variant', productVariant);
             } else {
                 const productName = view.find('.productView-title')[0].innerText;
-                // CSS.escape prevents selector crash when product name contains " or other special chars
-                const safeProductName = typeof CSS !== 'undefined' && CSS.escape
-                    ? CSS.escape(productName)
-                    : productName.replace(/"/g, '\\"');
+                // Escape only double quotes for use inside [data-name="..."] attribute selector
+                const safeProductName = productName.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
                 const card = $(`[data-name="${safeProductName}"]`);
                 card.attr('data-product-variant', productVariant);
             }
@@ -644,20 +642,20 @@ export default class ProductDetails {
      * @param  {Object} data Product attribute data
      */
     updateProductAttributes(data) {
-        const behavior = data.out_of_stock_behavior;
         const inStockIds = data.in_stock_attributes;
-        const outOfStockMessage = ` (${data.out_of_stock_message})`;
+        const outOfStockMessage = ` (${data.out_of_stock_message || 'Unavailable'})`;
 
         this.showProductImage(data.image);
 
-        if (behavior !== 'hide_option' && behavior !== 'label_option') {
+        if (!Array.isArray(inStockIds)) {
             return;
         }
+
+        const behavior = 'hide_option';
 
         $('[data-product-attribute-value]', this.$scope).each((i, attribute) => {
             const $attribute = $(attribute);
             const attrId = parseInt($attribute.data('productAttributeValue'), 10);
-
 
             if (inStockIds.indexOf(attrId) !== -1) {
                 this.enableAttribute($attribute, behavior, outOfStockMessage);
@@ -665,6 +663,8 @@ export default class ProductDetails {
                 this.disableAttribute($attribute, behavior, outOfStockMessage);
             }
         });
+
+        $(this.$scope).trigger('product-attributes-updated', [data]);
     }
 
     disableAttribute($attribute, behavior, outOfStockMessage) {
@@ -672,25 +672,19 @@ export default class ProductDetails {
             return this.disableSelectOptionAttribute($attribute, behavior, outOfStockMessage);
         }
 
-        if (behavior === 'hide_option') {
-            $attribute.hide();
-        } else {
-            $attribute.addClass('unavailable');
-        }
+        $attribute.prop('disabled', true);
+        $attribute.attr('disabled', 'disabled');
+        $attribute.hide();
     }
 
     disableSelectOptionAttribute($attribute, behavior, outOfStockMessage) {
-        const $select = $attribute.parent();
+        const $select = $attribute.closest('select');
+        $attribute.prop('disabled', true);
+        $attribute.attr('disabled', 'disabled');
+        $attribute.hide();
 
-        if (behavior === 'hide_option') {
-            $attribute.toggleOption(false);
-            // If the attribute is the selected option in a select dropdown, select the first option (MERC-639)
-            if ($select.val() === $attribute.attr('value')) {
-                $select[0].selectedIndex = 0;
-            }
-        } else {
-            $attribute.attr('disabled', 'disabled');
-            $attribute.html($attribute.html().replace(outOfStockMessage, '') + outOfStockMessage);
+        if ($select.length && $select.val() === String($attribute.attr('value'))) {
+            $select[0].selectedIndex = 0;
         }
     }
 
@@ -699,20 +693,15 @@ export default class ProductDetails {
             return this.enableSelectOptionAttribute($attribute, behavior, outOfStockMessage);
         }
 
-        if (behavior === 'hide_option') {
-            $attribute.show();
-        } else {
-            $attribute.removeClass('unavailable');
-        }
+        $attribute.prop('disabled', false);
+        $attribute.removeAttr('disabled');
+        $attribute.show();
     }
 
     enableSelectOptionAttribute($attribute, behavior, outOfStockMessage) {
-        if (behavior === 'hide_option') {
-            $attribute.toggleOption(true);
-        } else {
-            $attribute.prop('disabled', false);
-            $attribute.html($attribute.html().replace(outOfStockMessage, ''));
-        }
+        $attribute.prop('disabled', false);
+        $attribute.removeAttr('disabled');
+        $attribute.show();
     }
 
     getAttributeType($attribute) {
